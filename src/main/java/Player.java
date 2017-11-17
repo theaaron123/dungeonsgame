@@ -44,9 +44,6 @@ public class Player {
         this.playerScore = playerScore;
     }
 
-    private void movePlayer(int x, int y) {
 
-    }
 
-    
 }
