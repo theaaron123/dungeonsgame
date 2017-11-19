@@ -8,6 +8,8 @@ public class DungeonView implements KeyListener {
     public DungeonController dg;
     JTextArea label1;
 
+    //TODO refactor to adhere to MVC
+
     public DungeonView() {
         final JFrame frame = new JFrame();
         JPanel panel = new JPanel();

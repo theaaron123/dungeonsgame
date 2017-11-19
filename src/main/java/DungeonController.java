@@ -16,6 +16,16 @@ public class DungeonController {
             }
         }
 
+        addRoomBounds(dungeon);
+        addRoomBounds(dungeon);
+        addRoomBounds(dungeon);
+
+        playerPos = new int[]{10, 10};
+        dungeonMatrix[playerPos[0]][playerPos[1]] = "@";
+        addDungeonBounds(dungeon);
+    }
+
+    private void addRoomBounds(Dungeon dungeon) {
         Random rand = new Random();
         int startHeight = rand.nextInt(dungeon.getHeight() - 1);
 
@@ -28,9 +38,6 @@ public class DungeonController {
             dungeonMatrix[i][startHeight + 4] = "*"; //right
             dungeonMatrix[startHeight + 4][i] = "*"; //bottom
         }
-        playerPos = new int[]{10, 10};
-        dungeonMatrix[playerPos[0]][playerPos[1]] = "@";
-        addDungeonBounds(dungeon);
     }
 
     public void addDungeonBounds(Dungeon dungeon) {
