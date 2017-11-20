@@ -1,8 +1,8 @@
 
 public class Dungeon {
 
-    private int height;
-    private int width;
+    private int height = 20; //setting default height
+    private int width = 20; //setting default width
     private String[][] walls;
     private final char exit = 'E';
 

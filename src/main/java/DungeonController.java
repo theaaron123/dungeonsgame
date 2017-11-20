@@ -7,7 +7,8 @@ public class DungeonController {
 
     public void initialiseRandDungeon() {
         String[][] walls = new String[12][2];
-        Dungeon dungeon = new Dungeon(20, 20, walls);
+        Dungeon dungeon = new Dungeon(dungeon.getWidth(), dungeon.getHeight(), walls);
+
 
         dungeonMatrix = new String[dungeon.getHeight()][dungeon.getWidth()];
         for (int i = 0; i < dungeon.getHeight(); i++) {
@@ -20,7 +21,7 @@ public class DungeonController {
         addRoomBounds(dungeon);
         addRoomBounds(dungeon);
 
-        playerPos = new int[]{10, 10};
+        playerPos = new int[]{dungeon.getWidth()/2, dungeon.getHeight()/2}; //set to the center of each map.
         dungeonMatrix[playerPos[0]][playerPos[1]] = "@";
         addDungeonBounds(dungeon);
     }
@@ -33,8 +34,8 @@ public class DungeonController {
             if (i + startHeight >= dungeon.getHeight() && startHeight + i >= dungeon.getWidth()) {
                 break;
             }
-            dungeonMatrix[i][startHeight] = "+"; //left
-            dungeonMatrix[startHeight][i] = "+"; //top
+            dungeonMatrix[i][startHeight] = "*"; //left
+            dungeonMatrix[startHeight][i] = "*"; //top
             dungeonMatrix[i][startHeight + 4] = "*"; //right
             dungeonMatrix[startHeight + 4][i] = "*"; //bottom
         }
