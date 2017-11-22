@@ -26,6 +26,7 @@ public class DungeonView implements KeyListener {
         panel.add(label1);
         frame.setVisible(true);
         frame.setSize(800, 800);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panel.setBackground(Color.BLACK);
         label1.setBackground(Color.BLACK);
 
