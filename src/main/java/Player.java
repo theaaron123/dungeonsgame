@@ -3,14 +3,17 @@ public class Player {
     private int playerY;
     private int playerScore;
     private int gold;
-    private final char PLAYER_SYMBOL;
+    private static final String PLAYER_SYMBOL = "@";
 
     public Player() {
         playerX = 0;
         playerY = 0;
         gold = 0;
         playerScore = 0;
-        PLAYER_SYMBOL = '*';
+    }
+
+    public static String getPlayerSymbol() {
+        return PLAYER_SYMBOL;
     }
 
     public int getGold() {

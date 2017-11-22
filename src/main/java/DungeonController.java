@@ -3,11 +3,12 @@ import java.util.Random;
 public class DungeonController {
 
     public String[][] dungeonMatrix;
-    public int[] playerPos = new int[2];
+    public Player player;
 
     public void initialiseRandDungeon() {
         String[][] walls = new String[12][2];
         Dungeon dungeon = new Dungeon(20, 20, walls);
+        player = new Player();
 
 
         dungeonMatrix = new String[dungeon.getHeight()][dungeon.getWidth()];
@@ -21,8 +22,10 @@ public class DungeonController {
         addRoomBounds(dungeon);
         addRoomBounds(dungeon);
 
-        playerPos = new int[]{dungeon.getWidth()/2, dungeon.getHeight()/2}; //set to the center of each map.
-        dungeonMatrix[playerPos[0]][playerPos[1]] = "@";
+        player.setPlayerX(dungeon.getWidth() / 2); //set X to the centre of the map
+        player.setPlayerY(dungeon.getHeight() / 2); //set X to the centre of the map
+
+        dungeonMatrix[player.getPlayerX()][player.getPlayerY()] = player.getPlayerSymbol();
         addDungeonBounds(dungeon);
     }
 

@@ -60,36 +60,36 @@ public class DungeonView implements KeyListener {
 
         switch (key) {
             case KeyEvent.VK_UP:
-                if(dg.playerPos[0] > 1) {
-                    dg.dungeonMatrix[dg.playerPos[0]][dg.playerPos[1]] = " ";
-                    dg.playerPos[0] = dg.playerPos[0] - 1;
-                    dg.dungeonMatrix[dg.playerPos[0]][dg.playerPos[1]] = "@";
+                if (dg.player.getPlayerX() > 1) {
+                    dg.dungeonMatrix[dg.player.getPlayerX()][dg.player.getPlayerY()] = " ";
+                    dg.player.setPlayerX(dg.player.getPlayerX() - 1);
+                    dg.dungeonMatrix[dg.player.getPlayerX()][dg.player.getPlayerY()] = dg.player.getPlayerSymbol();
                     drawDungeon();
                 }
                 break;
 
             case KeyEvent.VK_DOWN:
-                if(dg.playerPos[0] < 18) {
-                    dg.dungeonMatrix[dg.playerPos[0]][dg.playerPos[1]] = " ";
-                    dg.playerPos[0] = dg.playerPos[0] + 1;
-                    dg.dungeonMatrix[dg.playerPos[0]][dg.playerPos[1]] = "@";
+                if (dg.player.getPlayerX() < 18) {
+                    dg.dungeonMatrix[dg.player.getPlayerX()][dg.player.getPlayerY()] = " ";
+                    dg.player.setPlayerX(dg.player.getPlayerX() + 1);
+                    dg.dungeonMatrix[dg.player.getPlayerX()][dg.player.getPlayerY()] = dg.player.getPlayerSymbol();
                     drawDungeon();
                 }
                 break;
 
             case KeyEvent.VK_LEFT:
-                if(dg.playerPos[1] > 1) {
-                    dg.dungeonMatrix[dg.playerPos[0]][dg.playerPos[1]] = " ";
-                    dg.playerPos[1] = dg.playerPos[1] - 1;
-                    dg.dungeonMatrix[dg.playerPos[0]][dg.playerPos[1]] = "@";
+                if (dg.player.getPlayerY() > 1) {
+                    dg.dungeonMatrix[dg.player.getPlayerX()][dg.player.getPlayerY()] = " ";
+                    dg.player.setPlayerY(dg.player.getPlayerY() - 1);
+                    dg.dungeonMatrix[dg.player.getPlayerX()][dg.player.getPlayerY()] = dg.player.getPlayerSymbol();
                     drawDungeon();
                 }
                 break;
             case KeyEvent.VK_RIGHT:
-                if (dg.playerPos[1] < 18) {
-                    dg.dungeonMatrix[dg.playerPos[0]][dg.playerPos[1]] = " ";
-                    dg.playerPos[1] = dg.playerPos[1] + 1;
-                    dg.dungeonMatrix[dg.playerPos[0]][dg.playerPos[1]] = "@";
+                if (dg.player.getPlayerY() < 18) {
+                    dg.dungeonMatrix[dg.player.getPlayerX()][dg.player.getPlayerY()] = " ";
+                    dg.player.setPlayerY(dg.player.getPlayerY() + 1);
+                    dg.dungeonMatrix[dg.player.getPlayerX()][dg.player.getPlayerY()] = dg.player.getPlayerSymbol();
                     drawDungeon();
                 }
                 break;
