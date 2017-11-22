@@ -7,7 +7,7 @@ public class DungeonController {
 
     public void initialiseRandDungeon() {
         String[][] walls = new String[12][2];
-        Dungeon dungeon = new Dungeon(dungeon.getWidth(), dungeon.getHeight(), walls);
+        Dungeon dungeon = new Dungeon(20, 20, walls);
 
 
         dungeonMatrix = new String[dungeon.getHeight()][dungeon.getWidth()];
