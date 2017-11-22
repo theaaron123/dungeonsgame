@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 public class DungeonView implements KeyListener {
     private JPanel panel1;
     public DungeonController dg;
+    Dungeon dungeon;
     JTextArea label1;
 
     //TODO refactor to adhere to MVC
@@ -13,14 +14,21 @@ public class DungeonView implements KeyListener {
     public DungeonView() {
         final JFrame frame = new JFrame();
         JPanel panel = new JPanel();
+
         label1 = new JTextArea();
         label1.setVisible(true);
-        label1.setFont(new Font("monospaced", Font.PLAIN, 12));
+
+        label1.setForeground(Color.white);
+        label1.setFont(new Font("monospaced", Font.PLAIN, 22)); //size depicts the size of the game view.
+
+
         frame.add(panel);
         panel.add(label1);
-        frame.setSize(200, 200);
         frame.setVisible(true);
-        frame.setSize(600, 400);
+        frame.setSize(800, 800);
+        panel.setBackground(Color.BLACK);
+        label1.setBackground(Color.BLACK);
+
         label1.addKeyListener(this);
 
         dg = new DungeonController();
@@ -78,7 +86,7 @@ public class DungeonView implements KeyListener {
                 }
                 break;
             case KeyEvent.VK_RIGHT:
-                if (dg.playerPos[1] <18) {
+                if (dg.playerPos[1] < 18) {
                     dg.dungeonMatrix[dg.playerPos[0]][dg.playerPos[1]] = " ";
                     dg.playerPos[1] = dg.playerPos[1] + 1;
                     dg.dungeonMatrix[dg.playerPos[0]][dg.playerPos[1]] = "@";
