@@ -4,14 +4,16 @@ public class DungeonController {
 
     public String[][] dungeonMatrix;
     public Player player;
+    public Gold gold;
 
-    public int[] roomX = new int [100]; //5
-    public int[] roomY = new int [100]; //5
+    public int[] roomX = new int[100]; //5
+    public int[] roomY = new int[100]; //5
     public int loops = 0;
     public void initialiseRandDungeon() {
         String[][] walls = new String[12][2];
         Dungeon dungeon = new Dungeon(20, 20, walls);
         player = new Player();
+        gold = new Gold();
 
 
         dungeonMatrix = new String[dungeon.getHeight()][dungeon.getWidth()];
@@ -23,12 +25,16 @@ public class DungeonController {
 
         addRoomBounds(dungeon);
         //addRoomBounds(dungeon);
-       // addRoomBounds(dungeon);
+        // addRoomBounds(dungeon);
 
         player.setPlayerX(dungeon.getWidth() / 2); //set X to the centre of the map
-        player.setPlayerY(dungeon.getHeight() / 2); //set X to the centre of the map
+        player.setPlayerY(dungeon.getHeight() / 2); //set Y to the centre of the map
 
-        dungeonMatrix[player.getPlayerX()][player.getPlayerY()] = player.getPlayerSymbol();
+        gold.setGoldX(dungeon.getWidth() / 3);
+        gold.setGoldY(dungeon.getWidth() / 3);
+
+        dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
+        dungeonMatrix[gold.getGoldY()][gold.getGoldX()] = gold.getGoldSymbol();
         addDungeonBounds(dungeon);
     }
 
@@ -37,15 +43,12 @@ public class DungeonController {
         int startHeight = rand.nextInt(dungeon.getHeight() - 1);
 
         if (startHeight >= dungeon.getHeight() - 5) {
-            startHeight = dungeon.getHeight() -6;
+            startHeight = dungeon.getHeight() - 6;
         } else if (startHeight < 1) {
             startHeight = 2;
         }
 
         for (int i = startHeight; i < startHeight + 5; i++) {
-
-            int y = i;
-            int x = startHeight;
 
             //y, x
             dungeonMatrix[i][startHeight] = "*"; //left
@@ -71,7 +74,7 @@ public class DungeonController {
 
             loops++;
         }
-        System.out.println("Loops:"+loops);
+        System.out.println("Loops:" + loops);
         removeDoor();
         loops += 16;
        /* for (int i = 0; i < 100; i++) {
@@ -84,18 +87,17 @@ public class DungeonController {
     private void removeDoor() {
         if (roomY[0] > 0 && roomY[0] < 8) // remove bottom
         {
-            System.out.println(roomY[loops+15]);
-            dungeonMatrix[roomY[loops+7]][roomX[loops+7]] = " "; //left
-            roomY[loops+7] = 0;
-            roomX[loops+7] = 0;
-            System.out.println(roomY[loops+15]);
+            System.out.println(roomY[loops + 15]);
+            dungeonMatrix[roomY[loops + 7]][roomX[loops + 7]] = " "; //left
+            roomY[loops + 7] = 0;
+            roomX[loops + 7] = 0;
+            System.out.println(roomY[loops + 15]);
             System.out.println("done");
-        }
-        else if (roomY[0] > 7 && roomY[0] < 20) { //remove top
+        } else if (roomY[0] > 7 && roomY[0] < 20) { //remove top
             System.out.println(roomY[loops]);
-            dungeonMatrix[roomY[loops-3]][roomX[loops-3]] = " "; //left
-            roomY[loops-3] = 0;
-            roomX[loops-3] = 0;
+            dungeonMatrix[roomY[loops - 3]][roomX[loops - 3]] = " "; //left
+            roomY[loops - 3] = 0;
+            roomX[loops - 3] = 0;
             System.out.println(roomY[loops]);
             System.out.println("done2");
         }

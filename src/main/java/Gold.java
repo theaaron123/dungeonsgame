@@ -2,13 +2,19 @@ public class Gold {
     private int goldX;
     private int goldY;
     private int goldQuantity;
-    private static final String GOLD_SYMBOL = "G";
+    private final String GOLD_SYMBOL;
 
     public Gold() {
         goldX = 0;
         goldY = 0;
         goldQuantity = 5;
+        GOLD_SYMBOL = "G";
     }
+
+    public String getGoldSymbol() {
+        return GOLD_SYMBOL;
+    }
+
     public int getGoldX()
     {
         return goldX;
