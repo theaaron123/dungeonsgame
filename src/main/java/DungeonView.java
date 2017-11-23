@@ -8,6 +8,7 @@ public class DungeonView implements KeyListener {
     public DungeonController dg;
     Dungeon dungeon;
     JTextArea label1;
+    public boolean collided = false;
 
     //TODO refactor to adhere to MVC
 
@@ -61,37 +62,93 @@ public class DungeonView implements KeyListener {
 
         switch (key) {
             case KeyEvent.VK_UP:
-                if (dg.player.getPlayerX() > 1) {
-                    dg.dungeonMatrix[dg.player.getPlayerX()][dg.player.getPlayerY()] = " ";
-                    dg.player.setPlayerX(dg.player.getPlayerX() - 1);
-                    dg.dungeonMatrix[dg.player.getPlayerX()][dg.player.getPlayerY()] = dg.player.getPlayerSymbol();
-                    drawDungeon();
+                //if player hits room.
+                if(dg.player.getPlayerX() > 1) {
+                    for (int i=0; i < dg.roomX.length; i++) {
+                        if (dg.player.getPlayerX()-1 == dg.roomY[i] &&
+                                dg.player.getPlayerY() == dg.roomX[i]) {
+                            System.out.println("hit");
+                            collided = true;
+                            break;
+                        }
+                    }
+                    //if player is not in room
+                    if (!collided) {
+                        dg.dungeonMatrix[dg.player.getPlayerX()][dg.player.getPlayerY()] = " ";
+                        dg.player.setPlayerX(dg.player.getPlayerX() - 1);
+                        dg.dungeonMatrix[dg.player.getPlayerX()][dg.player.getPlayerY()] = dg.player.getPlayerSymbol();
+                        drawDungeon();
+                    }
+                    collided = false;
                 }
                 break;
 
             case KeyEvent.VK_DOWN:
-                if (dg.player.getPlayerX() < 18) {
-                    dg.dungeonMatrix[dg.player.getPlayerX()][dg.player.getPlayerY()] = " ";
-                    dg.player.setPlayerX(dg.player.getPlayerX() + 1);
-                    dg.dungeonMatrix[dg.player.getPlayerX()][dg.player.getPlayerY()] = dg.player.getPlayerSymbol();
-                    drawDungeon();
-                }
-                break;
+                if(dg.player.getPlayerX() < 18) {
+
+                    //if player hits room.
+                        for (int i = 0; i < dg.roomX.length; i++) {
+                            if (dg.player.getPlayerX() + 1 == dg.roomY[i] &&
+                                    dg.player.getPlayerY() == dg.roomX[i]) {
+                                System.out.println("hit");
+                                collided = true;
+                                break;
+                            }
+                        }
+                        //if player is not in room
+                        if (!collided) {
+                            dg.dungeonMatrix[dg.player.getPlayerX()][dg.player.getPlayerY()] = " ";
+                            dg.player.setPlayerX(dg.player.getPlayerX() + 1);
+                            dg.dungeonMatrix[dg.player.getPlayerX()][dg.player.getPlayerY()] = dg.player.getPlayerSymbol();
+                            drawDungeon();
+                        }
+                        collided = false;
+
+                    }
+                    break;
 
             case KeyEvent.VK_LEFT:
-                if (dg.player.getPlayerY() > 1) {
-                    dg.dungeonMatrix[dg.player.getPlayerX()][dg.player.getPlayerY()] = " ";
-                    dg.player.setPlayerY(dg.player.getPlayerY() - 1);
-                    dg.dungeonMatrix[dg.player.getPlayerX()][dg.player.getPlayerY()] = dg.player.getPlayerSymbol();
-                    drawDungeon();
-                }
-                break;
+                if(dg.player.getPlayerY() > 1) {
+                    //if player hits room.
+                        for (int i = 0; i < dg.roomX.length; i++) {
+                            if (dg.player.getPlayerX() == dg.roomY[i] &&
+                                    dg.player.getPlayerY() -1 == dg.roomX[i]) {
+                                System.out.println("hit");
+                                collided = true;
+                                break;
+                            }
+                        }
+                        //if player is not in room
+                        if (!collided) {
+                            dg.dungeonMatrix[dg.player.getPlayerX()][dg.player.getPlayerY()] = " ";
+                            dg.player.setPlayerY(dg.player.getPlayerY() - 1);
+                            dg.dungeonMatrix[dg.player.getPlayerX()][dg.player.getPlayerY()] = dg.player.getPlayerSymbol();
+                            drawDungeon();
+                        }
+                        collided = false;
+                    }
+                    break;
+
             case KeyEvent.VK_RIGHT:
                 if (dg.player.getPlayerY() < 18) {
-                    dg.dungeonMatrix[dg.player.getPlayerX()][dg.player.getPlayerY()] = " ";
-                    dg.player.setPlayerY(dg.player.getPlayerY() + 1);
-                    dg.dungeonMatrix[dg.player.getPlayerX()][dg.player.getPlayerY()] = dg.player.getPlayerSymbol();
-                    drawDungeon();
+                    //if player hits room.
+                    for (int i = 0; i < dg.roomX.length; i++) {
+                        if (dg.player.getPlayerX() == dg.roomY[i] &&
+                                dg.player.getPlayerY() +1 == dg.roomX[i]) {
+                            System.out.println("hit");
+                            collided = true;
+                            break;
+                        }
+                    }
+                    //if player is not in room
+                    if (!collided) {
+                        //System.out.println("X: " + dg.playerPos[1]);
+                        dg.dungeonMatrix[dg.player.getPlayerX()][dg.player.getPlayerY()] = " ";
+                        dg.player.setPlayerY(dg.player.getPlayerY() + 1);
+                        dg.dungeonMatrix[dg.player.getPlayerX()][dg.player.getPlayerY()] = dg.player.getPlayerSymbol();
+                        drawDungeon();
+                    }
+                    collided = false;
                 }
                 break;
         }
