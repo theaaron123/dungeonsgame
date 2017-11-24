@@ -4,7 +4,7 @@ public class DungeonController {
 
     public String[][] dungeonMatrix;
     public Player player;
-    public Gold gold;
+    public Gold[] golds;
     public Dungeon dungeon;
     public int[] roomX = new int[100]; //5
     public int[] roomY = new int[100]; //5
@@ -16,9 +16,9 @@ public class DungeonController {
         String[][] walls = new String[12][2];
         dungeon = new Dungeon(40, 40, walls);
         player = new Player();
-        gold = new Gold();
         gridBounds = new int[dungeon.getHeight()][dungeon.getWidth()];
 
+        golds = new Gold[dungeon.MAXIMUM_ROOMS];
 
         dungeonMatrix = new String[dungeon.getHeight()][dungeon.getWidth()];
         for (int i = 0; i < dungeon.getHeight(); i++) {
@@ -31,49 +31,50 @@ public class DungeonController {
         player.setPosition(player.getPlayerY(), player.getPlayerX());
 
 
-            addRoomBounds(dungeon, dungeon.MAXIMUM_ROOMS);
-
-
-        gold.setGoldX(roomX[0] + 2); //always center
-        gold.setGoldY(roomY[0] + 2);
+        addRoomBounds(dungeon, dungeon.MAXIMUM_ROOMS);
 
         gridBounds[roomY[0] + 2][roomX[0] + 2] = 2;
 
         dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
-        dungeonMatrix[gold.getGoldY()][gold.getGoldX()] = gold.getGoldSymbol();
         addDungeonBounds(dungeon);
     }
+
+
 
     private void addRoomBounds(Dungeon dungeon, int rooms) {
         Random rand = new Random();
         int startHeight;
         int startWidth;
 
-        for (int r = 1; r <= rooms; r++) { //0 top left - 1 top right - 2 bottom left - 3 bottom right
+        for (int r = 1; r <= rooms; r++) { //1 top left - 2 top right - 3 bottom left - 4 bottom right
 
             switch(r) {
                 case 1:
-                    startHeight = rand.nextInt(dungeon.getHeight()/2 - 4);
-                    startWidth = rand.nextInt(dungeon.getWidth() /2 -4);
+                    startHeight = rand.nextInt((dungeon.getHeight()/2-6)-2) + 2;
+                    startWidth = rand.nextInt((dungeon.getWidth()/2-6)-2) + 2;
                     System.out.println("Room 1: "+startHeight+" "+startWidth);
+                    addGold(dungeon, r, startHeight, startWidth);
                     break;
 
                 case 2:
-                    startHeight = rand.nextInt(dungeon.getHeight()/2 - 4);
-                    startWidth = rand.nextInt((dungeon.getWidth() -4) - dungeon.getWidth()/2)+dungeon.getWidth()/2;
+                    startHeight = rand.nextInt((dungeon.getHeight()/2-6)-2) + 2;
+                    startWidth = rand.nextInt((dungeon.getWidth()-7)-(dungeon.getWidth()/2 +2)) + (dungeon.getWidth()/2 +2);
                     System.out.println("Room 2: "+startHeight+" "+startWidth);
+                    addGold(dungeon, r, startHeight, startWidth);
                     break;
 
                 case 3:
-                    startHeight = rand.nextInt((dungeon.getHeight() - 4) - dungeon.getHeight()/2)+dungeon.getHeight()/2;
-                    startWidth = rand.nextInt(dungeon.getWidth() /2 -4);
+                    startHeight = rand.nextInt((dungeon.getHeight()-7)-(dungeon.getHeight()/2+2)) + (dungeon.getHeight()/2+2);
+                    startWidth = rand.nextInt((dungeon.getWidth()/2-6)-2) + 2;
                     System.out.println("Room 3: "+startHeight+" "+startWidth);
+                    addGold(dungeon, r, startHeight, startWidth);
                     break;
 
                 case 4:
-                    startHeight = rand.nextInt((dungeon.getHeight() - 4) - dungeon.getHeight()/2)+dungeon.getHeight()/2;
-                    startWidth = rand.nextInt((dungeon.getWidth() -4) - dungeon.getWidth()/2)+dungeon.getWidth()/2;
+                    startHeight = rand.nextInt((dungeon.getHeight()-7)-(dungeon.getHeight()/2+2)) + (dungeon.getHeight()/2+2);
+                    startWidth = rand.nextInt((dungeon.getWidth()-7)-(dungeon.getWidth()/2 +2)) + (dungeon.getWidth()/2 +2);
                     System.out.println("Room 4: "+startHeight+" "+startWidth);
+                    addGold(dungeon, r, startHeight, startWidth);
                     break;
 
                     default:
@@ -81,15 +82,6 @@ public class DungeonController {
                         startWidth = rand.nextInt(1);
             }
 
-
-          /*  while (player.getPlayerY() >= startHeight && player.getPlayerY() < startHeight + 5
-                    || player.getPlayerX() >= startWidth && player.getPlayerX() < startWidth + 5) {
-                System.out.println("Moved " + startHeight + " to: ");
-                startHeight = rand.nextInt() & dungeon.getHeight() - 7;
-                startHeight += 2;
-                startWidth = rand.nextInt() & dungeon.getWidth() - 7;
-                startWidth += 2;
-            }*/
 
             for (int i = 0; i < 5; i++) {
                 //y, x
@@ -121,13 +113,26 @@ public class DungeonController {
         }
     }
 
+    private void addGold(Dungeon dungeon, int room, int sh, int sw) {
+        golds[room-1] = new Gold();
+        golds[room-1].setGoldX(sw+2);
+        golds[room-1].setGoldY(sh+2);
+        System.out.println(golds[room-1].getGoldX() + " "+golds[room-1].getGoldY());
+
+        dungeonMatrix[sh+2][sw+2] = golds[room-1].getGoldSymbol();
+        gridBounds[sh+2][sw+2] = 2;
+    }
+
     private void removeDoor(Dungeon dungeon) {
+
         if (roomY[0] >= 0 && roomY[0] <= dungeon.getHeight() / 2) // remove bottom
         {
             gridBounds[roomY[17]][roomX[17]] = 0;
             dungeonMatrix[roomY[17]][roomX[17]] = " "; //left
             roomY[17] = 0;
             roomX[17] = 0;
+
+
         } else if (roomY[0] > dungeon.getHeight() / 2 && roomY[0] < dungeon.getHeight()) { //remove top
             gridBounds[roomY[0]][roomX[7]] = 0;
             dungeonMatrix[roomY[0]][roomX[7]] = " "; //left
@@ -217,7 +222,7 @@ public class DungeonController {
         if (gridBounds[player.getPlayerY()][player.getPlayerX()] == 2) {
 
             gridBounds[player.getPlayerY()][player.getPlayerX()] = 0;
-            player.setGold(player.getGold() + gold.getGoldQuantity());
+            player.setGold(player.getGold() + golds[0].getGoldQuantity());
             System.out.println(player.getGold());
         }
     }
