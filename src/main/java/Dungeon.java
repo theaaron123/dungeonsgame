@@ -1,6 +1,7 @@
 
 public class Dungeon {
 
+    public static final int GAME_WIN_AMOUNT = 5;
     private int height = 20; //setting default height
     private int width = 20; //setting default width
     private String[][] walls;

@@ -6,7 +6,6 @@ import java.awt.event.KeyListener;
 public class DungeonView implements KeyListener {
     private JPanel panel1;
     public DungeonController dg;
-    Dungeon dungeon;
     JTextArea label1;
     public boolean collided = false;
 
@@ -20,7 +19,7 @@ public class DungeonView implements KeyListener {
         label1.setVisible(true);
 
         label1.setForeground(Color.white);
-        label1.setFont(new Font("monospaced", Font.PLAIN, 22)); //size depicts the size of the game view.
+        label1.setFont(new Font("monospaced", Font.PLAIN, 16)); //size depicts the size of the game view.
 
 
         frame.add(panel);
@@ -80,13 +79,14 @@ public class DungeonView implements KeyListener {
                         dg.dungeonMatrix[dg.player.getPlayerY()][dg.player.getPlayerX()] = dg.player.getPlayerSymbol();
                         drawDungeon();
                     }
+
                     collided = false;
                 }
                 break;
 
             case KeyEvent.VK_S:
             case KeyEvent.VK_DOWN:
-                if (dg.player.getPlayerY() < 18) {
+                if (dg.player.getPlayerY() < dg.dungeon.getHeight()-2) {
 
                     //if player hits room.
                     for (int i = 0; i < dg.roomX.length; i++) {
@@ -134,7 +134,7 @@ public class DungeonView implements KeyListener {
 
             case KeyEvent.VK_D:
             case KeyEvent.VK_RIGHT:
-                if (dg.player.getPlayerX() < 18) {
+                if (dg.player.getPlayerX() < dg.dungeon.getWidth() - 2) {
                     //if player hits room.
                     for (int i = 0; i < dg.roomX.length; i++) {
                         if (dg.player.getPlayerY() == dg.roomY[i] &&
@@ -155,6 +155,8 @@ public class DungeonView implements KeyListener {
                 }
                 break;
         }
+        dg.addScore();
+        dg.checkExit();
     }
 
     @Override
