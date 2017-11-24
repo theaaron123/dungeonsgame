@@ -31,7 +31,7 @@ public class DungeonController {
         player.setPlayerY(dungeon.getHeight() / 2); //set Y to the centre of the map
 
         gold.setGoldX(dungeon.getWidth() / 3);
-        gold.setGoldY(dungeon.getWidth() / 3);
+        gold.setGoldY(dungeon.getHeight() / 3);
 
         dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
         dungeonMatrix[gold.getGoldY()][gold.getGoldX()] = gold.getGoldSymbol();
