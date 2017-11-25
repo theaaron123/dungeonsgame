@@ -11,10 +11,6 @@ public class Gold {
         GOLD_SYMBOL = "G";
     }
 
-    public String getGoldSymbol() {
-        return GOLD_SYMBOL;
-    }
-
     public int getGoldX()
     {
         return goldX;
@@ -26,6 +22,9 @@ public class Gold {
     public int getGoldQuantity()
     {
         return goldQuantity;
+    }
+    public String getGoldSymbol() {
+        return GOLD_SYMBOL;
     }
 
     public void setGoldQuantity(int goldQuantity) {
@@ -39,4 +38,5 @@ public class Gold {
     public void setGoldY(int goldY) {
         this.goldY = goldY;
     }
+
 }

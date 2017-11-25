@@ -5,39 +5,37 @@ import java.awt.event.KeyListener;
 
 public class DungeonView implements KeyListener {
     private JPanel panel1;
-    public DungeonController dg;
     JTextArea label1;
+    public DungeonController dg;
     public boolean collided = false;
-
-    //TODO refactor to adhere to MVC
 
     public DungeonView() {
         final JFrame frame = new JFrame();
         JPanel panel = new JPanel();
 
         label1 = new JTextArea();
-        label1.setVisible(true);
-
         label1.setForeground(Color.white);
         label1.setFont(new Font("monospaced", Font.PLAIN, 16)); //size depicts the size of the game view.
-
+        label1.setVisible(true);
 
         frame.add(panel);
-        panel.add(label1);
-        frame.setVisible(true);
-        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+
+        panel.add(label1);
         panel.setBackground(Color.BLACK);
-        label1.setBackground(Color.BLACK);
 
         label1.addKeyListener(this);
+        label1.setBackground(Color.BLACK);
+
+        frame.setVisible(true);
 
         dg = new DungeonController();
         dg.initialiseRandDungeon();
-
         drawDungeon();
     }
 
+    //Draws dungeon with coordinates (y, x)
     private void drawDungeon() {
         label1.setText("");
         for (int i = 0; i < dg.dungeonMatrix.length; i++) {
@@ -51,8 +49,6 @@ public class DungeonView implements KeyListener {
     @Override
     public void keyTyped(KeyEvent keyEvent) {
         int key = keyEvent.getKeyCode();
-
-
     }
 
     public void keyPressed(KeyEvent e) {
@@ -62,13 +58,13 @@ public class DungeonView implements KeyListener {
         switch (key) {
             case KeyEvent.VK_W:
             case KeyEvent.VK_UP:
-                //if player hits room.
-                if (dg.gridBounds[dg.player.getPlayerY() -1][dg.player.getPlayerX()] == 1) {
+                //if player hits boundary.
+                if (dg.gridBounds[dg.player.getPlayerY()-1][dg.player.getPlayerX()] == 1) {
                     collided = true;
                     break;
                 }
 
-                //if player is not in room
+                //if player is not moving into a boundary
                 if (!collided) {
                     dg.dungeonMatrix[dg.player.getPlayerY()][dg.player.getPlayerX()] = " ";
                     dg.player.setPlayerY(dg.player.getPlayerY() - 1);
@@ -77,69 +73,66 @@ public class DungeonView implements KeyListener {
                 }
 
                 collided = false;
-
                 break;
 
             case KeyEvent.VK_S:
             case KeyEvent.VK_DOWN:
-
-                if (dg.gridBounds[dg.player.getPlayerY() +1][dg.player.getPlayerX()] == 1) {
+                //if player hits boundary
+                if (dg.gridBounds[dg.player.getPlayerY()+1][dg.player.getPlayerX()] == 1) {
                     collided = true;
                     break;
                 }
 
-
-                    //if player is not in room
-                    if (!collided) {
-                        dg.dungeonMatrix[dg.player.getPlayerY()][dg.player.getPlayerX()] = " ";
-                        dg.player.setPlayerY(dg.player.getPlayerY() + 1);
-                        dg.dungeonMatrix[dg.player.getPlayerY()][dg.player.getPlayerX()] = dg.player.getPlayerSymbol();
-                        drawDungeon();
-                    }
-                    collided = false;
-
-
+                //if player is not moving into a boundary
+                if (!collided) {
+                    dg.dungeonMatrix[dg.player.getPlayerY()][dg.player.getPlayerX()] = " ";
+                    dg.player.setPlayerY(dg.player.getPlayerY() + 1);
+                    dg.dungeonMatrix[dg.player.getPlayerY()][dg.player.getPlayerX()] = dg.player.getPlayerSymbol();
+                    drawDungeon();
+                }
+                collided = false;
                 break;
 
             case KeyEvent.VK_A:
             case KeyEvent.VK_LEFT:
+                //if player hits boundary
                 if (dg.gridBounds[dg.player.getPlayerY()][dg.player.getPlayerX() -1] == 1) {
                     collided = true;
                     break;
                 }
 
-                    //if player is not in room
-                    if (!collided) {
-                        dg.dungeonMatrix[dg.player.getPlayerY()][dg.player.getPlayerX()] = " ";
-                        dg.player.setPlayerX(dg.player.getPlayerX() - 1);
-                        dg.dungeonMatrix[dg.player.getPlayerY()][dg.player.getPlayerX()] = dg.player.getPlayerSymbol();
-                        drawDungeon();
-                    }
-                    collided = false;
+                //if player is not moving into a boundary
+                if (!collided) {
+                    dg.dungeonMatrix[dg.player.getPlayerY()][dg.player.getPlayerX()] = " ";
+                    dg.player.setPlayerX(dg.player.getPlayerX() - 1);
+                    dg.dungeonMatrix[dg.player.getPlayerY()][dg.player.getPlayerX()] = dg.player.getPlayerSymbol();
+                    drawDungeon();
+                }
+                collided = false;
                 break;
 
             case KeyEvent.VK_D:
             case KeyEvent.VK_RIGHT:
-                if (dg.gridBounds[dg.player.getPlayerY()][dg.player.getPlayerX() +1] == 1) {
+                //if player hits boundary
+                if (dg.gridBounds[dg.player.getPlayerY()][dg.player.getPlayerX()+1] == 1) {
                     collided = true;
                     break;
                 }
-                    //if player is not in room
-                    if (!collided) {
-                        dg.dungeonMatrix[dg.player.getPlayerY()][dg.player.getPlayerX()] = " ";
-                        dg.player.setPlayerX(dg.player.getPlayerX() + 1);
-                        dg.dungeonMatrix[dg.player.getPlayerY()][dg.player.getPlayerX()] = dg.player.getPlayerSymbol();
-                        drawDungeon();
-                    }
-                    collided = false;
+                //if player is not moving into a boundary
+                if (!collided) {
+                    dg.dungeonMatrix[dg.player.getPlayerY()][dg.player.getPlayerX()] = " ";
+                    dg.player.setPlayerX(dg.player.getPlayerX() + 1);
+                    dg.dungeonMatrix[dg.player.getPlayerY()][dg.player.getPlayerX()] = dg.player.getPlayerSymbol();
+                    drawDungeon();
+                }
+                collided = false;
                 break;
         }
-        dg.addScore();
-        dg.checkExit();
+        dg.addScore(); //Check if player has moved onto gold
+        dg.checkExit(); //Check if player has moved to the exit
     }
 
     @Override
     public void keyReleased(KeyEvent keyEvent) {
-
     }
 }

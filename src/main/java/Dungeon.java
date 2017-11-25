@@ -1,17 +1,15 @@
 
 public class Dungeon {
 
-    public static final int GAME_WIN_AMOUNT = 5;
     private int height = 20; //setting default height
     private int width = 20; //setting default width
-    public static final int MAXIMUM_ROOMS = 4;
-    private String[][] walls;
     private final char exit = 'E';
+    public static final int GAME_WIN_AMOUNT = 5;
+    public static final int MAXIMUM_ROOMS = 4;
 
-    public Dungeon(int height, int width, String[][] walls) {
+    public Dungeon(int height, int width) {
         this.height = height;
         this.width = width;
-        this.walls = walls;
     }
 
     public int getHeight() {
@@ -28,13 +26,5 @@ public class Dungeon {
 
     public void setWidth(int width) {
         this.width = width;
-    }
-
-    public String[][] getWalls() {
-        return walls;
-    }
-
-    public void setWalls(String[][] walls) {
-        this.walls = walls;
     }
 }

@@ -1,23 +1,15 @@
 public class Player {
     private int playerX;
     private int playerY;
-    private int[] position;
     private int playerScore;
     private int gold;
     private final String PLAYER_SYMBOL = "@";
-
-
 
     public Player() {
         playerX = 0;
         playerY = 0;
         gold = 0;
         playerScore = 0;
-        position = new int[2];
-    }
-
-    public String getPlayerSymbol() {
-        return PLAYER_SYMBOL;
     }
 
     public int getGold() {
@@ -52,12 +44,8 @@ public class Player {
         this.playerScore = playerScore;
     }
 
-    public int[] getPosition() {
-        return position;
+    public String getPlayerSymbol() {
+        return PLAYER_SYMBOL;
     }
 
-    public void setPosition(int playerY, int playerX) {
-       position[0] = playerY;
-       position[1] = playerX;
-    }
 }
