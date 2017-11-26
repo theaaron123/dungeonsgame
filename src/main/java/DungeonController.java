@@ -226,9 +226,10 @@ public class DungeonController {
     }
 
     public void addScore() {
-        if (gridBounds[player.getPlayerY()][player.getPlayerX()] == 2) {
-            gridBounds[player.getPlayerY()][player.getPlayerX()] = 0;
-            player.setGold(player.getGold() + golds[0].getGoldQuantity());
+        for (Gold gold : golds) {
+            if (gold.getGoldX() == player.getPlayerX() && gold.getGoldY() == player.getPlayerY()) {
+                player.setPlayerScore(player.getPlayerScore() + gold.getGoldQuantity());
+            }
         }
     }
 
@@ -238,5 +239,4 @@ public class DungeonController {
         }
         return true;
     }
-
 }

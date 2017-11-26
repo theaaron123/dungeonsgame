@@ -4,19 +4,24 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class DungeonView implements KeyListener {
+    private final JFrame gameWindow;
     private JPanel gamePanel;
     private JTextArea gameArea;
+    private JTextArea scoreArea;
     private DungeonController dungeonController;
     private boolean collided = false;
 
     public DungeonView() {
-        final JFrame gameWindow = new JFrame();
-        JPanel gamePanel = new JPanel();
+        gameWindow = new JFrame();
+        gamePanel = new JPanel();
 
         gameArea = new JTextArea();
         gameArea.setForeground(Color.white);
         gameArea.setFont(new Font("monospaced", Font.PLAIN, 16)); //size depicts the size of the game view.
         gameArea.setVisible(true);
+
+        scoreArea = new JTextArea();
+        scoreArea.setText("SCORE is:");
 
         gameWindow.add(gamePanel);
         gameWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -24,6 +29,8 @@ public class DungeonView implements KeyListener {
 
         gamePanel.add(gameArea);
         gamePanel.setBackground(Color.BLACK);
+
+        gamePanel.add(scoreArea);
 
         gameArea.addKeyListener(this);
         gameArea.setBackground(Color.BLACK);
@@ -48,7 +55,6 @@ public class DungeonView implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent keyEvent) {
-        int key = keyEvent.getKeyCode();
     }
 
     public void keyPressed(KeyEvent e) {
@@ -141,6 +147,7 @@ public class DungeonView implements KeyListener {
             dungeonController.initialiseRandDungeon();
             drawDungeon();
         }
+        scoreArea.setText("SCORE: " + dungeonController.player.getPlayerScore());
     }
 
     @Override
