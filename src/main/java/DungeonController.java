@@ -1,3 +1,4 @@
+import Database.DatabaseHelper;
 import java.util.Random;
 
 public class DungeonController {
@@ -238,5 +239,10 @@ public class DungeonController {
             return true;
         }
         return true;
+    }
+
+    public void saveGoldAmount(String playerName, int goldAmount) {
+        DatabaseHelper databaseHelper = new DatabaseHelper();
+        databaseHelper.insertValues(playerName, goldAmount);
     }
 }

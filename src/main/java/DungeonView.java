@@ -144,6 +144,7 @@ public class DungeonView implements KeyListener {
         //Reset at completion
         if (dungeonController.checkExit(dungeonController.player.getPlayerY(), dungeonController.player.getPlayerX()) &&
                 dungeonController.gridBounds[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX()] == 5) {
+            dungeonController.saveGoldAmount("Aaron", dungeonController.player.getGold());
             dungeonController.initialiseRandDungeon();
             drawDungeon();
         }
