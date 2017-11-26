@@ -1,7 +1,7 @@
 public class Player {
     private int playerX;
     private int playerY;
-    private int playerScore;
+    private int score;
     private int gold;
     private final String PLAYER_SYMBOL = "@";
     private boolean playerTurn;
@@ -10,7 +10,7 @@ public class Player {
         playerX = 0;
         playerY = 0;
         gold = 0;
-        playerScore = 0;
+        score = 0;
         playerTurn = true;
     }
 
@@ -38,12 +38,12 @@ public class Player {
         this.playerY = playerY;
     }
 
-    public int getPlayerScore() {
-        return playerScore;
+    public int getScore() {
+        return score;
     }
 
-    public void setPlayerScore(int playerScore) {
-        this.playerScore = playerScore;
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public boolean isPlayerTurn() {

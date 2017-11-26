@@ -225,10 +225,10 @@ public class DungeonController {
         }
     }
 
-    public void addScore() {
+    public void assignGold() {
         for (Gold gold : golds) {
             if (gold.getGoldX() == player.getPlayerX() && gold.getGoldY() == player.getPlayerY()) {
-                player.setPlayerScore(player.getPlayerScore() + gold.getGoldQuantity());
+                player.setGold(player.getGold() + gold.getGoldQuantity());
             }
         }
     }
