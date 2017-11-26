@@ -109,12 +109,10 @@ public class DungeonController {
         int wall;
         Random rand = new Random();
         wall = rand.nextInt(4); //Random integer between 0 and 3 inclusive
-        System.out.println(wall);
         //Uses height only to find middle dungeon values, will not work if not a square
         exitLocation = rand.nextInt((dungeon.getHeight() - 1) - 1) + 1;
         while (exitLocation == dungeon.getHeight() / 2) {
             exitLocation = rand.nextInt((dungeon.getHeight() - 1) - 1) + 1;
-            System.out.println("Moved Exit");
         }
 
         switch (wall) {
