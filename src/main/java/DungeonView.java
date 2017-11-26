@@ -4,19 +4,24 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class DungeonView implements KeyListener {
+    private final JFrame gameWindow;
     private JPanel gamePanel;
     private JTextArea gameArea;
+    private JTextArea scoreArea;
     private DungeonController dungeonController;
     private boolean collided = false;
 
     public DungeonView() {
-        final JFrame gameWindow = new JFrame();
-        JPanel gamePanel = new JPanel();
+        gameWindow = new JFrame();
+        gamePanel = new JPanel();
 
         gameArea = new JTextArea();
         gameArea.setForeground(Color.white);
         gameArea.setFont(new Font("monospaced", Font.PLAIN, 16)); //size depicts the size of the game view.
         gameArea.setVisible(true);
+
+        scoreArea = new JTextArea();
+        scoreArea.setText("GOLD is:");
 
         gameWindow.add(gamePanel);
         gameWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -24,6 +29,8 @@ public class DungeonView implements KeyListener {
 
         gamePanel.add(gameArea);
         gamePanel.setBackground(Color.BLACK);
+
+        gamePanel.add(scoreArea);
 
         gameArea.addKeyListener(this);
         gameArea.setBackground(Color.BLACK);
@@ -48,7 +55,6 @@ public class DungeonView implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent keyEvent) {
-        int key = keyEvent.getKeyCode();
     }
 
     public void keyPressed(KeyEvent e) {
@@ -134,13 +140,14 @@ public class DungeonView implements KeyListener {
                 collided = false;
                 break;
         }
-        dungeonController.addScore(); //Check if player has moved onto gold
+        dungeonController.assignGold(); //Check if player has moved onto gold
         //Reset at completion
         if (dungeonController.checkExit(dungeonController.player.getPlayerY(), dungeonController.player.getPlayerX()) &&
                 dungeonController.gridBounds[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX()] == 5) {
             dungeonController.initialiseRandDungeon();
             drawDungeon();
         }
+        scoreArea.setText("GOLD: " + dungeonController.player.getGold() + "\n" + "SCORE: " + dungeonController.player.getScore());
     }
 
     @Override
