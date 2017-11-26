@@ -3,14 +3,15 @@ public class Player {
     private int playerY;
     private int playerScore;
     private int gold;
-    private final char PLAYER_SYMBOL;
+    private final String PLAYER_SYMBOL = "@";
+    private boolean playerTurn;
 
     public Player() {
         playerX = 0;
         playerY = 0;
         gold = 0;
         playerScore = 0;
-        PLAYER_SYMBOL = '*';
+        playerTurn = true;
     }
 
     public int getGold() {
@@ -44,4 +45,17 @@ public class Player {
     public void setPlayerScore(int playerScore) {
         this.playerScore = playerScore;
     }
+
+    public boolean isPlayerTurn() {
+        return playerTurn;
+    }
+
+    public void setPlayerTurn(boolean playerTurn) {
+        this.playerTurn = playerTurn;
+    }
+
+    public String getPlayerSymbol() {
+        return PLAYER_SYMBOL;
+    }
+
 }
