@@ -243,8 +243,8 @@ public class DungeonController {
         return true;
     }
 
-    public void saveGoldAmount(String playerName, int goldAmount) {
+    public void saveGoldAmount(String playerName, int goldAmount, int score) {
         DatabaseHelper databaseHelper = new DatabaseHelper();
-        databaseHelper.insertValues(playerName, goldAmount);
+        databaseHelper.insertValues(playerName, goldAmount, score);
     }
 }

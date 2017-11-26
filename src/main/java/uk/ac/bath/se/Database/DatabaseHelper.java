@@ -28,16 +28,16 @@ public class DatabaseHelper {
         }
     }
 
-    public void insertValues(String playerName, int goldAmount) {
+    public void insertValues(String playerName, int goldAmount, int score) {
         connect();
         PreparedStatement ps;
         try {
             ps = MySQLJDBC.getConnection()
-                    .prepareStatement("INSERT INTO `Dungeon_Scores`(`Player_Name`, `Score`) VALUES (?, ?)");
+                    .prepareStatement("INSERT INTO `Dungeon_Scores`(`Player_Name`, `Gold`, `Score`) VALUES (?, ?, ?)");
 
             ps.setString(1, playerName);
             ps.setInt(2, goldAmount);
-
+            ps.setInt(3, score);
 
             ps.execute();
             ps.close();
