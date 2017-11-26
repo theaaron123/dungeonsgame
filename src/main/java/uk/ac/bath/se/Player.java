@@ -1,3 +1,5 @@
+package uk.ac.bath.se;
+
 public class Player {
     private int playerX;
     private int playerY;

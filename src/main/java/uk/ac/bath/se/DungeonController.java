@@ -1,4 +1,6 @@
-import Database.DatabaseHelper;
+package uk.ac.bath.se;
+
+import uk.ac.bath.se.Database.DatabaseHelper;
 import java.util.Random;
 
 public class DungeonController {

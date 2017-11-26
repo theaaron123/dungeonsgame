@@ -1,3 +1,5 @@
+package uk.ac.bath.se;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;

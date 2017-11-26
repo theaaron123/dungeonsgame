@@ -1,3 +1,5 @@
+package uk.ac.bath.se;
+
 public class Gold {
     private int goldX;
     private int goldY;
@@ -11,18 +13,18 @@ public class Gold {
         GOLD_SYMBOL = "G";
     }
 
-    public int getGoldX()
-    {
+    public int getGoldX() {
         return goldX;
     }
-    public int getGoldY()
-    {
+
+    public int getGoldY() {
         return goldY;
     }
-    public int getGoldQuantity()
-    {
+
+    public int getGoldQuantity() {
         return goldQuantity;
     }
+
     public String getGoldSymbol() {
         return GOLD_SYMBOL;
     }

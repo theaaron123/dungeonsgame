@@ -1,3 +1,4 @@
+package uk.ac.bath.se;
 
 public class Dungeon {
 

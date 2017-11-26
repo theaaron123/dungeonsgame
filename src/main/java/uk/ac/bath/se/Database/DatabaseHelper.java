@@ -1,4 +1,4 @@
-package Database;
+package uk.ac.bath.se.Database;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
