@@ -12,6 +12,7 @@ public class DungeonController {
     public void initialiseRandDungeon() {
         player = new Player();
         dungeon = new Dungeon(40, 40);
+        gameWinAmount = 0;
         golds = new Gold[Dungeon.MAXIMUM_ROOMS];
         gridBounds = new int[dungeon.getHeight()][dungeon.getWidth()];
 
@@ -35,8 +36,19 @@ public class DungeonController {
         addRoomBounds(dungeon, Dungeon.MAXIMUM_ROOMS);
 
         //Create winAmount
-        for(Gold g : golds) {
+        for (Gold g : golds) {
             gameWinAmount += g.getGoldQuantity();
+        }
+
+        //Print dungeon array to console
+        for (int i = 0; i < dungeon.getWidth(); i++) {
+            for (int j = 0; j < dungeon.getHeight(); j++) {
+                if (j == dungeon.getWidth() - 1) {
+                    System.out.println(gridBounds[i][j]);
+                } else {
+                    System.out.print(+gridBounds[i][j]);
+                }
+            }
         }
     }
 
@@ -65,17 +77,6 @@ public class DungeonController {
 
         addPassage(dungeon);
         addExit(dungeon);
-
-        //Print dungeon array to console
-        for (int i = 0; i < dungeon.getWidth(); i++) {
-            for (int j = 0; j < dungeon.getHeight(); j++) {
-                if (j == dungeon.getWidth() - 1) {
-                    System.out.println(gridBounds[i][j]);
-                } else {
-                    System.out.print(+gridBounds[i][j]);
-                }
-            }
-        }
     }
 
     private void addPassage(Dungeon dungeon) {
@@ -107,7 +108,8 @@ public class DungeonController {
         int exitLocation;
         int wall;
         Random rand = new Random();
-        wall = rand.nextInt(4); //Random integer between 1 and 4
+        wall = rand.nextInt(4); //Random integer between 0 and 3 inclusive
+        System.out.println(wall);
         //Uses height only to find middle dungeon values, will not work if not a square
         exitLocation = rand.nextInt((dungeon.getHeight() - 1) - 1) + 1;
         while (exitLocation == dungeon.getHeight() / 2) {
@@ -135,36 +137,38 @@ public class DungeonController {
         }
     }
 
-    private void addRoomBounds(Dungeon dungeon, int rooms) {
+    private void addRoomBounds(Dungeon dungeon, int roomQuantity) {
         Random rand = new Random();
         int startHeight;
         int startWidth;
+        final int LOWER_DISTANCE = 2;
+        final int UPPER_DISTANCE = 6;
 
-        for (int r = 1; r <= rooms; r++) { //1 - top left, 2 - top right, 3 - bottom left, 4 - bottom right
+        for (int room = 1; room <= roomQuantity; room++) { //1 - top left, 2 - top right, 3 - bottom left, 4 - bottom right
 
-            switch (r) {
+            switch (room) {
                 case 1:
-                    startHeight = rand.nextInt((dungeon.getHeight() / 2 - 6) - 2) + 2;
-                    startWidth = rand.nextInt((dungeon.getWidth() / 2 - 6) - 2) + 2;
-                    addGold(r, startHeight, startWidth);
+                    startHeight = rand.nextInt((dungeon.getHeight() / 2 - UPPER_DISTANCE) - LOWER_DISTANCE) + LOWER_DISTANCE;
+                    startWidth = rand.nextInt((dungeon.getWidth() / 2 - UPPER_DISTANCE) - LOWER_DISTANCE) + LOWER_DISTANCE;
+                    addGold(room, startHeight, startWidth);
                     break;
 
                 case 2:
-                    startHeight = rand.nextInt((dungeon.getHeight() / 2 - 6) - 2) + 2;
-                    startWidth = rand.nextInt((dungeon.getWidth() - 7) - (dungeon.getWidth() / 2 + 2)) + (dungeon.getWidth() / 2 + 2);
-                    addGold(r, startHeight, startWidth);
+                    startHeight = rand.nextInt((dungeon.getHeight() / 2 - UPPER_DISTANCE) - LOWER_DISTANCE) + LOWER_DISTANCE;
+                    startWidth = rand.nextInt((dungeon.getWidth() - UPPER_DISTANCE) - (dungeon.getWidth() / 2 + LOWER_DISTANCE)) + (dungeon.getWidth() / 2 + LOWER_DISTANCE);
+                    addGold(room, startHeight, startWidth);
                     break;
 
                 case 3:
-                    startHeight = rand.nextInt((dungeon.getHeight() - 7) - (dungeon.getHeight() / 2 + 2)) + (dungeon.getHeight() / 2 + 2);
-                    startWidth = rand.nextInt((dungeon.getWidth() / 2 - 6) - 2) + 2;
-                    addGold(r, startHeight, startWidth);
+                    startHeight = rand.nextInt((dungeon.getHeight() - UPPER_DISTANCE) - (dungeon.getHeight() / 2 + LOWER_DISTANCE)) + (dungeon.getHeight() / 2 + LOWER_DISTANCE);
+                    startWidth = rand.nextInt((dungeon.getWidth() / 2 - UPPER_DISTANCE) - LOWER_DISTANCE) + LOWER_DISTANCE;
+                    addGold(room, startHeight, startWidth);
                     break;
 
                 case 4:
-                    startHeight = rand.nextInt((dungeon.getHeight() - 7) - (dungeon.getHeight() / 2 + 2)) + (dungeon.getHeight() / 2 + 2);
-                    startWidth = rand.nextInt((dungeon.getWidth() - 7) - (dungeon.getWidth() / 2 + 2)) + (dungeon.getWidth() / 2 + 2);
-                    addGold(r, startHeight, startWidth);
+                    startHeight = rand.nextInt((dungeon.getHeight() - UPPER_DISTANCE) - (dungeon.getHeight() / 2 + LOWER_DISTANCE)) + (dungeon.getHeight() / 2 + LOWER_DISTANCE);
+                    startWidth = rand.nextInt((dungeon.getWidth() - UPPER_DISTANCE) - (dungeon.getWidth() / 2 + LOWER_DISTANCE)) + (dungeon.getWidth() / 2 + LOWER_DISTANCE);
+                    addGold(room, startHeight, startWidth);
                     break;
 
                 default:
@@ -199,26 +203,26 @@ public class DungeonController {
         gridBounds[sh + 2][sw + 2] = 2;
     }
 
-    private void removeDoor(int sh, int sw) {
+    private void removeDoor(int roomStartY, int roomStartX) {
         Random rand = new Random();
         int wall = rand.nextInt(4);
 
         switch (wall) {
             case 0: //Top wall
-                dungeonMatrix[sh][sw + 2] = " ";
-                gridBounds[sh][sw + 2] = 0;
+                dungeonMatrix[roomStartY][roomStartX + 2] = " ";
+                gridBounds[roomStartY][roomStartX + 2] = 0;
                 break;
             case 1: //Bottom Wall
-                dungeonMatrix[sh + 4][sw + 2] = " ";
-                gridBounds[sh + 4][sw + 2] = 0;
+                dungeonMatrix[roomStartY + 4][roomStartX + 2] = " ";
+                gridBounds[roomStartY + 4][roomStartX + 2] = 0;
                 break;
             case 2: //Right Wall
-                dungeonMatrix[sh + 2][sw + 4] = " ";
-                gridBounds[sh + 2][sw + 4] = 0;
+                dungeonMatrix[roomStartY + 2][roomStartX + 4] = " ";
+                gridBounds[roomStartY + 2][roomStartX + 4] = 0;
                 break;
             case 3: //Left Wall
-                dungeonMatrix[sh + 2][sw] = " ";
-                gridBounds[sh + 2][sw] = 0;
+                dungeonMatrix[roomStartY + 2][roomStartX] = " ";
+                gridBounds[roomStartY + 2][roomStartX] = 0;
                 break;
         }
     }
@@ -230,13 +234,11 @@ public class DungeonController {
         }
     }
 
-    public void checkExit() {
-        if (gridBounds[player.getPlayerY()][player.getPlayerX()] == 5) {
-            if (player.getGold() >= gameWinAmount) {
-                System.out.println("Completed");
-            } else {
-                System.out.println("More gold needed");
-            }
+    public boolean checkExit(int y, int x) {
+        if (gridBounds[y][x] == 5 && player.getGold() >= gameWinAmount) {
+            return true;
         }
+        return true;
     }
+
 }
