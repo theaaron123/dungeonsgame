@@ -4,7 +4,6 @@ public class Dungeon {
     private int height = 20; //setting default height
     private int width = 20; //setting default width
     private final char exit = 'E';
-    public static final int GAME_WIN_AMOUNT = 5;
     public static final int MAXIMUM_ROOMS = 4;
 
     public Dungeon(int height, int width) {
