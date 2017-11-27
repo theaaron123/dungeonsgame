@@ -1,8 +1,12 @@
+package uk.ac.bath.se;
+
+import uk.ac.bath.se.Database.DatabaseHelper;
 import java.util.Random;
 
 public class DungeonController {
 
     public Player player;
+    public BotPlayer botPlayer;
     private Dungeon dungeon;
     public String[][] dungeonMatrix;
     public int[][] gridBounds;
@@ -11,6 +15,7 @@ public class DungeonController {
 
     public void initialiseRandDungeon() {
         player = new Player();
+        botPlayer = new BotPlayer();
         dungeon = new Dungeon(40, 40);
         gameWinAmount = 0;
         golds = new Gold[Dungeon.MAXIMUM_ROOMS];
@@ -30,7 +35,10 @@ public class DungeonController {
         //Set up player location
         player.setPlayerX(2); //set X to left of the map
         player.setPlayerY(dungeon.getHeight() - 3); //set Y to the bottom of the map
+        botPlayer.setXCoord(10);
+        botPlayer.setYCoord(10);
         dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
+        dungeonMatrix[botPlayer.getYCoord()][botPlayer.getXCoord()] = botPlayer.getPLAYER_SYMBOL();
 
         //Set up rooms
         addRoomBounds(dungeon, Dungeon.MAXIMUM_ROOMS);
@@ -39,8 +47,9 @@ public class DungeonController {
         for (Gold g : golds) {
             gameWinAmount += g.getGoldQuantity();
         }
+    }
 
-        //Print dungeon array to console
+    private void printDungeonToConsole() {
         for (int i = 0; i < dungeon.getWidth(); i++) {
             for (int j = 0; j < dungeon.getHeight(); j++) {
                 if (j == dungeon.getWidth() - 1) {
@@ -241,5 +250,42 @@ public class DungeonController {
             return false;
         }
         return true;
+    }
+
+    public void saveGoldAmount(String playerName, int goldAmount, int score) {
+        DatabaseHelper databaseHelper = new DatabaseHelper();
+        databaseHelper.insertValues(playerName, goldAmount, score);
+    }
+
+    //TODO refactor into a switch on enum of direction
+    public void movePlayerUp() {
+        dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = " ";
+        player.setPlayerY(player.getPlayerY() - 1);
+        dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
+    }
+
+    public void movePlayerDown() {
+        dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = " ";
+        player.setPlayerY(player.getPlayerY() + 1);
+        dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
+    }
+
+    public void movePlayerLeft() {
+        dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = " ";
+        player.setPlayerX(player.getPlayerX() - 1);
+        dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
+    }
+
+    public void movePlayerRight() {
+        dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = " ";
+        player.setPlayerX(player.getPlayerX() + 1);
+        dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
+
+        //TODO refactor and move
+        int[] randomWalk = BotPlayer.randomWalk(dungeon);
+        dungeonMatrix[botPlayer.getYCoord()][botPlayer.getXCoord()] = " ";
+        botPlayer.setXCoord(randomWalk[1]);
+        botPlayer.setYCoord(randomWalk[0]);
+        dungeonMatrix[randomWalk[0]][randomWalk[1]] = botPlayer.getPLAYER_SYMBOL();
     }
 }

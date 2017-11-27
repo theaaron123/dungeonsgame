@@ -1,3 +1,5 @@
+package uk.ac.bath.se;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -73,9 +75,7 @@ public class DungeonView implements KeyListener {
 
                 //if player is not moving into a boundary
                 if (!collided) {
-                    dungeonController.dungeonMatrix[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX()] = " ";
-                    dungeonController.player.setPlayerY(dungeonController.player.getPlayerY() - 1);
-                    dungeonController.dungeonMatrix[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX()] = dungeonController.player.getPlayerSymbol();
+                    dungeonController.movePlayerUp();
                     drawDungeon();
                 }
 
@@ -94,9 +94,7 @@ public class DungeonView implements KeyListener {
 
                 //if player is not moving into a boundary
                 if (!collided) {
-                    dungeonController.dungeonMatrix[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX()] = " ";
-                    dungeonController.player.setPlayerY(dungeonController.player.getPlayerY() + 1);
-                    dungeonController.dungeonMatrix[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX()] = dungeonController.player.getPlayerSymbol();
+                    dungeonController.movePlayerDown();
                     drawDungeon();
                 }
                 collided = false;
@@ -113,9 +111,7 @@ public class DungeonView implements KeyListener {
 
                 //if player is not moving into a boundary
                 if (!collided) {
-                    dungeonController.dungeonMatrix[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX()] = " ";
-                    dungeonController.player.setPlayerX(dungeonController.player.getPlayerX() - 1);
-                    dungeonController.dungeonMatrix[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX()] = dungeonController.player.getPlayerSymbol();
+                    dungeonController.movePlayerLeft();
                     drawDungeon();
                 }
                 collided = false;
@@ -132,9 +128,7 @@ public class DungeonView implements KeyListener {
 
                 //if player is not moving into a boundary
                 if (!collided) {
-                    dungeonController.dungeonMatrix[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX()] = " ";
-                    dungeonController.player.setPlayerX(dungeonController.player.getPlayerX() + 1);
-                    dungeonController.dungeonMatrix[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX()] = dungeonController.player.getPlayerSymbol();
+                    dungeonController.movePlayerRight();
                     drawDungeon();
                 }
                 collided = false;
@@ -145,10 +139,24 @@ public class DungeonView implements KeyListener {
         //Reset at completion
         if (dungeonController.checkExit(dungeonController.player.getPlayerY(), dungeonController.player.getPlayerX()) &&
                 dungeonController.gridBounds[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX()] == 5) {
+
+            dungeonController.saveGoldAmount("Aaron",
+                    dungeonController.player.getGold(),
+                    dungeonController.player.getScore()
+            );
+
             dungeonController.initialiseRandDungeon();
             drawDungeon();
         }
-        scoreArea.setText("GOLD: " + dungeonController.player.getGold() + "\n" + "SCORE: " + dungeonController.player.getScore());
+        scoreArea.setText("GOLD: " +
+                dungeonController.player.getGold() +
+                "\n" +
+                "SCORE: " +
+                dungeonController.player.getScore() +
+                "\n\n"
+        );
+        //TODO don't call this every time the player moves..
+        scoreArea.append("Player Name:" + " Gold:\t" + "Score:\n" + Player.getTopPlayer());
     }
 
     @Override
