@@ -237,9 +237,7 @@ public class DungeonController {
     }
 
     public boolean checkExit(int y, int x) {
-        if (gridBounds[y][x] == 5 && player.getGold() >= gameWinAmount) {
-            return true;
-        } else if (gridBounds[y][x] == 5 && player.getGold() < gameWinAmount) {
+        if (gridBounds[y][x] == 5 && player.getGold() < gameWinAmount) {
             return false;
         }
         return true;
