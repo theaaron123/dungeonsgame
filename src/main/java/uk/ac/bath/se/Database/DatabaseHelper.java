@@ -1,6 +1,7 @@
 package uk.ac.bath.se.Database;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,5 +47,21 @@ public class DatabaseHelper {
         }
         close();
     }
+
+    public ResultSet retrieveTopPlayers() {
+        connect();
+        PreparedStatement statement;
+        try {
+            statement = MySQLJDBC.getConnection()
+                    .prepareStatement("SELECT * FROM `Dungeon_Scores` ORDER BY `Score` DESC LIMIT 10");
+            ResultSet rs = statement.executeQuery();
+            return rs;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        close();
+        return null;
+    }
+
 }
 

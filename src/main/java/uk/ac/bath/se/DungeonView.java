@@ -148,13 +148,22 @@ public class DungeonView implements KeyListener {
                 dungeonController.gridBounds[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX()] == 5) {
 
             dungeonController.saveGoldAmount("Aaron",
-                    dungeonController.player.getGold(), dungeonController.player.getScore());
+                    dungeonController.player.getGold(),
+                    dungeonController.player.getScore()
+            );
 
             dungeonController.initialiseRandDungeon();
             drawDungeon();
         }
         scoreArea.setText("GOLD: " +
-                dungeonController.player.getGold() + "\n" + "SCORE: " + dungeonController.player.getScore());
+                dungeonController.player.getGold() +
+                "\n" +
+                "SCORE: " +
+                dungeonController.player.getScore() +
+                "\n\n"
+        );
+        //TODO dont call this every time the player moves..
+        scoreArea.append("Player Name:" + " Gold:\t" + "Score:\n" + Player.getTopPlayer());
     }
 
     @Override
