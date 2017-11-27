@@ -75,9 +75,7 @@ public class DungeonView implements KeyListener {
 
                 //if player is not moving into a boundary
                 if (!collided) {
-                    dungeonController.dungeonMatrix[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX()] = " ";
-                    dungeonController.player.setPlayerY(dungeonController.player.getPlayerY() - 1);
-                    dungeonController.dungeonMatrix[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX()] = dungeonController.player.getPlayerSymbol();
+                    dungeonController.movePlayerUp();
                     drawDungeon();
                 }
 
@@ -96,9 +94,7 @@ public class DungeonView implements KeyListener {
 
                 //if player is not moving into a boundary
                 if (!collided) {
-                    dungeonController.dungeonMatrix[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX()] = " ";
-                    dungeonController.player.setPlayerY(dungeonController.player.getPlayerY() + 1);
-                    dungeonController.dungeonMatrix[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX()] = dungeonController.player.getPlayerSymbol();
+                    dungeonController.movePlayerDown();
                     drawDungeon();
                 }
                 collided = false;
@@ -115,9 +111,7 @@ public class DungeonView implements KeyListener {
 
                 //if player is not moving into a boundary
                 if (!collided) {
-                    dungeonController.dungeonMatrix[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX()] = " ";
-                    dungeonController.player.setPlayerX(dungeonController.player.getPlayerX() - 1);
-                    dungeonController.dungeonMatrix[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX()] = dungeonController.player.getPlayerSymbol();
+                    dungeonController.movePlayerLeft();
                     drawDungeon();
                 }
                 collided = false;
@@ -134,9 +128,7 @@ public class DungeonView implements KeyListener {
 
                 //if player is not moving into a boundary
                 if (!collided) {
-                    dungeonController.dungeonMatrix[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX()] = " ";
-                    dungeonController.player.setPlayerX(dungeonController.player.getPlayerX() + 1);
-                    dungeonController.dungeonMatrix[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX()] = dungeonController.player.getPlayerSymbol();
+                    dungeonController.movePlayerRight();
                     drawDungeon();
                 }
                 collided = false;
@@ -162,7 +154,7 @@ public class DungeonView implements KeyListener {
                 dungeonController.player.getScore() +
                 "\n\n"
         );
-        //TODO dont call this every time the player moves..
+        //TODO don't call this every time the player moves..
         scoreArea.append("Player Name:" + " Gold:\t" + "Score:\n" + Player.getTopPlayer());
     }
 
