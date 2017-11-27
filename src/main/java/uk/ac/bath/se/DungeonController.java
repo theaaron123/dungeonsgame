@@ -42,8 +42,9 @@ public class DungeonController {
         for (Gold g : golds) {
             gameWinAmount += g.getGoldQuantity();
         }
+    }
 
-        //Print dungeon array to console
+    private void printDungeonToConsole() {
         for (int i = 0; i < dungeon.getWidth(); i++) {
             for (int j = 0; j < dungeon.getHeight(); j++) {
                 if (j == dungeon.getWidth() - 1) {
@@ -243,8 +244,8 @@ public class DungeonController {
         return true;
     }
 
-    public void saveGoldAmount(String playerName, int goldAmount) {
+    public void saveGoldAmount(String playerName, int goldAmount, int score) {
         DatabaseHelper databaseHelper = new DatabaseHelper();
-        databaseHelper.insertValues(playerName, goldAmount);
+        databaseHelper.insertValues(playerName, goldAmount, score);
     }
 }
