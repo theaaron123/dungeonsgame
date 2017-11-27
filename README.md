@@ -2,4 +2,4 @@
 Software Engineering CW2
 
 
-https://travis-ci.org/theaaron123/dungeonsgame.svg?branch=master
+[Build Status] (https://travis-ci.org/theaaron123/dungeonsgame.svg?branch=master)
