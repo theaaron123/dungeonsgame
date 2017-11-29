@@ -12,6 +12,7 @@ public class DungeonView implements KeyListener {
     private JTextArea scoreArea;
     private DungeonController dungeonController;
     private boolean collided = false;
+    Dungeon dungeon;
 
     public DungeonView() {
         gameWindow = new JFrame();
@@ -39,17 +40,19 @@ public class DungeonView implements KeyListener {
 
         gameWindow.setVisible(true);
 
+        dungeon = Dungeon.getInstance();
         dungeonController = new DungeonController();
-        dungeonController.initialiseRandDungeon();
+        dungeonController.initialiseDungeonGame();
+
         drawDungeon();
     }
 
     //Draws dungeon with coordinates (y, x)
     private void drawDungeon() {
         gameArea.setText("");
-        for (int i = 0; i < dungeonController.dungeonMatrix.length; i++) {
-            for (int j = 0; j < dungeonController.dungeonMatrix[i].length; j++) {
-                gameArea.append(dungeonController.dungeonMatrix[i][j] + " ");
+        for (int i = 0; i < dungeon.dungeonMatrix.length; i++) {
+            for (int j = 0; j < dungeon.dungeonMatrix[i].length; j++) {
+                gameArea.append(dungeon.dungeonMatrix[i][j] + " ");
             }
             gameArea.append("\n");
         }
@@ -145,7 +148,7 @@ public class DungeonView implements KeyListener {
                     dungeonController.player.getScore()
             );
 
-            dungeonController.initialiseRandDungeon();
+            dungeonController.initialiseDungeonGame();
             drawDungeon();
         }
         scoreArea.setText("GOLD: " +
