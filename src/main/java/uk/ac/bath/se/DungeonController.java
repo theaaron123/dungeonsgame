@@ -12,7 +12,9 @@ public class DungeonController {
     private Dungeon dungeon;
     private Gold[] golds;
     private int gameWinAmount;
-    private Torch torch;
+    private Speed speed;
+    public boolean hasMoved = false;
+    private int moves = 0;
 
     public void initialiseDungeonGame() {
         player = new Player();
@@ -20,7 +22,7 @@ public class DungeonController {
         dungeon = new Dungeon();
         gameWinAmount = 0;
         golds = new Gold[Dungeon.MAXIMUM_ROOMS];
-        torch = new Torch();
+        speed = new Speed();
         gridBounds = new int[dungeon.getHeight()][dungeon.getWidth()];
 
         this.dungeon = Dungeon.getInstance();
@@ -36,7 +38,7 @@ public class DungeonController {
         botPlayer.setYCoord(10);
         dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
         dungeon.dungeonMatrix[botPlayer.getYCoord()][botPlayer.getXCoord()] = botPlayer.getPLAYER_SYMBOL();
-        dungeon.dungeonMatrix[torch.getTorchY()][torch.getTorchX()] = torch.getTORCH_SYMBOL();
+        dungeon.dungeonMatrix[speed.getSpeedY()][speed.getSpeedX()] = speed.getSPEED_SYMBOL();
         //Set up rooms
         addRoomBounds(dungeon, Dungeon.MAXIMUM_ROOMS);
 
@@ -242,14 +244,15 @@ public class DungeonController {
         }
     }
 
-    public void assignTorch() {
-        if (torch.getTorchX() == player.getPlayerX()
-                && torch.getTorchY() == player.getPlayerY()) {
-            gridBounds[torch.getTorchY()][torch.getTorchX()] = 0; // remove from grid
-            torch.setTorchX(-1);
-            torch.setTorchX(-1);
+    public void assignSpeed() {
+        if (speed.getSpeedX() == player.getPlayerX()
+                && speed.getSpeedY() == player.getPlayerY()) {
+            gridBounds[speed.getSpeedY()][speed.getSpeedX()] = 0; // remove from grid
+            speed.setSpeedX(-1);
+            speed.setSpeedY(-1);
+            speed.setSpeedBoostRemaining(20);
 
-            //TODO Add light radius function when player grabs torch.
+            //TODO Add light radius function when player grabs speed.
         }
 
     }
@@ -268,36 +271,122 @@ public class DungeonController {
 
     //TODO refactor into a switch on enum of direction
     public void movePlayerUp() {
+        //Player has boost, then remove one from boost.
+        if (speed.getSpeedBoostRemaining() > 0) {
+            speed.setSpeedBoostRemaining(speed.getSpeedBoostRemaining() - 1);
+            hasMoved = true;
+        }
+
         dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = " ";
         player.setPlayerY(player.getPlayerY() - 1);
         dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
+
+        moves ++;
+
+        //TODO refactor and move
+        if (moves >=2 || hasMoved==false) {
+
+            int[] randomWalk = BotPlayer.randomWalk(dungeon);
+            while (gridBounds[randomWalk[0]][randomWalk[1]] != 0) {
+                randomWalk = BotPlayer.randomWalk(dungeon);
+            }
+            dungeon.dungeonMatrix[botPlayer.getYCoord()][botPlayer.getXCoord()] = " ";
+            botPlayer.setXCoord(randomWalk[1]);
+            botPlayer.setYCoord(randomWalk[0]);
+            dungeon.dungeonMatrix[randomWalk[0]][randomWalk[1]] = botPlayer.getPLAYER_SYMBOL();
+            moves = 0;
+        }
+        hasMoved = false;
     }
 
+
+
     public void movePlayerDown() {
+        //Player has boost, then remove one from boost.
+        if (speed.getSpeedBoostRemaining() > 0) {
+            speed.setSpeedBoostRemaining(speed.getSpeedBoostRemaining() - 1);
+            hasMoved = true;
+        }
+
         dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = " ";
         player.setPlayerY(player.getPlayerY() + 1);
         dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
+
+        moves ++;
+
+        //TODO refactor and move
+        if (moves >=2 || hasMoved==false) {
+
+            int[] randomWalk = BotPlayer.randomWalk(dungeon);
+            while (gridBounds[randomWalk[0]][randomWalk[1]] != 0) {
+                randomWalk = BotPlayer.randomWalk(dungeon);
+            }
+            dungeon.dungeonMatrix[botPlayer.getYCoord()][botPlayer.getXCoord()] = " ";
+            botPlayer.setXCoord(randomWalk[1]);
+            botPlayer.setYCoord(randomWalk[0]);
+            dungeon.dungeonMatrix[randomWalk[0]][randomWalk[1]] = botPlayer.getPLAYER_SYMBOL();
+            moves = 0;
+        }
+        hasMoved = false;
     }
 
     public void movePlayerLeft() {
+        //Player has boost, then remove one from boost.
+        if (speed.getSpeedBoostRemaining() > 0) {
+            speed.setSpeedBoostRemaining(speed.getSpeedBoostRemaining() - 1);
+            hasMoved = true;
+        }
+
+
         dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = " ";
         player.setPlayerX(player.getPlayerX() - 1);
         dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
-    }
 
-    public void movePlayerRight() {
-        dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = " ";
-        player.setPlayerX(player.getPlayerX() + 1);
-        dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
+        moves++;
 
         //TODO refactor and move
-        int[] randomWalk = BotPlayer.randomWalk(dungeon);
-        while (gridBounds[randomWalk[0]][randomWalk[1]] != 0) {
-            randomWalk = BotPlayer.randomWalk(dungeon);
+        if (moves >= 2 || hasMoved == false) {
+
+            int[] randomWalk = BotPlayer.randomWalk(dungeon);
+            while (gridBounds[randomWalk[0]][randomWalk[1]] != 0) {
+                randomWalk = BotPlayer.randomWalk(dungeon);
+            }
+            dungeon.dungeonMatrix[botPlayer.getYCoord()][botPlayer.getXCoord()] = " ";
+            botPlayer.setXCoord(randomWalk[1]);
+            botPlayer.setYCoord(randomWalk[0]);
+            dungeon.dungeonMatrix[randomWalk[0]][randomWalk[1]] = botPlayer.getPLAYER_SYMBOL();
+            moves = 0;
         }
-        dungeon.dungeonMatrix[botPlayer.getYCoord()][botPlayer.getXCoord()] = " ";
-        botPlayer.setXCoord(randomWalk[1]);
-        botPlayer.setYCoord(randomWalk[0]);
-        dungeon.dungeonMatrix[randomWalk[0]][randomWalk[1]] = botPlayer.getPLAYER_SYMBOL();
+        hasMoved = false;
+    }
+
+
+
+    public void movePlayerRight() {
+        //Player has boost, then remove one from boost.
+        if (speed.getSpeedBoostRemaining() > 0) {
+            speed.setSpeedBoostRemaining(speed.getSpeedBoostRemaining() - 1);
+            hasMoved = true;
+        }
+
+        dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = " ";
+        player.setPlayerX(player.getPlayerX() + Speed.SPEED_OF_CHARACTER);
+        dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
+        moves ++;
+
+        //TODO refactor and move
+        if (moves >=2 || hasMoved==false) {
+
+            int[] randomWalk = BotPlayer.randomWalk(dungeon);
+            while (gridBounds[randomWalk[0]][randomWalk[1]] != 0) {
+                randomWalk = BotPlayer.randomWalk(dungeon);
+            }
+            dungeon.dungeonMatrix[botPlayer.getYCoord()][botPlayer.getXCoord()] = " ";
+            botPlayer.setXCoord(randomWalk[1]);
+            botPlayer.setYCoord(randomWalk[0]);
+            dungeon.dungeonMatrix[randomWalk[0]][randomWalk[1]] = botPlayer.getPLAYER_SYMBOL();
+            moves = 0;
+        }
+        hasMoved = false;
     }
 }
