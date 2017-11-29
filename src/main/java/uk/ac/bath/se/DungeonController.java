@@ -30,6 +30,7 @@ public class DungeonController {
         //Set up player location
         player.setPlayerX(2); //set X to left of the map
         player.setPlayerY(dungeon.getHeight() - 3); //set Y to the bottom of the map
+        //TODO do not collide during initial spawn
         botPlayer.setXCoord(10);
         botPlayer.setYCoord(10);
         dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
