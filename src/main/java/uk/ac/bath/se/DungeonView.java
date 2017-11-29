@@ -138,6 +138,7 @@ public class DungeonView implements KeyListener {
                 break;
         }
         dungeonController.assignGold(); //Check if player has moved onto gold
+        dungeonController.assignTorch();
         dungeonController.player.setScore(dungeonController.player.getScore()+1);
         //Reset at completion
         if (dungeonController.checkExit(dungeonController.player.getPlayerY(), dungeonController.player.getPlayerX()) &&

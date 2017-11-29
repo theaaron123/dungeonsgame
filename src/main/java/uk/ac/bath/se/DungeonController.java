@@ -12,6 +12,7 @@ public class DungeonController {
     private Dungeon dungeon;
     private Gold[] golds;
     private int gameWinAmount;
+    private Torch torch;
 
     public void initialiseDungeonGame() {
         player = new Player();
@@ -19,6 +20,7 @@ public class DungeonController {
         dungeon = new Dungeon();
         gameWinAmount = 0;
         golds = new Gold[Dungeon.MAXIMUM_ROOMS];
+        torch = new Torch();
         gridBounds = new int[dungeon.getHeight()][dungeon.getWidth()];
 
         this.dungeon = Dungeon.getInstance();
@@ -34,7 +36,7 @@ public class DungeonController {
         botPlayer.setYCoord(10);
         dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
         dungeon.dungeonMatrix[botPlayer.getYCoord()][botPlayer.getXCoord()] = botPlayer.getPLAYER_SYMBOL();
-
+        dungeon.dungeonMatrix[torch.getTorchY()][torch.getTorchX()] = torch.getTORCH_SYMBOL();
         //Set up rooms
         addRoomBounds(dungeon, Dungeon.MAXIMUM_ROOMS);
 
@@ -238,6 +240,18 @@ public class DungeonController {
                 gold.setGoldY(-1);
             }
         }
+    }
+
+    public void assignTorch() {
+        if (torch.getTorchX() == player.getPlayerX()
+                && torch.getTorchY() == player.getPlayerY()) {
+            gridBounds[torch.getTorchY()][torch.getTorchX()] = 0; // remove from grid
+            torch.setTorchX(-1);
+            torch.setTorchX(-1);
+
+            //TODO Add light radius function when player grabs torch.
+        }
+
     }
 
     public boolean checkExit(int y, int x) {
