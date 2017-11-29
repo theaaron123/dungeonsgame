@@ -24,7 +24,7 @@ public class DungeonView implements KeyListener {
         gameArea.setVisible(true);
 
         scoreArea = new JTextArea();
-        scoreArea.setText("GOLD is:");
+        scoreArea.setText("GOLD: " + 0 + "\n" + "SCORE: " + 0);
 
         gameWindow.add(gamePanel);
         gameWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -138,6 +138,7 @@ public class DungeonView implements KeyListener {
                 break;
         }
         dungeonController.assignGold(); //Check if player has moved onto gold
+        dungeonController.player.setScore(dungeonController.player.getScore()+1);
         //Reset at completion
         if (dungeonController.checkExit(dungeonController.player.getPlayerY(), dungeonController.player.getPlayerX()) &&
                 dungeonController.gridBounds[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX()] == 5) {

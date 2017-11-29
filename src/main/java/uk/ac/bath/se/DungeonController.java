@@ -233,13 +233,16 @@ public class DungeonController {
         for (Gold gold : golds) {
             if (gold.getGoldX() == player.getPlayerX() && gold.getGoldY() == player.getPlayerY()) {
                 player.setGold(player.getGold() + gold.getGoldQuantity());
+                gridBounds[gold.getGoldY()][gold.getGoldX()] = 0;
+                gold.setGoldX(-1);
+                gold.setGoldY(-1);
             }
         }
     }
 
     public boolean checkExit(int y, int x) {
-        if (gridBounds[y][x] == 5 && player.getGold() >= gameWinAmount) {
-            return true;
+        if (gridBounds[y][x] == 5 && player.getGold() < gameWinAmount) {
+            return false;
         }
         return true;
     }
