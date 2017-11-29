@@ -8,7 +8,6 @@ public class BotPlayer {
     private int score;
     private int gold;
     private final String PLAYER_SYMBOL = "B";
-    private boolean playerTurn;
     private String playerName = "BOT";
 
     public int getXCoord() {
@@ -45,14 +44,6 @@ public class BotPlayer {
 
     public String getPLAYER_SYMBOL() {
         return PLAYER_SYMBOL;
-    }
-
-    public boolean isPlayerTurn() {
-        return playerTurn;
-    }
-
-    public void setPlayerTurn(boolean playerTurn) {
-        this.playerTurn = playerTurn;
     }
 
     public String getPlayerName() {

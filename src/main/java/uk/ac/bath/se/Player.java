@@ -12,6 +12,7 @@ public class Player {
     private int playerY;
     private int score;
     private int gold;
+    public static int lives = 3;
     private final String PLAYER_SYMBOL = "@";
     private boolean playerTurn;
     private String playerName;

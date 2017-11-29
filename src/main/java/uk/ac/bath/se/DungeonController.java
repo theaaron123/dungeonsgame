@@ -30,6 +30,7 @@ public class DungeonController {
         //Set up player location
         player.setPlayerX(2); //set X to left of the map
         player.setPlayerY(dungeon.getHeight() - 3); //set Y to the bottom of the map
+        //TODO do not collide during initial spawn
         botPlayer.setXCoord(10);
         botPlayer.setYCoord(10);
         dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
@@ -252,31 +253,40 @@ public class DungeonController {
         databaseHelper.insertValues(playerName, goldAmount, score);
     }
 
-    //TODO refactor into a switch on enum of direction
-    public void movePlayerUp() {
-        dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = " ";
-        player.setPlayerY(player.getPlayerY() - 1);
-        dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
+    public void movePlayer(PlayerMovement move) {
+        if (player.isPlayerTurn()) {
+            switch(move) {
+                case UP:
+                    dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = " ";
+                    player.setPlayerY(player.getPlayerY() - 1);
+                    dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
+                    break;
+
+                case DOWN:
+                    dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = " ";
+                    player.setPlayerY(player.getPlayerY() + 1);
+                    dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
+                    break;
+
+                case LEFT:
+                    dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = " ";
+                    player.setPlayerX(player.getPlayerX() - 1);
+                    dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
+                    break;
+
+                case RIGHT:
+                    dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = " ";
+                    player.setPlayerX(player.getPlayerX() + 1);
+                    dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
+                    break;
+            }
+            player.setPlayerTurn(false);
+            moveBot();
+        }
     }
 
-    public void movePlayerDown() {
-        dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = " ";
-        player.setPlayerY(player.getPlayerY() + 1);
-        dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
-    }
-
-    public void movePlayerLeft() {
-        dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = " ";
-        player.setPlayerX(player.getPlayerX() - 1);
-        dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
-    }
-
-    public void movePlayerRight() {
-        dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = " ";
-        player.setPlayerX(player.getPlayerX() + 1);
-        dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
-
-        //TODO refactor and move
+    private void moveBot() {
+        //TODO refactor
         int[] randomWalk = BotPlayer.randomWalk(dungeon);
         while (gridBounds[randomWalk[0]][randomWalk[1]] != 0) {
             randomWalk = BotPlayer.randomWalk(dungeon);
@@ -285,5 +295,15 @@ public class DungeonController {
         botPlayer.setXCoord(randomWalk[1]);
         botPlayer.setYCoord(randomWalk[0]);
         dungeon.dungeonMatrix[randomWalk[0]][randomWalk[1]] = botPlayer.getPLAYER_SYMBOL();
+        if (botPlayer.getXCoord() == player.getPlayerX() && botPlayer.getYCoord() == player.getPlayerY()) {
+            Player.lives -= 1;
+            if(Player.lives == 0) {
+                //TODO return player to splash screen
+                //End game
+            } else {
+                initialiseDungeonGame();
+            }
+        }
+        player.setPlayerTurn(true);
     }
 }
