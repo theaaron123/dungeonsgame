@@ -278,6 +278,9 @@ public class DungeonController {
 
         //TODO refactor and move
         int[] randomWalk = BotPlayer.randomWalk(dungeon);
+        while (gridBounds[randomWalk[0]][randomWalk[1]] != 0) {
+            randomWalk = BotPlayer.randomWalk(dungeon);
+        }
         dungeon.dungeonMatrix[botPlayer.getYCoord()][botPlayer.getXCoord()] = " ";
         botPlayer.setXCoord(randomWalk[1]);
         botPlayer.setYCoord(randomWalk[0]);
