@@ -148,8 +148,7 @@ public class DungeonView implements KeyListener {
                     dungeonController.player.getScore()
             );
 
-            dungeonController.initialiseDungeonGame();
-            drawDungeon();
+              dungeonController.winScreen();
         }
         scoreArea.setText("GOLD: " +
                 dungeonController.player.getGold() +
