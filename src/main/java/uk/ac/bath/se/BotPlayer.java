@@ -53,14 +53,5 @@ public class BotPlayer {
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
-
-    public static int[] randomWalk(Dungeon dungeon) {
-        Random rand = new Random();
-        int xRand;
-        int yRand;
-        xRand = rand.nextInt(dungeon.getWidth());
-        yRand = rand.nextInt(dungeon.getHeight());
-        int[] xyArray = {xRand, yRand};
-        return xyArray;
-    }
+    
 }
