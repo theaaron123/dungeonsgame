@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class DungeonView implements KeyListener {
+class DungeonView implements KeyListener {
     private final JFrame gameWindow;
     private JPanel gamePanel;
     private JTextArea gameArea;

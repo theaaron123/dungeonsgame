@@ -1,6 +1,8 @@
 package uk.ac.bath.se;
 
-public class BotPlayer {
+import java.util.Random;
+
+class BotPlayer {
     private int xCoord;
     private int yCoord;
     private int score;

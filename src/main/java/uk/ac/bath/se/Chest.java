@@ -1,6 +1,6 @@
 package uk.ac.bath.se;
 
-public class Chest {
+class Chest {
 
 private int chestX;
 private int chestY;

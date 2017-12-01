@@ -1,6 +1,6 @@
 package uk.ac.bath.se;
 
-public class Dungeon {
+class Dungeon {
 
     public static final int MAXIMUM_ROOMS = 4;
     private static Dungeon instance = null;

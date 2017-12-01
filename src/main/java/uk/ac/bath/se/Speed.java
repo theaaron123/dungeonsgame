@@ -1,6 +1,6 @@
 package uk.ac.bath.se;
 
-public class Speed {
+class Speed {
 
     private int speedX;
     private int speedY;

@@ -5,7 +5,7 @@ import uk.ac.bath.se.Database.DatabaseHelper;
 import java.util.Random;
 
 
-public class DungeonController {
+class DungeonController implements DungeonGamePlayInterface {
 
     public Player player;
     public BotPlayer botPlayer;
@@ -313,6 +313,11 @@ public class DungeonController {
             }
             hasMoved = false;
         }
+    }
+
+    @Override
+    public String[][] getDungeonMatrix() {
+        return dungeon.dungeonMatrix;
     }
 
     private void moveBot() {
