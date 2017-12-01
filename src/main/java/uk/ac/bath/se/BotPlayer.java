@@ -1,7 +1,5 @@
 package uk.ac.bath.se;
 
-import java.util.Random;
-
 public class BotPlayer {
     private int xCoord;
     private int yCoord;
@@ -53,5 +51,5 @@ public class BotPlayer {
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
-    
+
 }
