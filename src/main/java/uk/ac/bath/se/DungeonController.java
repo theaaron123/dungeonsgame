@@ -2,7 +2,12 @@ package uk.ac.bath.se;
 
 import uk.ac.bath.se.Database.DatabaseHelper;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
+
 
 public class DungeonController {
 
@@ -368,3 +373,6 @@ public class DungeonController {
         System.out.println("You find the key. \n You may now exit.");
     }
 }
+
+
+
