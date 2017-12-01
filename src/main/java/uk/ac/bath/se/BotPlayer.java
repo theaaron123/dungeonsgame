@@ -1,7 +1,5 @@
 package uk.ac.bath.se;
 
-import java.util.Random;
-
 public class BotPlayer {
     private int xCoord;
     private int yCoord;
@@ -54,13 +52,4 @@ public class BotPlayer {
         this.playerName = playerName;
     }
 
-    public static int[] randomWalk(Dungeon dungeon) {
-        Random rand = new Random();
-        int xRand;
-        int yRand;
-        xRand = rand.nextInt(dungeon.getWidth());
-        yRand = rand.nextInt(dungeon.getHeight());
-        int[] xyArray = {xRand, yRand};
-        return xyArray;
-    }
 }
