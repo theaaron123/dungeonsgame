@@ -148,17 +148,16 @@ public class DungeonView implements KeyListener {
                     dungeonController.player.getScore()
             );
 
-              dungeonController.winScreen();
+              SplashScreen.winScreen();
+              gameWindow.dispose();
+
         }
         scoreArea.setText("GOLD: " +
                 dungeonController.player.getGold() +
                 "\n" +
                 "SCORE: " +
-                dungeonController.player.getScore() +
-                "\n\n"
+                dungeonController.player.getScore()
         );
-        //TODO don't call this every time the player moves..
-        scoreArea.append("Player Name:" + " Gold:\t" + "Score:\n" + Player.getTopPlayer());
     }
 
     @Override

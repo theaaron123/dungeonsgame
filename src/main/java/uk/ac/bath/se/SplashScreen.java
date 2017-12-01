@@ -84,7 +84,7 @@ public class SplashScreen {
             f1.setLocationRelativeTo(null);
             f1.setVisible(true);
             JOptionPane.showMessageDialog(f1,"You chose Easy Model !");
-            f1.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+            f1.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         }
     }
 
@@ -96,14 +96,13 @@ public class SplashScreen {
             f2.setLocationRelativeTo(null);
             f2.setVisible(true);
             JOptionPane.showMessageDialog(f2,"You chose Hell Model !");
-            f2.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+            f2.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         }
     }
 
     // When player choice button startGame, the game start.
     public class startGameHandler implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            DungeonView d = new DungeonView();
+        public void actionPerformed(ActionEvent e) { DungeonView d = new DungeonView();
         }
     }
 
@@ -133,4 +132,52 @@ public class SplashScreen {
 
         }
     }
+
+    public static void winScreen() {
+
+        //Make a "You Win !" message.
+        JFrame youWin = new JFrame("Dungeon Game");
+        youWin.setLocationRelativeTo(null);
+        youWin.setVisible(true);
+        youWin.setResizable(false);
+
+        youWin.setSize(400, 200);
+
+        JOptionPane.showMessageDialog(youWin,"You Win !");
+
+        // Player can choose go back to Splash Screen or Exit the game
+        JFrame winChoice = new JFrame("Dungeon Game");
+        winChoice.setLocationRelativeTo(null);
+        winChoice.setVisible(true);
+        winChoice.setResizable(false);
+
+        winChoice.setSize(400, 200);
+
+        JButton goToSplashScreen = new JButton("Go to Splash Screen");
+        JButton stopPlay = new JButton("Exit");
+
+        winChoice.getContentPane().setLayout(new GridLayout(2,1));
+        winChoice.add(goToSplashScreen);
+        winChoice.add(stopPlay);
+
+        goToSplashScreen.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                SplashScreen splashScreen = new SplashScreen();
+            }
+        });
+
+        goToSplashScreen.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                winChoice.dispose();
+            }
+        });
+
+        stopPlay.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+    }
+
+
 }

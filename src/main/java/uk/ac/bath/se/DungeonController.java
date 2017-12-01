@@ -292,51 +292,7 @@ public class DungeonController {
         dungeon.dungeonMatrix[randomWalk[0]][randomWalk[1]] = botPlayer.getPLAYER_SYMBOL();
     }
 
-    public void winScreen() {
 
-        //Make a "You Win !" message.
-        JFrame youWin = new JFrame("Dungeon Game");
-        youWin.setLocationRelativeTo(null);
-        youWin.setVisible(true);
-        youWin.setResizable(false);
-
-        youWin.setSize(400, 200);
-
-        JOptionPane.showMessageDialog(youWin,"You Win !");
-
-        // Player can choose go back to Splash Screen or Exit the game
-        JFrame winChoice = new JFrame("Dungeon Game");
-        winChoice.setLocationRelativeTo(null);
-        winChoice.setVisible(true);
-        winChoice.setResizable(false);
-
-        winChoice.setSize(400, 200);
-
-        JButton goToSplashScreen = new JButton("Go to Splash Screen");
-        JButton stopPlay = new JButton("Exit");
-
-        winChoice.getContentPane().setLayout(new GridLayout(2,1));
-        winChoice.add(goToSplashScreen);
-        winChoice.add(stopPlay);
-
-        goToSplashScreen.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                SplashScreen splashScreen = new SplashScreen();
-            }
-        });
-
-        goToSplashScreen.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                winChoice.dispose();
-            }
-        });
-
-        stopPlay.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
-    }
 }
 
 
