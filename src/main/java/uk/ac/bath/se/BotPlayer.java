@@ -2,7 +2,7 @@ package uk.ac.bath.se;
 
 import java.util.Random;
 
-public class BotPlayer {
+class BotPlayer {
     private int xCoord;
     private int yCoord;
     private int score;

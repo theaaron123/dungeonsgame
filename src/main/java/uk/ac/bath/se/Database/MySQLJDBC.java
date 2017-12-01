@@ -4,13 +4,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+
 /**
  * Creates, destroys, and holds the connection to the MySQL database.
  *
  * @author Aaron Baker
  */
 
-public class MySQLJDBC {
+class MySQLJDBC {
 
     /**
      * The database connection.

@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+class Player {
     private int playerX;
     private int playerY;
     private int score;

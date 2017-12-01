@@ -1,6 +1,6 @@
 package uk.ac.bath.se;
 
-public class Gold {
+class Gold {
     private int goldX;
     private int goldY;
     private int goldQuantity;
