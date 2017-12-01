@@ -12,10 +12,10 @@ class Player {
     private int playerY;
     private int score;
     private int gold;
-    public static int lives = 3;
-    private final String PLAYER_SYMBOL = "@";
+    private String symbol;
     private boolean playerTurn;
     private String playerName;
+    public static int lives = 3;
     public boolean hasKey = false;
 
     public Player() {
@@ -23,6 +23,7 @@ class Player {
         playerY = 0;
         gold = 0;
         score = 0;
+        symbol = "^";
         playerTurn = true;
     }
 
@@ -73,7 +74,11 @@ class Player {
     }
 
     public String getPlayerSymbol() {
-        return PLAYER_SYMBOL;
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     private static List<Player> getTopPlayers() {

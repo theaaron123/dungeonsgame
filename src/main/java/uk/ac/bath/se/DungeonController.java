@@ -15,7 +15,7 @@ class DungeonController implements DungeonGamePlayInterface {
     private Speed speed;
     public boolean hasMoved = false;
     private int moves = 0;
-    private int gameWinAmount;
+    public int gameWinAmount;
     private Chest chest;
     public boolean nearChest = false;
 
@@ -275,24 +275,28 @@ class DungeonController implements DungeonGamePlayInterface {
                 case UP:
                     dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = " ";
                     player.setPlayerY(player.getPlayerY() - 1);
+                    player.setSymbol("^");
                     dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
                     break;
 
                 case DOWN:
                     dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = " ";
                     player.setPlayerY(player.getPlayerY() + 1);
+                    player.setSymbol("v");
                     dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
                     break;
 
                 case LEFT:
                     dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = " ";
                     player.setPlayerX(player.getPlayerX() - 1);
+                    player.setSymbol("<");
                     dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
                     break;
 
                 case RIGHT:
                     dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = " ";
                     player.setPlayerX(player.getPlayerX() + 1);
+                    player.setSymbol(">");
                     dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
                     break;
             }
@@ -309,7 +313,6 @@ class DungeonController implements DungeonGamePlayInterface {
                 player.setScore(player.getScore()+1);
                 moveBot();
                 moves = 0;
-
             }
             hasMoved = false;
         }
@@ -369,8 +372,8 @@ class DungeonController implements DungeonGamePlayInterface {
         if (checkLoss()) {
             Player.lives -= 1;
             if (Player.lives == 0) {
-                //TODO return player to splash screen
-                //End game
+                //TODO close game window
+                SplashScreen.loseScreen();
             } else {
                 initialiseDungeonGame();
             }
@@ -378,7 +381,6 @@ class DungeonController implements DungeonGamePlayInterface {
         player.setPlayerTurn(true);
     }
 
-    
     private boolean checkLoss() {
         if (botPlayer.getXCoord() == player.getPlayerX() && botPlayer.getYCoord() == player.getPlayerY()) {
             return true;

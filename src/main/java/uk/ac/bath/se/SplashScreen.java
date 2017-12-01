@@ -9,68 +9,67 @@ class SplashScreen {
 
     public SplashScreen() {
 
-        //Make a splash screen have three button.
-        JFrame demo1 = new JFrame("Dungeon Game");
-        demo1.setLocationRelativeTo(null);
-        demo1.setVisible(true);
-        demo1.setResizable(false);
+        //Make a splash screen have three buttons.
+        JFrame menu = new JFrame("Dungeon Game");
+        menu.setLocationRelativeTo(null);
+        menu.setVisible(true);
+        menu.setResizable(false);
 
-        demo1.setSize(400, 200);
-        demo1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        menu.setSize(400, 200);
+        menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JButton choiceDifficulty = new JButton("Choose Difficulty Level");
+        JButton chooseDifficulty = new JButton("Choose Difficulty Level");
         JButton startGame = new JButton("Start Game");
         JButton viewScore = new JButton("View Historical Scores");
 
-        demo1.getContentPane().setLayout(new GridLayout(3,1));
-        demo1.add(choiceDifficulty);
-        demo1.add(startGame);
-        demo1.add(viewScore);
+        menu.getContentPane().setLayout(new GridLayout(3,1));
+        menu.add(chooseDifficulty);
+        menu.add(startGame);
+        menu.add(viewScore);
 
-        choiceDifficulty.addActionListener(new choiceDifficulty());
+        chooseDifficulty.addActionListener(new choiceDifficulty());
         startGame.addActionListener(new startGameHandler());
         viewScore.addActionListener(new viewScoreHandler());
     }
 
-    // When player choice button chooseDifficulty, the game shows a new window.
+    // When player chooses button chooseDifficulty, the game shows a new window.
     public class choiceDifficulty implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            win1 win1 = new win1();
+            DifficultyChooser chooser = new DifficultyChooser();
         }
     }
 
     //TODO Those two button still only are button, need to add other function to actually change the difficulty level
     //TODO For instance, maybe Hell Model have five bot for hunting human player.
     // The player can choice the level of difficulty of game.
-    public class win1 extends JFrame
+    public class DifficultyChooser extends JFrame
     {
-        private win1() {
+        private DifficultyChooser() {
 
-            JFrame demo2 = new JFrame("Choose Difficulty Level");
-            demo2.setLocationRelativeTo(null);
-            demo2.setVisible(true);
-            demo2.setResizable(false);
-
-            demo2.setSize(400, 200);
+            JFrame difficultyChoice = new JFrame("Choose Difficulty Level");
+            difficultyChoice.setLocationRelativeTo(null);
+            difficultyChoice.setVisible(true);
+            difficultyChoice.setResizable(false);
+            difficultyChoice.setSize(400, 200);
 
             JButton easyModel = new JButton("Easy Model");
-            JButton hellModel = new JButton("Hell Model");
+            JButton hellModel = new JButton("Hard Model");
 
-            demo2.getContentPane().setLayout(new GridLayout(2,1));
-            demo2.add(easyModel);
-            demo2.add(hellModel);
+            difficultyChoice.getContentPane().setLayout(new GridLayout(2,1));
+            difficultyChoice.add(easyModel);
+            difficultyChoice.add(hellModel);
 
             easyModel.addActionListener(new easyModel());
             easyModel.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e) {
-                    demo2.dispose();
+                    difficultyChoice.dispose();
                 }
             });
 
-            hellModel.addActionListener(new hellModel());
+            hellModel.addActionListener(new hardModel());
             hellModel.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e) {
-                    demo2.dispose();
+                    difficultyChoice.dispose();
                 }
             });
         }
@@ -79,54 +78,55 @@ class SplashScreen {
     // Show a description "You chose Easy Model !" in a new window
     public static class easyModel implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            JFrame f1;
-            f1 =new JFrame("Difficulty Level Chose");
-            f1.setLocationRelativeTo(null);
-            f1.setVisible(true);
-            JOptionPane.showMessageDialog(f1,"You chose Easy Model !");
-            f1.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            JFrame easyChoice;
+            easyChoice = new JFrame("Difficulty Level Chose");
+            easyChoice.setLocationRelativeTo(null);
+            easyChoice.setVisible(false);
+            easyChoice.dispose();
+            JOptionPane.showMessageDialog(easyChoice,"You chose Easy Model !");
         }
     }
 
-    // Show a description "You chose Hell Model !" in a new window
-    public static class hellModel implements ActionListener {
+    // Show a description "You chose Hard Model !" in a new window
+    public static class hardModel implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            JFrame f2;
-            f2 =new JFrame("Difficulty Level Chose");
-            f2.setLocationRelativeTo(null);
-            f2.setVisible(true);
-            JOptionPane.showMessageDialog(f2,"You chose Hell Model !");
-            f2.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            JFrame hardChoice;
+            hardChoice = new JFrame("Difficulty Level Chose");
+            hardChoice.setLocationRelativeTo(null);
+            hardChoice.setVisible(false);
+            hardChoice.dispose();
+            JOptionPane.showMessageDialog(hardChoice,"You chose Hard Model !");
         }
     }
 
-    // When player choice button startGame, the game start.
+    // When player chooses button startGame, the game start.
     public class startGameHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) { DungeonView d = new DungeonView();
         }
     }
 
-    //When player choice button View Historical Scores, the game shows a new window.
+    //When player chooses button View Historical Scores, the game shows a new window.
     public class viewScoreHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            win2 win2 = new win2();
+            HighScores highScores = new HighScores();
         }
     }
 
     // Show Historical Scores in a new window.
-    public class win2 extends JFrame
+    public class HighScores extends JFrame
     {
-        public win2() {
+        public HighScores() {
 
-            JFrame demo3 = new JFrame("Historical Scores");
-            demo3.setLocationRelativeTo(null);
-            demo3.setVisible(true);
-            demo3.setResizable(false);
-            demo3.setSize(400, 400);
+            JFrame scores = new JFrame("Historical Scores");
+            scores.setLocationRelativeTo(null);
+            scores.setVisible(true);
+            scores.setResizable(false);
+            scores.setSize(400, 400);
+            scores.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
             JTextArea scoreArea = new JTextArea();
 
-            demo3.getContentPane().add(BorderLayout.CENTER, scoreArea);
+            scores.getContentPane().add(BorderLayout.CENTER, scoreArea);
 
             scoreArea.append("Player Name:" + "Gold:\t" + "Score:\n" + Player.getTopPlayer());
 
@@ -138,11 +138,10 @@ class SplashScreen {
         //Make a "You Win !" message.
         JFrame youWin = new JFrame("Dungeon Game");
         youWin.setLocationRelativeTo(null);
-        youWin.setVisible(true);
+        youWin.setVisible(false);
         youWin.setResizable(false);
-
         youWin.setSize(400, 200);
-
+        youWin.dispose();
         JOptionPane.showMessageDialog(youWin,"You Win !");
 
         // Player can choose go back to Splash Screen or Exit the game
@@ -150,7 +149,6 @@ class SplashScreen {
         winChoice.setLocationRelativeTo(null);
         winChoice.setVisible(true);
         winChoice.setResizable(false);
-
         winChoice.setSize(400, 200);
 
         JButton goToSplashScreen = new JButton("Go to Splash Screen");
@@ -163,11 +161,6 @@ class SplashScreen {
         goToSplashScreen.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 SplashScreen splashScreen = new SplashScreen();
-            }
-        });
-
-        goToSplashScreen.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
                 winChoice.dispose();
             }
         });
@@ -179,5 +172,53 @@ class SplashScreen {
         });
     }
 
+    public static void loseScreen() {
+
+        //Make a "You Died !" message.
+        JFrame youLose = new JFrame("Dungeon Game");
+        youLose.setLocationRelativeTo(null);
+        youLose.setVisible(false);
+        youLose.setResizable(false);
+        youLose.setSize(400, 200);
+        youLose.dispose();
+        JOptionPane.showMessageDialog(youLose,"You have died !");
+
+        // Player can choose Try Again, go back to Splash Screen or Exit the game
+        JFrame loseChoice = new JFrame("Dungeon Game");
+        loseChoice.setLocationRelativeTo(null);
+        loseChoice.setVisible(true);
+        loseChoice.setResizable(false);
+        loseChoice.setSize(400, 200);
+
+        JButton tryAgain = new JButton("Try Again");
+        JButton goToSplashScreen = new JButton("Go to Splash Screen");
+        JButton stopPlay = new JButton("Exit");
+
+        loseChoice.getContentPane().setLayout(new GridLayout(3,1));
+        loseChoice.add(tryAgain);
+        loseChoice.add(goToSplashScreen);
+        loseChoice.add(stopPlay);
+
+        goToSplashScreen.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                loseChoice.dispose();
+                SplashScreen splashScreen = new SplashScreen();
+            }
+        });
+
+        stopPlay.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+
+        tryAgain.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                loseChoice.dispose();
+                Player.lives += 3;
+                DungeonView d = new DungeonView();
+            }
+        });
+    }
 
 }

@@ -25,7 +25,6 @@ class DungeonView implements KeyListener {
         gameArea.setEditable(false);
 
         scoreArea = new JTextArea();
-        scoreArea.setText("GOLD: " + 0 + "\n" + "SCORE: " + 0);
 
         gameWindow.add(gamePanel);
         gameWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -44,6 +43,18 @@ class DungeonView implements KeyListener {
         dungeon = Dungeon.getInstance();
         dungeonController = new DungeonController();
         dungeonController.initialiseDungeonGame();
+        scoreArea.setText("Lives: " +
+                Player.lives +
+                "\n" +
+                "Score: " +
+                dungeonController.player.getScore() +
+                "\n" +
+                "Gold: " +
+                dungeonController.player.getGold() +
+                "\n" +
+                "Total gold required: " +
+                dungeonController.gameWinAmount
+        );
 
         drawDungeon();
     }
@@ -163,11 +174,17 @@ class DungeonView implements KeyListener {
               gameWindow.dispose();
 
         }
-        scoreArea.setText("GOLD: " +
+        scoreArea.setText("Lives: " +
+                Player.lives +
+                "\n" +
+                "Score: " +
+                dungeonController.player.getScore() +
+                "\n" +
+                "Gold: " +
                 dungeonController.player.getGold() +
                 "\n" +
-                "SCORE: " +
-                dungeonController.player.getScore()
+                "Total gold required: " +
+                dungeonController.gameWinAmount
         );
     }
 
