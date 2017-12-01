@@ -78,7 +78,7 @@ public class DungeonView implements KeyListener {
 
                 //if player is not moving into a boundary
                 if (!collided) {
-                    dungeonController.movePlayerUp();
+                    dungeonController.movePlayer(PlayerMovement.UP);
                     drawDungeon();
                 }
 
@@ -97,7 +97,7 @@ public class DungeonView implements KeyListener {
 
                 //if player is not moving into a boundary
                 if (!collided) {
-                    dungeonController.movePlayerDown();
+                    dungeonController.movePlayer(PlayerMovement.DOWN);
                     drawDungeon();
                 }
                 collided = false;
@@ -114,7 +114,7 @@ public class DungeonView implements KeyListener {
 
                 //if player is not moving into a boundary
                 if (!collided) {
-                    dungeonController.movePlayerLeft();
+                    dungeonController.movePlayer(PlayerMovement.LEFT);
                     drawDungeon();
                 }
                 collided = false;
@@ -131,7 +131,7 @@ public class DungeonView implements KeyListener {
 
                 //if player is not moving into a boundary
                 if (!collided) {
-                    dungeonController.movePlayerRight();
+                    dungeonController.movePlayer(PlayerMovement.RIGHT);
                     drawDungeon();
                 }
                 collided = false;
