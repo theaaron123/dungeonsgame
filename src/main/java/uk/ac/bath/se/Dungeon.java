@@ -9,6 +9,7 @@ public class Dungeon {
     private int height = 40; //setting default height
     private int width = 40; //setting default width
     private int[][] gridBounds;
+    public static final int CHEST = 3;
 
     protected Dungeon() {
     }

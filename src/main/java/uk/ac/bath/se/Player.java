@@ -16,6 +16,7 @@ public class Player {
     private final String PLAYER_SYMBOL = "@";
     private boolean playerTurn;
     private String playerName;
+    public boolean hasKey = false;
 
     public Player() {
         playerX = 0;

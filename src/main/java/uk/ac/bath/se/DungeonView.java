@@ -22,6 +22,7 @@ public class DungeonView implements KeyListener {
         gameArea.setForeground(Color.white);
         gameArea.setFont(new Font("monospaced", Font.PLAIN, 16)); //size depicts the size of the game view.
         gameArea.setVisible(true);
+        gameArea.setEditable(false);
 
         scoreArea = new JTextArea();
         scoreArea.setText("GOLD: " + 0 + "\n" + "SCORE: " + 0);
@@ -71,7 +72,8 @@ public class DungeonView implements KeyListener {
             case KeyEvent.VK_UP:
                 //if player hits boundary.
                 if (dungeonController.gridBounds[dungeonController.player.getPlayerY() - 1][dungeonController.player.getPlayerX()] == 1 ||
-                        !dungeonController.checkExit(dungeonController.player.getPlayerY() - 1, dungeonController.player.getPlayerX())) {
+                        !dungeonController.checkExit(dungeonController.player.getPlayerY() - 1, dungeonController.player.getPlayerX()) ||
+                        dungeonController.gridBounds[dungeonController.player.getPlayerY() -1][dungeonController.player.getPlayerX()] == Dungeon.CHEST) {
                     collided = true;
                     break;
                 }
@@ -89,11 +91,11 @@ public class DungeonView implements KeyListener {
             case KeyEvent.VK_DOWN:
                 //if player hits boundary
                 if (dungeonController.gridBounds[dungeonController.player.getPlayerY() + 1][dungeonController.player.getPlayerX()] == 1 ||
-                        !dungeonController.checkExit(dungeonController.player.getPlayerY() + 1, dungeonController.player.getPlayerX())) {
+                        !dungeonController.checkExit(dungeonController.player.getPlayerY() + 1, dungeonController.player.getPlayerX())
+                        || (dungeonController.gridBounds[dungeonController.player.getPlayerY() + 1][dungeonController.player.getPlayerX()] == Dungeon.CHEST)){
                     collided = true;
                     break;
                 }
-
 
                 //if player is not moving into a boundary
                 if (!collided) {
@@ -107,7 +109,8 @@ public class DungeonView implements KeyListener {
             case KeyEvent.VK_LEFT:
                 //if player hits boundary
                 if (dungeonController.gridBounds[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX() - 1] == 1 ||
-                        !dungeonController.checkExit(dungeonController.player.getPlayerY(), dungeonController.player.getPlayerX() - 1)) {
+                        !dungeonController.checkExit(dungeonController.player.getPlayerY(), dungeonController.player.getPlayerX() - 1)
+                        || dungeonController.gridBounds[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX() - 1] == Dungeon.CHEST) {
                     collided = true;
                     break;
                 }
@@ -124,7 +127,9 @@ public class DungeonView implements KeyListener {
             case KeyEvent.VK_RIGHT:
                 //if player hits boundary
                 if (dungeonController.gridBounds[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX() + 1] == 1 ||
-                        !dungeonController.checkExit(dungeonController.player.getPlayerY(), dungeonController.player.getPlayerX() + 1)) {
+                        !dungeonController.checkExit(dungeonController.player.getPlayerY(), dungeonController.player.getPlayerX() + 1) ||
+                        dungeonController.gridBounds[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX() + 1] == Dungeon.CHEST
+                        ) {
                     collided = true;
                     break;
                 }
@@ -136,9 +141,14 @@ public class DungeonView implements KeyListener {
                 }
                 collided = false;
                 break;
-        }
+
+            case KeyEvent.VK_SPACE:
+                if(dungeonController.nearChest) {
+                    dungeonController.giveRandomItem();
+                }
+                }
         dungeonController.assignGold(); //Check if player has moved onto gold
-        dungeonController.player.setScore(dungeonController.player.getScore()+1);
+        dungeonController.assignChest();
         //Reset at completion
         if (dungeonController.checkExit(dungeonController.player.getPlayerY(), dungeonController.player.getPlayerX()) &&
                 dungeonController.gridBounds[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX()] == 5) {
