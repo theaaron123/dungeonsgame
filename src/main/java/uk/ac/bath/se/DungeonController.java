@@ -2,10 +2,6 @@ package uk.ac.bath.se;
 
 import uk.ac.bath.se.Database.DatabaseHelper;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Random;
 
 
@@ -388,20 +384,20 @@ public class DungeonController {
     private PlayerMovement botCollision(PlayerMovement direction) {
         //TODO Refactor to minimise code reuse
         if (direction == PlayerMovement.UP) {
-            if (gridBounds[botPlayer.getYCoord()-1][botPlayer.getXCoord()] == 0) {
+            if (gridBounds[botPlayer.getYCoord() - 1][botPlayer.getXCoord()] == 0) {
                 return direction;
             } else {
                 int leftSpace = 100;
                 int rightSpace = 100;
                 for (int i = botPlayer.getXCoord(); i >= 0; i--) {
-                    if (gridBounds[botPlayer.getYCoord()-1][i] == 0) {
-                        leftSpace = botPlayer.getXCoord()-i;
+                    if (gridBounds[botPlayer.getYCoord() - 1][i] == 0) {
+                        leftSpace = botPlayer.getXCoord() - i;
                         break;
                     }
                 }
                 for (int i = botPlayer.getXCoord(); i < dungeon.getWidth(); i++) {
-                    if (gridBounds[botPlayer.getYCoord()-1][i] == 0) {
-                        rightSpace = i-botPlayer.getXCoord();
+                    if (gridBounds[botPlayer.getYCoord() - 1][i] == 0) {
+                        rightSpace = i - botPlayer.getXCoord();
                         break;
                     }
                 }
@@ -412,20 +408,20 @@ public class DungeonController {
                 }
             }
         } else if (direction == PlayerMovement.DOWN) {
-            if (gridBounds[botPlayer.getYCoord()+1][botPlayer.getXCoord()] == 0) {
+            if (gridBounds[botPlayer.getYCoord() + 1][botPlayer.getXCoord()] == 0) {
                 return direction;
             } else {
                 int leftSpace = 100;
                 int rightSpace = 100;
                 for (int i = botPlayer.getXCoord(); i >= 0; i--) {
-                    if (gridBounds[botPlayer.getYCoord()+1][i] == 0) {
-                        leftSpace = botPlayer.getXCoord()-i;
+                    if (gridBounds[botPlayer.getYCoord() + 1][i] == 0) {
+                        leftSpace = botPlayer.getXCoord() - i;
                         break;
                     }
                 }
                 for (int i = botPlayer.getXCoord(); i < dungeon.getWidth(); i++) {
-                    if (gridBounds[botPlayer.getYCoord()+1][i] == 0) {
-                        rightSpace = i-botPlayer.getXCoord();
+                    if (gridBounds[botPlayer.getYCoord() + 1][i] == 0) {
+                        rightSpace = i - botPlayer.getXCoord();
                         break;
                     }
                 }
@@ -436,20 +432,20 @@ public class DungeonController {
                 }
             }
         } else if (direction == PlayerMovement.LEFT) {
-            if (gridBounds[botPlayer.getYCoord()][botPlayer.getXCoord()-1] == 0) {
+            if (gridBounds[botPlayer.getYCoord()][botPlayer.getXCoord() - 1] == 0) {
                 return direction;
             } else {
                 int topSpace = 100;
                 int bottomSpace = 100;
                 for (int i = botPlayer.getYCoord(); i >= 0; i--) {
-                    if (gridBounds[i][botPlayer.getXCoord()-1] == 0) {
-                        topSpace = botPlayer.getYCoord()-i;
+                    if (gridBounds[i][botPlayer.getXCoord() - 1] == 0) {
+                        topSpace = botPlayer.getYCoord() - i;
                         break;
                     }
                 }
                 for (int i = botPlayer.getYCoord(); i < dungeon.getHeight(); i++) {
-                    if (gridBounds[i][botPlayer.getXCoord()-1] == 0) {
-                        bottomSpace = i-botPlayer.getYCoord();
+                    if (gridBounds[i][botPlayer.getXCoord() - 1] == 0) {
+                        bottomSpace = i - botPlayer.getYCoord();
                         break;
                     }
                 }
@@ -460,20 +456,20 @@ public class DungeonController {
                 }
             }
         } else if (direction == PlayerMovement.RIGHT) {
-            if (gridBounds[botPlayer.getYCoord()][botPlayer.getXCoord()+1] == 0) {
+            if (gridBounds[botPlayer.getYCoord()][botPlayer.getXCoord() + 1] == 0) {
                 return direction;
             } else {
                 int topSpace = 100;
                 int bottomSpace = 100;
                 for (int i = botPlayer.getYCoord(); i >= 0; i--) {
-                    if (gridBounds[i][botPlayer.getXCoord()+1] == 0) {
-                        topSpace = botPlayer.getYCoord()-i;
+                    if (gridBounds[i][botPlayer.getXCoord() + 1] == 0) {
+                        topSpace = botPlayer.getYCoord() - i;
                         break;
                     }
                 }
                 for (int i = botPlayer.getYCoord(); i < dungeon.getHeight(); i++) {
-                    if (gridBounds[i][botPlayer.getXCoord()+1] == 0) {
-                        bottomSpace = i-botPlayer.getYCoord();
+                    if (gridBounds[i][botPlayer.getXCoord() + 1] == 0) {
+                        bottomSpace = i - botPlayer.getYCoord();
                         break;
                     }
                 }
@@ -486,6 +482,7 @@ public class DungeonController {
         } else {
             return direction;
         }
+    }
 
     public double distance(int x, int x2, int y, int y2) {
         return Math.hypot(x-x2, y-y2);

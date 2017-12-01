@@ -72,7 +72,7 @@ public class DungeonView implements KeyListener {
             case KeyEvent.VK_UP:
                 //if player hits boundary.
                 if (dungeonController.gridBounds[dungeonController.player.getPlayerY() - 1][dungeonController.player.getPlayerX()] == Dungeon.BOUNDARY ||
-                        !dungeonController.checkExit(dungeonController.player.getPlayerY() - 1, dungeonController.player.getPlayerX())) {
+                        !dungeonController.checkExit(dungeonController.player.getPlayerY() - 1, dungeonController.player.getPlayerX()) ||
                         dungeonController.gridBounds[dungeonController.player.getPlayerY() -1][dungeonController.player.getPlayerX()] == Dungeon.CHEST) {
 
                     collided = true;
