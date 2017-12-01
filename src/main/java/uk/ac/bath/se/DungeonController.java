@@ -11,12 +11,19 @@ public class DungeonController {
     public int[][] gridBounds;
     private Dungeon dungeon;
     private Gold[] golds;
+    private Speed speed;
+    public boolean hasMoved = false;
+    private int moves = 0;
     private int gameWinAmount;
+    private Chest chest;
+    public boolean nearChest = false;
 
     public void initialiseDungeonGame() {
         player = new Player();
         botPlayer = new BotPlayer();
         dungeon = new Dungeon();
+        speed = new Speed();
+        chest = new Chest();
         gameWinAmount = 0;
         golds = new Gold[Dungeon.MAXIMUM_ROOMS];
         gridBounds = new int[dungeon.getHeight()][dungeon.getWidth()];
@@ -35,7 +42,8 @@ public class DungeonController {
         botPlayer.setYCoord(10);
         dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
         dungeon.dungeonMatrix[botPlayer.getYCoord()][botPlayer.getXCoord()] = botPlayer.getPLAYER_SYMBOL();
-
+        dungeon.dungeonMatrix[chest.getChestY()][chest.getChestX()] = chest.getCHEST_SYMBOL();
+        gridBounds[chest.getChestY()][chest.getChestX()] = Dungeon.CHEST;
         //Set up rooms
         addRoomBounds(dungeon, Dungeon.MAXIMUM_ROOMS);
 
@@ -221,6 +229,12 @@ public class DungeonController {
         }
     }
 
+    public void assignSpeed() {
+            speed.setSpeedX(-1);
+            speed.setSpeedY(-1);
+            speed.setSpeedBoostRemaining(20);
+    }
+
     private void addGold(int room, int sh, int sw) {
         golds[room - 1] = new Gold();
         golds[room - 1].setGoldX(sw + 2);
@@ -242,7 +256,7 @@ public class DungeonController {
     }
 
     public boolean checkExit(int y, int x) {
-        if (gridBounds[y][x] == 5 && player.getGold() < gameWinAmount) {
+        if (gridBounds[y][x] == 5 && player.hasKey == false) {
             return false;
         }
         return true;
@@ -280,8 +294,22 @@ public class DungeonController {
                     dungeon.dungeonMatrix[player.getPlayerY()][player.getPlayerX()] = player.getPlayerSymbol();
                     break;
             }
-            player.setPlayerTurn(false);
-            moveBot();
+
+            if (speed.getSpeedBoostRemaining() > 0) {
+                hasMoved = true;
+                speed.setSpeedBoostRemaining(speed.getSpeedBoostRemaining() - 1);
+                System.out.println(speed.getSpeedBoostRemaining());
+            }
+            moves ++;
+
+            if (moves >= 2 || hasMoved == false) {
+                player.setPlayerTurn(false);
+                player.setScore(player.getScore()+1);
+                moveBot();
+                moves = 0;
+
+            }
+            hasMoved = false;
         }
     }
 
@@ -305,5 +333,38 @@ public class DungeonController {
             }
         }
         player.setPlayerTurn(true);
+    }
+
+    public double distance(int x, int x2, int y, int y2) {
+        return Math.hypot(x-x2, y-y2);
+    }
+    public void assignChest() {
+        if (distance(player.getPlayerX(),chest.getChestX(), player.getPlayerY(), chest.getChestY())
+                <= 2) {
+            nearChest = true;
+        } else {
+            nearChest = false;
+        }
+    }
+
+    public void giveRandomItem() {
+        Random rand = new Random();
+        int a = rand.nextInt(2);
+        System.out.println("You open the chest.. to find...");
+        if (a == 0) {
+            System.out.println("Nothing.");
+        } else {
+            System.out.println("A ton of speed!");
+            assignSpeed();
+        }
+
+        if (player.getGold() >= gameWinAmount) {
+            giveKey();
+        }
+    }
+
+    private void giveKey() {
+        player.hasKey = true;
+        System.out.println("You find the key. \n You may now exit.");
     }
 }
