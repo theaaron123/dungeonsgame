@@ -5,6 +5,7 @@ public class Gold {
     private int goldY;
     private int goldQuantity;
     private final String GOLD_SYMBOL;
+    public static final int LOCATION = 2;
 
     public Gold() {
         goldX = 0;
