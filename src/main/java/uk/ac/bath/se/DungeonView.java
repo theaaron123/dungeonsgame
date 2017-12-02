@@ -82,9 +82,9 @@ class DungeonView implements KeyListener {
             case KeyEvent.VK_W:
             case KeyEvent.VK_UP:
                 //if player hits boundary.
-                if (dungeonController.gridBounds[dungeonController.player.getPlayerY() - 1][dungeonController.player.getPlayerX()] == Dungeon.BOUNDARY ||
-                        !dungeonController.checkExit(dungeonController.player.getPlayerY() - 1, dungeonController.player.getPlayerX()) ||
-                        dungeonController.gridBounds[dungeonController.player.getPlayerY() -1][dungeonController.player.getPlayerX()] == Dungeon.CHEST) {
+                if (dungeonController.gridBounds[dungeonController.player.getyCoord() - 1][dungeonController.player.getxCoord()] == Dungeon.BOUNDARY ||
+                        !dungeonController.checkExit(dungeonController.player.getyCoord() - 1, dungeonController.player.getxCoord()) ||
+                        dungeonController.gridBounds[dungeonController.player.getyCoord() -1][dungeonController.player.getxCoord()] == Dungeon.CHEST) {
 
                     collided = true;
                     break;
@@ -102,9 +102,9 @@ class DungeonView implements KeyListener {
             case KeyEvent.VK_S:
             case KeyEvent.VK_DOWN:
                 //if player hits boundary
-                if (dungeonController.gridBounds[dungeonController.player.getPlayerY() + 1][dungeonController.player.getPlayerX()] == Dungeon.BOUNDARY ||
-                        !dungeonController.checkExit(dungeonController.player.getPlayerY() + 1, dungeonController.player.getPlayerX())
-                        || (dungeonController.gridBounds[dungeonController.player.getPlayerY() + 1][dungeonController.player.getPlayerX()] == Dungeon.CHEST)){
+                if (dungeonController.gridBounds[dungeonController.player.getyCoord() + 1][dungeonController.player.getxCoord()] == Dungeon.BOUNDARY ||
+                        !dungeonController.checkExit(dungeonController.player.getyCoord() + 1, dungeonController.player.getxCoord())
+                        || (dungeonController.gridBounds[dungeonController.player.getyCoord() + 1][dungeonController.player.getxCoord()] == Dungeon.CHEST)){
                     collided = true;
                     break;
                 }
@@ -120,9 +120,9 @@ class DungeonView implements KeyListener {
             case KeyEvent.VK_A:
             case KeyEvent.VK_LEFT:
                 //if player hits boundary
-                if (dungeonController.gridBounds[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX() - 1] == Dungeon.BOUNDARY ||
-                        !dungeonController.checkExit(dungeonController.player.getPlayerY(), dungeonController.player.getPlayerX() - 1)
-                        || dungeonController.gridBounds[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX() - 1] == Dungeon.CHEST) {
+                if (dungeonController.gridBounds[dungeonController.player.getyCoord()][dungeonController.player.getxCoord() - 1] == Dungeon.BOUNDARY ||
+                        !dungeonController.checkExit(dungeonController.player.getyCoord(), dungeonController.player.getxCoord() - 1)
+                        || dungeonController.gridBounds[dungeonController.player.getyCoord()][dungeonController.player.getxCoord() - 1] == Dungeon.CHEST) {
                     collided = true;
                     break;
                 }
@@ -138,9 +138,9 @@ class DungeonView implements KeyListener {
             case KeyEvent.VK_D:
             case KeyEvent.VK_RIGHT:
                 //if player hits boundary
-                if (dungeonController.gridBounds[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX() + 1] == Dungeon.BOUNDARY ||
-                        !dungeonController.checkExit(dungeonController.player.getPlayerY(), dungeonController.player.getPlayerX() + 1) ||
-                        dungeonController.gridBounds[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX() + 1] == Dungeon.CHEST
+                if (dungeonController.gridBounds[dungeonController.player.getyCoord()][dungeonController.player.getxCoord() + 1] == Dungeon.BOUNDARY ||
+                        !dungeonController.checkExit(dungeonController.player.getyCoord(), dungeonController.player.getxCoord() + 1) ||
+                        dungeonController.gridBounds[dungeonController.player.getyCoord()][dungeonController.player.getxCoord() + 1] == Dungeon.CHEST
                         ) {
                     collided = true;
                     break;
@@ -161,10 +161,12 @@ class DungeonView implements KeyListener {
                 }
         dungeonController.assignGold(); //Check if player has moved onto gold
         dungeonController.assignChest();
+        //TODO refactor to simplify check win and check loss here
         //Reset at completion
-        if (dungeonController.checkExit(dungeonController.player.getPlayerY(), dungeonController.player.getPlayerX()) &&
-                dungeonController.gridBounds[dungeonController.player.getPlayerY()][dungeonController.player.getPlayerX()] == Dungeon.EXIT) {
+        if (dungeonController.checkExit(dungeonController.player.getyCoord(), dungeonController.player.getxCoord()) &&
+                dungeonController.gridBounds[dungeonController.player.getyCoord()][dungeonController.player.getxCoord()] == Dungeon.EXIT) {
 
+            //TODO input username to use
             dungeonController.saveGoldAmount("Aaron",
                     dungeonController.player.getGold(),
                     dungeonController.player.getScore()

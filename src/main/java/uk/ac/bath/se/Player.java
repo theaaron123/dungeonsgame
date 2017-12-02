@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Player {
-    private int playerX;
-    private int playerY;
+    private int xCoord;
+    private int yCoord;
     private int score;
     private int gold;
     private String symbol;
@@ -19,8 +19,8 @@ class Player {
     public boolean hasKey = false;
 
     public Player() {
-        playerX = 0;
-        playerY = 0;
+        xCoord = 0;
+        yCoord = 0;
         gold = 0;
         score = 0;
         symbol = "^";
@@ -41,20 +41,20 @@ class Player {
         this.gold = gold;
     }
 
-    public int getPlayerX() {
-        return playerX;
+    public int getxCoord() {
+        return xCoord;
     }
 
-    public void setPlayerX(int playerX) {
-        this.playerX = playerX;
+    public void setxCoord(int xCoord) {
+        this.xCoord = xCoord;
     }
 
-    public int getPlayerY() {
-        return playerY;
+    public int getyCoord() {
+        return yCoord;
     }
 
-    public void setPlayerY(int playerY) {
-        this.playerY = playerY;
+    public void setyCoord(int yCoord) {
+        this.yCoord = yCoord;
     }
 
     public int getScore() {

@@ -2,7 +2,7 @@ package uk.ac.bath.se;
 
 class Dungeon {
 
-    public static final int MAXIMUM_ROOMS = 4;
+    public static int roomNumber = 4;
     private static Dungeon instance = null;
     private final char exit = 'E';
     public String[][] dungeonMatrix;
@@ -14,7 +14,6 @@ class Dungeon {
     public static final int EXIT = 5;
     public static final int SPACE = 0;
     public static final int CHEST = 3;
-
 
     protected Dungeon() {
     }

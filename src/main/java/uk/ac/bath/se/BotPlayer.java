@@ -10,19 +10,19 @@ class BotPlayer {
     private final String PLAYER_SYMBOL = "B";
     private String playerName = "BOT";
 
-    public int getXCoord() {
+    public int getxCoord() {
         return xCoord;
     }
 
-    public void setXCoord(int xCoord) {
+    public void setxCoord(int xCoord) {
         this.xCoord = xCoord;
     }
 
-    public int getYCoord() {
+    public int getyCoord() {
         return yCoord;
     }
 
-    public void setYCoord(int yCoord) {
+    public void setyCoord(int yCoord) {
         this.yCoord = yCoord;
     }
 
