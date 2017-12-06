@@ -51,6 +51,8 @@ class DungeonController implements DungeonGamePlayInterface {
         chest.setxCoord(randomSpace()[0]);
         chest.setyCoord(randomSpace()[1]);
         gridBounds[chest.getyCoord()][chest.getxCoord()] = Dungeon.CHEST;
+        gridBounds[player.getyCoord()][player.getxCoord()] = 0;
+        gridBounds[botPlayer.getyCoord()][botPlayer.getxCoord()] = 0;
 
         //Print player, bot and chest into dungeon
         dungeon.dungeonMatrix[player.getyCoord()][player.getxCoord()] = player.getPlayerSymbol();
@@ -66,8 +68,8 @@ class DungeonController implements DungeonGamePlayInterface {
     private int[] randomSpace() {
         Random rand = new Random();
         int[] location = new int [2];
-        int x = rand.nextInt(dungeon.getWidth()-1) + 1;
-        int y = rand.nextInt(dungeon.getHeight()-1) + 1;
+        int x = rand.nextInt((dungeon.getWidth()-1)-1) + 1;
+        int y = rand.nextInt((dungeon.getHeight()-1)-1) + 1;
         location[0] = x;
         location[1] = y;
         while (gridBounds[location[1]][location[0]] == Dungeon.BOUNDARY || gridBounds[location[1]][location[0]] == Gold.LOCATION) {

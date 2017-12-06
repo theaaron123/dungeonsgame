@@ -5,8 +5,6 @@ import java.util.Random;
 class BotPlayer {
     private int xCoord;
     private int yCoord;
-    private int score;
-    private int gold;
     private final String PLAYER_SYMBOL = "B";
     private String playerName = "BOT";
 
@@ -24,22 +22,6 @@ class BotPlayer {
 
     public void setyCoord(int yCoord) {
         this.yCoord = yCoord;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public int getGold() {
-        return gold;
-    }
-
-    public void setGold(int gold) {
-        this.gold = gold;
     }
 
     public String getPLAYER_SYMBOL() {
