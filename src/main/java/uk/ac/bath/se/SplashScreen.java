@@ -29,6 +29,12 @@ class SplashScreen {
 
         chooseDifficulty.addActionListener(new choiceDifficulty());
         startGame.addActionListener(new startGameHandler());
+        startGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                menu.dispose();
+            }
+        });
         viewScore.addActionListener(new viewScoreHandler());
     }
 
@@ -101,7 +107,8 @@ class SplashScreen {
 
     // When player chooses button startGame, the game start.
     public class startGameHandler implements ActionListener {
-        public void actionPerformed(ActionEvent e) { DungeonView d = new DungeonView();
+        public void actionPerformed(ActionEvent e) {
+            DungeonView d = new DungeonView();
         }
     }
 
@@ -202,6 +209,7 @@ class SplashScreen {
         goToSplashScreen.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 loseChoice.dispose();
+                Player.lives += 3;
                 SplashScreen splashScreen = new SplashScreen();
             }
         });

@@ -161,8 +161,19 @@ class DungeonView implements KeyListener {
                 }
         dungeonController.assignGold(); //Check if player has moved onto gold
         dungeonController.assignChest();
-        //TODO refactor to simplify check win and check loss here
+        //TODO refactor to simplify check win
         //Reset at completion
+        if (dungeonController.checkLoss()) {
+            Player.lives -= 1;
+            if (Player.lives == 0) {
+                gameWindow.dispose();
+                SplashScreen.loseScreen();
+            } else {
+                dungeonController.initialiseDungeonGame();
+                drawDungeon();
+            }
+        }
+
         if (dungeonController.checkExit(dungeonController.player.getyCoord(), dungeonController.player.getxCoord()) &&
                 dungeonController.gridBounds[dungeonController.player.getyCoord()][dungeonController.player.getxCoord()] == Dungeon.EXIT) {
 
