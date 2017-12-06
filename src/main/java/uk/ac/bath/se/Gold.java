@@ -1,45 +1,45 @@
 package uk.ac.bath.se;
 
 class Gold {
-    private int goldX;
-    private int goldY;
-    private int goldQuantity;
+    private int xCoord;
+    private int yCoord;
+    private int quantity;
     private final String GOLD_SYMBOL;
     public static final int LOCATION = 2;
 
     public Gold() {
-        goldX = 0;
-        goldY = 0;
-        goldQuantity = 5;
+        xCoord = 0;
+        yCoord = 0;
+        quantity = 5;
         GOLD_SYMBOL = "G";
     }
 
-    public int getGoldX() {
-        return goldX;
+    public int getxCoord() {
+        return xCoord;
     }
 
-    public int getGoldY() {
-        return goldY;
+    public int getyCoord() {
+        return yCoord;
     }
 
-    public int getGoldQuantity() {
-        return goldQuantity;
+    public int getQuantity() {
+        return quantity;
     }
 
     public String getGoldSymbol() {
         return GOLD_SYMBOL;
     }
 
-    public void setGoldQuantity(int goldQuantity) {
-        this.goldQuantity = goldQuantity;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    public void setGoldX(int goldX) {
-        this.goldX = goldX;
+    public void setxCoord(int xCoord) {
+        this.xCoord = xCoord;
     }
 
-    public void setGoldY(int goldY) {
-        this.goldY = goldY;
+    public void setyCoord(int yCoord) {
+        this.yCoord = yCoord;
     }
 
 }

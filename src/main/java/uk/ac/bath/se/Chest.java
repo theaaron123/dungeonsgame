@@ -2,32 +2,32 @@ package uk.ac.bath.se;
 
 class Chest {
 
-private int chestX;
-private int chestY;
+private int xCoord;
+private int yCoord;
 private int chestQuantity;
 private final String CHEST_SYMBOL;
 
 public Chest () {
-    chestX = 6;
-    chestY= 6;
+    xCoord = 6;
+    yCoord = 6;
     chestQuantity = 0;
     CHEST_SYMBOL = "C";
 }
 
-    public int getChestX() {
-        return chestX;
+    public int getxCoord() {
+        return xCoord;
     }
 
-    public void setChestX(int chestX) {
-        this.chestX = chestX;
+    public void setxCoord(int xCoord) {
+        this.xCoord = xCoord;
     }
 
-    public int getChestY() {
-        return chestY;
+    public int getyCoord() {
+        return yCoord;
     }
 
-    public void setChestY(int chestY) {
-        this.chestY = chestY;
+    public void setyCoord(int yCoord) {
+        this.yCoord = yCoord;
     }
 
     public int getChestQuantity() {

@@ -8,21 +8,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Player {
-    private int playerX;
-    private int playerY;
+    private int xCoord;
+    private int yCoord;
     private int score;
     private int gold;
-    public static int lives = 3;
-    private final String PLAYER_SYMBOL = "@";
+    private String symbol;
     private boolean playerTurn;
     private String playerName;
+    public static int lives = 3;
     public boolean hasKey = false;
 
     public Player() {
-        playerX = 0;
-        playerY = 0;
+        xCoord = 0;
+        yCoord = 0;
         gold = 0;
         score = 0;
+        symbol = "^";
         playerTurn = true;
     }
 
@@ -40,20 +41,20 @@ class Player {
         this.gold = gold;
     }
 
-    public int getPlayerX() {
-        return playerX;
+    public int getxCoord() {
+        return xCoord;
     }
 
-    public void setPlayerX(int playerX) {
-        this.playerX = playerX;
+    public void setxCoord(int xCoord) {
+        this.xCoord = xCoord;
     }
 
-    public int getPlayerY() {
-        return playerY;
+    public int getyCoord() {
+        return yCoord;
     }
 
-    public void setPlayerY(int playerY) {
-        this.playerY = playerY;
+    public void setyCoord(int yCoord) {
+        this.yCoord = yCoord;
     }
 
     public int getScore() {
@@ -73,7 +74,11 @@ class Player {
     }
 
     public String getPlayerSymbol() {
-        return PLAYER_SYMBOL;
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     private static List<Player> getTopPlayers() {
