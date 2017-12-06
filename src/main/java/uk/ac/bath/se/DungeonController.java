@@ -395,19 +395,10 @@ class DungeonController implements DungeonGamePlayInterface {
                 dungeon.dungeonMatrix[botPlayer.getyCoord()][botPlayer.getxCoord()] = botPlayer.getPLAYER_SYMBOL();
                 break;
         }
-        if (checkLoss()) {
-            Player.lives -= 1;
-            if (Player.lives == 0) {
-                //TODO close game window
-                SplashScreen.loseScreen();
-            } else {
-                initialiseDungeonGame();
-            }
-        }
         player.setPlayerTurn(true);
     }
 
-    private boolean checkLoss() {
+    public boolean checkLoss() {
         if (botPlayer.getxCoord() == player.getxCoord() && botPlayer.getyCoord() == player.getyCoord()) {
             return true;
         }
