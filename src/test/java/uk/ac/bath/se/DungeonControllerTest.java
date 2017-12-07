@@ -46,7 +46,20 @@ public class DungeonControllerTest {
     }
 
     @Test
-    public void addDungeonBounds() throws Exception {
+    public void testAddDungeonBounds() throws Exception {
+        DungeonController dungeonController = new DungeonController();
+        dungeonController.initialiseDungeonGame();
+        Dungeon dungeon = Dungeon.getInstance();
+
+        for (int i = 0; i < dungeon.getWidth(); i++) {
+            assertTrue(dungeon.dungeonMatrix[0][i] != " ");
+            assertTrue(dungeon.dungeonMatrix[dungeon.getHeight() - 1][i] != " ");
+        }
+        for (int j = 0; j < dungeon.getHeight(); j++) {
+            assertTrue(dungeon.dungeonMatrix[j][0] != " ");
+            assertTrue(dungeon.dungeonMatrix[j][dungeon.getWidth() - 1] != " ");
+        }
+
     }
 
     @Test

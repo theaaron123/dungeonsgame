@@ -85,9 +85,9 @@ class DungeonController implements DungeonGamePlayInterface {
         for (int i = 0; i < dungeon.getWidth(); i++) {
             for (int j = 0; j < dungeon.getHeight(); j++) {
                 if (j == dungeon.getWidth() - 1) {
-                    System.out.println(gridBounds[i][j]);
+                    System.out.println(getDungeonMatrix()[i][j]);
                 } else {
-                    System.out.print(+gridBounds[i][j]);
+                    System.out.print(getDungeonMatrix()[i][j]);
                 }
             }
         }
@@ -95,26 +95,27 @@ class DungeonController implements DungeonGamePlayInterface {
 
     private void addDungeonBounds(Dungeon dungeon) {
         for (int i = 0; i < dungeon.getWidth(); i++) {
-            for (int j = 0; j < dungeon.getHeight(); j++) {
-                dungeon.dungeonMatrix[0][i] = "-"; //draw top
-                gridBounds[0][i] = Dungeon.BOUNDARY; //store top
+            dungeon.dungeonMatrix[0][i] = "-"; //draw top
+            gridBounds[0][i] = Dungeon.BOUNDARY; //store top
 
-                dungeon.dungeonMatrix[dungeon.getHeight() - 1][i] = "-"; //draw bottom
-                gridBounds[dungeon.getHeight() - 1][i] = Dungeon.BOUNDARY; //store bottom
+            dungeon.dungeonMatrix[dungeon.getHeight() - 1][i] = "-"; //draw bottom
+            gridBounds[dungeon.getHeight() - 1][i] = Dungeon.BOUNDARY; //store bottom
 
-                dungeon.dungeonMatrix[j][0] = "|"; //draw left
-                gridBounds[j][0] = Dungeon.BOUNDARY; //store left
-
-                dungeon.dungeonMatrix[j][dungeon.getWidth() - 1] = "|";//draw right
-                gridBounds[j][dungeon.getWidth() - 1] = Dungeon.BOUNDARY;//store right
-
-            }
             dungeon.dungeonMatrix[dungeon.getHeight() / 2][i] = "-"; //draw middle horizontal
             gridBounds[dungeon.getHeight() / 2][i] = Dungeon.BOUNDARY; //store middle horizontal
 
             dungeon.dungeonMatrix[i][dungeon.getWidth() / 2] = "|"; //draw middle vertical
             gridBounds[i][dungeon.getWidth() / 2] = Dungeon.BOUNDARY; //store middle vertical
         }
+
+        for (int j = 0; j < dungeon.getHeight(); j++) {
+            dungeon.dungeonMatrix[j][0] = "|"; //draw left
+            gridBounds[j][0] = Dungeon.BOUNDARY; //store left
+
+            dungeon.dungeonMatrix[j][dungeon.getWidth() - 1] = "|";//draw right
+            gridBounds[j][dungeon.getWidth() - 1] = Dungeon.BOUNDARY;//store right
+        }
+
         addPassage(dungeon);
         addExit(dungeon);
     }
