@@ -53,7 +53,7 @@ public class DatabaseHelper {
         PreparedStatement statement;
         try {
             statement = MySQLJDBC.getConnection()
-                    .prepareStatement("SELECT * FROM `Dungeon_Scores` ORDER BY `Score` DESC LIMIT 10");
+                    .prepareStatement("SELECT * FROM `Dungeon_Scores` ORDER BY `Score` ASC LIMIT 10");
             ResultSet rs = statement.executeQuery();
             return rs;
         } catch (SQLException e) {
