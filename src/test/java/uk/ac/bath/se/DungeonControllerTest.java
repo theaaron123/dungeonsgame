@@ -59,7 +59,6 @@ public class DungeonControllerTest {
             assertTrue(dungeon.dungeonMatrix[j][0] != " ");
             assertTrue(dungeon.dungeonMatrix[j][dungeon.getWidth() - 1] != " ");
         }
-
     }
 
     @Test
@@ -68,6 +67,5 @@ public class DungeonControllerTest {
 
     @Test
     public void initialiseRandDungeon() throws Exception {
-
     }
 }

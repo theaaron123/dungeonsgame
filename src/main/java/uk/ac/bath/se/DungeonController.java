@@ -7,17 +7,17 @@ import java.util.Random;
 
 class DungeonController implements DungeonGamePlayInterface {
 
-    public Player player;
-    private BotPlayer botPlayer;
+    Player player;
     public int[][] gridBounds;
+    public int gameWinAmount;
+    public boolean nearChest;
+    private BotPlayer botPlayer;
     private Dungeon dungeon;
     private Gold[] golds;
     private Speed speed;
     private boolean hasMoved;
     private int moves;
-    public int gameWinAmount;
     private Chest chest;
-    public boolean nearChest;
 
     public void initialiseDungeonGame() {
         player = new Player();
@@ -42,6 +42,15 @@ class DungeonController implements DungeonGamePlayInterface {
         addRoomBounds(dungeon, Dungeon.roomNumber);
 
         //Set up player, bot and chest location randomly
+        addGameItems();
+
+        //Create winAmount
+        for (Gold g : golds) {
+            gameWinAmount += g.getQuantity();
+        }
+    }
+
+    private void addGameItems() {
         player.setxCoord(randomSpace()[0]);
         player.setyCoord(randomSpace()[1]);
         gridBounds[player.getyCoord()][player.getxCoord()] = Dungeon.BOUNDARY;
@@ -58,11 +67,6 @@ class DungeonController implements DungeonGamePlayInterface {
         dungeon.dungeonMatrix[player.getyCoord()][player.getxCoord()] = player.getPlayerSymbol();
         dungeon.dungeonMatrix[botPlayer.getyCoord()][botPlayer.getxCoord()] = botPlayer.getPLAYER_SYMBOL();
         dungeon.dungeonMatrix[chest.getyCoord()][chest.getxCoord()] = chest.getCHEST_SYMBOL();
-
-        //Create winAmount
-        for (Gold g : golds) {
-            gameWinAmount += g.getQuantity();
-        }
     }
 
     private int[] randomSpace() {
