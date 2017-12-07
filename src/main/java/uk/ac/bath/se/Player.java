@@ -27,6 +27,14 @@ class Player {
         playerTurn = true;
     }
 
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
     public Player(int score, int gold, String playerName) {
         this.score = score;
         this.gold = gold;

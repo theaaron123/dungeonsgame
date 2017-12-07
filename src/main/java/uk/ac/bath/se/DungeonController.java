@@ -7,7 +7,7 @@ import java.util.Random;
 
 class DungeonController implements DungeonGamePlayInterface {
 
-    public Player player;
+    public static Player player;
     private BotPlayer botPlayer;
     public int[][] gridBounds;
     private Dungeon dungeon;

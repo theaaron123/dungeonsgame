@@ -14,7 +14,7 @@ class DungeonView implements KeyListener {
     private boolean collided = false;
     Dungeon dungeon;
 
-    public DungeonView() {
+    public DungeonView(String string) {
         gameWindow = new JFrame();
         gamePanel = new JPanel();
 
@@ -43,7 +43,13 @@ class DungeonView implements KeyListener {
         dungeon = Dungeon.getInstance();
         dungeonController = new DungeonController();
         dungeonController.initialiseDungeonGame();
-        scoreArea.setText("Lives: " +
+
+        dungeonController.player.setPlayerName(string);
+
+        scoreArea.setText("Player Name: "
+                +dungeonController.player.getPlayerName()+
+                "\n" +
+                "Lives: " +
                 Player.lives +
                 "\n" +
                 "Score: " +
@@ -170,6 +176,7 @@ class DungeonView implements KeyListener {
                 SplashScreen.loseScreen();
             } else {
                 dungeonController.initialiseDungeonGame();
+                SplashScreen.loseOneLiveScreen();
                 drawDungeon();
             }
         }
@@ -178,7 +185,7 @@ class DungeonView implements KeyListener {
                 dungeonController.gridBounds[dungeonController.player.getyCoord()][dungeonController.player.getxCoord()] == Dungeon.EXIT) {
 
             //TODO input username to use
-            dungeonController.saveGoldAmount("Aaron",
+            dungeonController.saveGoldAmount(dungeonController.player.getPlayerName(),
                     dungeonController.player.getGold(),
                     dungeonController.player.getScore()
             );
@@ -187,7 +194,10 @@ class DungeonView implements KeyListener {
               gameWindow.dispose();
 
         }
-        scoreArea.setText("Lives: " +
+        scoreArea.setText("Player Name: "
+                +dungeonController.player.getPlayerName()+
+                "\n" +
+                "Lives: " +
                 Player.lives +
                 "\n" +
                 "Score: " +
