@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
+
+<installation version="1.0">
+    <info>
+        <appname>Dungeons Game</appname>
+        <appversion>1.0</appversion>
+        <authors>
+            <author name="Aaron Baker" email=""/>
+            '//TODO Add other authors'
+        </authors>
+        <url>https://github.com/theaaron123/dungeonsgame</url>
+    </info>
+
+    <guiprefs width="640" height="480" resizable="yes"/>
+
+    <locale>
+        <langpack iso3="eng"/>
+    </locale>
+
+    <resources>
+    </resources>
+
+    <panels>
+        <panel classname="HelloPanel"/>
+        <panel classname="TargetPanel"/>
+        <panel classname="PacksPanel"/>
+        <panel classname="ShortcutPanel"/>
+        <panel classname="InstallPanel"/>
+        <panel classname="FinishPanel"/>
+    </panels>
+
+    <packs>
+        <pack name="Game" required="yes">
+            <description>Game Application Runnables</description>
+            <fileset dir="libs" targetdir="${INSTALL_PATH}" override="true"/>
+            <executable
+                    targetfile="$INSTALL_PATH/dungeonsgame-1.0-SNAPSHOT.jar" type="jar" stage="never" failure="warn"
+                    keep="true">
+            </executable>
+        </pack>
+    </packs>
+</installation>
