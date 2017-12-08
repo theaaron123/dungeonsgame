@@ -5,6 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 public class DungeonControllerTest {
+
     @Test
     public void testMovePlayerRight() throws Exception {
         DungeonController dungeonController = new DungeonController();
