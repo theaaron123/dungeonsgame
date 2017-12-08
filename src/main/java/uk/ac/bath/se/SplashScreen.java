@@ -305,7 +305,7 @@ class SplashScreen {
         youLose.setResizable(false);
         youLose.setSize(400, 200);
         youLose.dispose();
-        JOptionPane.showMessageDialog(youLose,"You have lost one live !");
+        JOptionPane.showMessageDialog(youLose,"You have lost one life !");
 
         DungeonController.player.setPlayerName(stArea);
     }
