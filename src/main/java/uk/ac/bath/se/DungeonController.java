@@ -370,7 +370,6 @@ class DungeonController implements DungeonGamePlayInterface {
             }
         }
         botMove = botCollision(botMove);
-        //TODO add method here to prevent bot eating a corner
 
         switch (botMove) {
             case UP:
@@ -408,102 +407,33 @@ class DungeonController implements DungeonGamePlayInterface {
     }
 
     private PlayerMovement botCollision(PlayerMovement direction) {
-        //TODO Refactor to minimise code reuse
         if (direction == PlayerMovement.UP) {
-            if (gridBounds[botPlayer.getyCoord() - 1][botPlayer.getxCoord()] == 0) {
+            if (!checkCollision(botPlayer.getyCoord() - 1, botPlayer.getxCoord())
+                    && gridBounds[botPlayer.getyCoord() - 1][botPlayer.getxCoord()] != Gold.LOCATION) {
                 return direction;
             } else {
-                int leftSpace = 100;
-                int rightSpace = 100;
-                for (int i = botPlayer.getxCoord(); i >= 0; i--) {
-                    if (gridBounds[botPlayer.getyCoord() - 1][i] == 0) {
-                        leftSpace = botPlayer.getxCoord() - i;
-                        break;
-                    }
-                }
-                for (int i = botPlayer.getxCoord(); i < dungeon.getWidth(); i++) {
-                    if (gridBounds[botPlayer.getyCoord() - 1][i] == 0) {
-                        rightSpace = i - botPlayer.getxCoord();
-                        break;
-                    }
-                }
-                if (leftSpace < rightSpace) {
-                    return PlayerMovement.LEFT;
-                } else {
-                    return PlayerMovement.RIGHT;
-                }
+                return findSpace(-1, 0);
             }
         } else if (direction == PlayerMovement.DOWN) {
-            if (gridBounds[botPlayer.getyCoord() + 1][botPlayer.getxCoord()] == 0) {
+            if (!checkCollision(botPlayer.getyCoord() + 1, botPlayer.getxCoord())
+                    && gridBounds[botPlayer.getyCoord() + 1][botPlayer.getxCoord()] != Gold.LOCATION) {
                 return direction;
             } else {
-                int leftSpace = 100;
-                int rightSpace = 100;
-                for (int i = botPlayer.getxCoord(); i >= 0; i--) {
-                    if (gridBounds[botPlayer.getyCoord() + 1][i] == 0) {
-                        leftSpace = botPlayer.getxCoord() - i;
-                        break;
-                    }
-                }
-                for (int i = botPlayer.getxCoord(); i < dungeon.getWidth(); i++) {
-                    if (gridBounds[botPlayer.getyCoord() + 1][i] == 0) {
-                        rightSpace = i - botPlayer.getxCoord();
-                        break;
-                    }
-                }
-                if (leftSpace < rightSpace) {
-                    return PlayerMovement.LEFT;
-                } else {
-                    return PlayerMovement.RIGHT;
-                }
+                return findSpace(1,0);
             }
         } else if (direction == PlayerMovement.LEFT) {
-            if (gridBounds[botPlayer.getyCoord()][botPlayer.getxCoord() - 1] == 0) {
+            if (!checkCollision(botPlayer.getyCoord(), botPlayer.getxCoord()-1)
+                    && gridBounds[botPlayer.getyCoord()][botPlayer.getxCoord()-1] != Gold.LOCATION) {
                 return direction;
             } else {
-                int topSpace = 100;
-                int bottomSpace = 100;
-                for (int i = botPlayer.getyCoord(); i >= 0; i--) {
-                    if (gridBounds[i][botPlayer.getxCoord() - 1] == 0) {
-                        topSpace = botPlayer.getyCoord() - i;
-                        break;
-                    }
-                }
-                for (int i = botPlayer.getyCoord(); i < dungeon.getHeight(); i++) {
-                    if (gridBounds[i][botPlayer.getxCoord() - 1] == 0) {
-                        bottomSpace = i - botPlayer.getyCoord();
-                        break;
-                    }
-                }
-                if (topSpace < bottomSpace) {
-                    return PlayerMovement.UP;
-                } else {
-                    return PlayerMovement.DOWN;
-                }
+                return findSpace(0, -1);
             }
         } else if (direction == PlayerMovement.RIGHT) {
-            if (gridBounds[botPlayer.getyCoord()][botPlayer.getxCoord() + 1] == 0) {
+            if (!checkCollision(botPlayer.getyCoord(), botPlayer.getxCoord()+1)
+                    && gridBounds[botPlayer.getyCoord()][botPlayer.getxCoord()+1] != Gold.LOCATION) {
                 return direction;
             } else {
-                int topSpace = 100;
-                int bottomSpace = 100;
-                for (int i = botPlayer.getyCoord(); i >= 0; i--) {
-                    if (gridBounds[i][botPlayer.getxCoord() + 1] == 0) {
-                        topSpace = botPlayer.getyCoord() - i;
-                        break;
-                    }
-                }
-                for (int i = botPlayer.getyCoord(); i < dungeon.getHeight(); i++) {
-                    if (gridBounds[i][botPlayer.getxCoord() + 1] == 0) {
-                        bottomSpace = i - botPlayer.getyCoord();
-                        break;
-                    }
-                }
-                if (topSpace < bottomSpace) {
-                    return PlayerMovement.UP;
-                } else {
-                    return PlayerMovement.DOWN;
-                }
+                return findSpace(0, 1);
             }
         } else {
             return direction;
@@ -557,6 +487,69 @@ class DungeonController implements DungeonGamePlayInterface {
             return true;
         }
         return false;
+    }
+
+    private PlayerMovement findSpace(int yDifference, int xDifference) {
+        int leftSpace = 1000;
+        int rightSpace = 1000;
+
+        if (Math.abs(yDifference) > 0) {
+            for (int i = botPlayer.getxCoord(); i >= 0; i--) {
+                if (checkCollision(botPlayer.getyCoord(),i)) {
+                    leftSpace = 1000;
+                    break;
+                }
+                else if (!checkCollision(botPlayer.getyCoord() + yDifference,i)) {
+                    leftSpace = botPlayer.getxCoord() - i;
+                    break;
+                }
+            }
+            for (int i = botPlayer.getxCoord(); i < dungeon.getWidth(); i++) {
+                if (checkCollision(botPlayer.getyCoord(),i)) {
+                    rightSpace = 1000;
+                    break;
+                }
+                else if (!checkCollision(botPlayer.getyCoord() + yDifference,i)) {
+                    rightSpace = i - botPlayer.getxCoord();
+                    break;
+                }
+            }
+            if (leftSpace < rightSpace) {
+                return PlayerMovement.LEFT;
+            } else if (leftSpace >= rightSpace && rightSpace != 1000) {
+                return PlayerMovement.RIGHT;
+            } else {
+                return PlayerMovement.NONE;
+            }
+        } else {
+            for (int i = botPlayer.getyCoord(); i >= 0; i--) {
+                if (checkCollision(i,botPlayer.getxCoord())) {
+                    leftSpace = 1000;
+                    break;
+                }
+                else if (!checkCollision(i, botPlayer.getxCoord() + xDifference)) {
+                    leftSpace = botPlayer.getyCoord() - i;
+                    break;
+                }
+            }
+            for (int i = botPlayer.getyCoord(); i < dungeon.getHeight(); i++) {
+                if (checkCollision(i,botPlayer.getxCoord())) {
+                    rightSpace = 1000;
+                    break;
+                }
+                else if (!checkCollision(i, botPlayer.getxCoord() + xDifference)) {
+                    rightSpace = i - botPlayer.getyCoord();
+                    break;
+                }
+            }
+            if (leftSpace < rightSpace) {
+                return PlayerMovement.UP;
+            } else if (leftSpace >= rightSpace && rightSpace != 1000){
+                return PlayerMovement.DOWN;
+            } else {
+                return PlayerMovement.NONE;
+            }
+        }
     }
 }
 

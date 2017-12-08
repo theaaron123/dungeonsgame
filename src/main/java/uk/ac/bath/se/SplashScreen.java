@@ -45,9 +45,8 @@ class SplashScreen {
         }
     }
 
-    //TODO Those two button still only are button, need to add other function to actually change the difficulty level
-    //TODO For instance, maybe Hell Model have five bot for hunting human player.
-    // The player can choice the level of difficulty of game.
+    //TODO Add function to change difficulty level
+    // The player can choose the level of difficulty of game.
     public class DifficultyChooser extends JFrame
     {
         private DifficultyChooser() {
