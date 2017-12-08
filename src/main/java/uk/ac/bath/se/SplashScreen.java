@@ -296,7 +296,7 @@ class SplashScreen {
             }
         });
     }
-    public static void loseOneLiveScreen() {
+    public static void loseOneLifeScreen() {
 
         //Make a "You Died !" message.
         JFrame youLose = new JFrame("Dungeon Game");

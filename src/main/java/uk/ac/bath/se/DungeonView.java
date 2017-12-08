@@ -176,7 +176,7 @@ class DungeonView implements KeyListener {
                 SplashScreen.loseScreen();
             } else {
                 dungeonController.initialiseDungeonGame();
-                SplashScreen.loseOneLiveScreen();
+                SplashScreen.loseOneLifeScreen();
                 drawDungeon();
             }
         }
