@@ -181,7 +181,6 @@ class DungeonView implements KeyListener {
         }
 
         if (dungeonController.checkWin()) {
-            //TODO input username to use
             dungeonController.saveGoldAmount(dungeonController.player.getPlayerName(),
                     dungeonController.player.getGold(),
                     dungeonController.player.getScore()
