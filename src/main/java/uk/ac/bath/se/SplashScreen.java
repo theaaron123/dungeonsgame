@@ -32,12 +32,7 @@ class SplashScreen {
         userName.addActionListener(new userNameHandler());
         chooseDifficulty.addActionListener(new choiceDifficulty());
         startGame.addActionListener(new startGameHandler());
-        startGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                menu.dispose();
-            }
-        });
+        startGame.addActionListener(e -> menu.dispose());
         viewScore.addActionListener(new viewScoreHandler());
     }
 
@@ -61,38 +56,31 @@ class SplashScreen {
             userNameFrame.add(name);
             userNameFrame.add(confirmButton);
 
-            confirmButton.addActionListener(new ActionListener(){
+            confirmButton.addActionListener(e12 -> {
 
-                public void actionPerformed(ActionEvent e) {
+                //Get User Name
+                if (e12.getSource() == confirmButton || e12.getSource() == name) {
 
-                    //Get User Name
-                    if (e.getSource() == confirmButton || e.getSource() == name) {
+                    Player.playerName = name.getText();
 
-                        Player.playerName = name.getText();
-
-                        // Show Welcome Message
-                        JFrame f3;
-                        f3 =new JFrame("Create User Name");
-                        f3.setLocationRelativeTo(null);
-                        f3.setVisible(true);
-                        JOptionPane.showMessageDialog(f3, "Welcome !  " + name.getText());
-                        f3.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                    }
+                    // Show Welcome Message
+                    JFrame welcomeFrame;
+                    welcomeFrame = new JFrame("Create User Name");
+                    welcomeFrame.setLocationRelativeTo(null);
+                    welcomeFrame.setVisible(true);
+                    JOptionPane.showMessageDialog(welcomeFrame, "Welcome !  " + name.getText());
+                    welcomeFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 }
             });
 
-            confirmButton.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e) {
-                    userNameFrame.dispose();
-                }
-            });
+            confirmButton.addActionListener(e1 -> userNameFrame.dispose());
         }
     }
 
     // When player chooses button chooseDifficulty, the game shows a new window.
     public class choiceDifficulty implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            DifficultyChooser chooser = new DifficultyChooser();
+            new DifficultyChooser();
         }
     }
 
@@ -175,11 +163,8 @@ class SplashScreen {
             scores.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
             JTextArea scoreArea = new JTextArea();
-
             scores.getContentPane().add(BorderLayout.CENTER, scoreArea);
-
             scoreArea.append("Player Name:" + "Gold:\t" + "Score:\n" + Player.getTopPlayer());
-
         }
     }
 
@@ -209,7 +194,7 @@ class SplashScreen {
         winChoice.add(stopPlay);
 
         goToSplashScreen.addActionListener(e -> {
-            SplashScreen splashScreen = new SplashScreen();
+            new SplashScreen();
             winChoice.dispose();
         });
 
@@ -267,7 +252,5 @@ class SplashScreen {
         youLose.setSize(400, 200);
         youLose.dispose();
         JOptionPane.showMessageDialog(youLose,"You have lost one life !");
-
-        //DungeonController.player.setPlayerName(stArea);
     }
 }
