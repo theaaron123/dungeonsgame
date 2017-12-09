@@ -140,12 +140,4 @@ public class DungeonControllerTest {
             assertTrue(dungeon.dungeonMatrix[j][dungeon.getWidth() - 1] != " ");
         }
     }
-
-    @Test
-    public void drawDungeon() throws Exception {
-    }
-
-    @Test
-    public void initialiseRandDungeon() throws Exception {
-    }
 }
