@@ -7,19 +7,6 @@ import java.awt.event.ActionListener;
 
 class SplashScreen {
 
-    //this stArea is for saving the user name created by the player and past it to the DungeonView.
-    // so the game can save the historical records
-
-    static String stArea;
-
-    public void setstArea(String stArea) {
-        this.stArea = stArea;
-    }
-
-    public static String getstArea(String stArea) {
-        return stArea;
-    }
-
     public SplashScreen() {
 
         //Make a splash screen have three buttons.
@@ -75,24 +62,20 @@ class SplashScreen {
             userNameFrame.add(confirmButton);
 
             confirmButton.addActionListener(new ActionListener(){
-                public String stArea=this.stArea;
 
                 public void actionPerformed(ActionEvent e) {
 
                     //Get User Name
                     if (e.getSource() == confirmButton || e.getSource() == name) {
-                        String area;
-                        area = name.getText();
-                        String stArea = String.valueOf(area);
 
-                        setstArea(stArea);
+                        Player.playerName = name.getText();
 
                         // Show Welcome Message
                         JFrame f3;
                         f3 =new JFrame("Create User Name");
                         f3.setLocationRelativeTo(null);
                         f3.setVisible(true);
-                        JOptionPane.showMessageDialog(f3,"Welcome !  "+ stArea);
+                        JOptionPane.showMessageDialog(f3, "Welcome !  " + name.getText());
                         f3.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                     }
                 }
@@ -134,18 +117,10 @@ class SplashScreen {
             difficultyChoice.add(hellModel);
 
             easyModel.addActionListener(new easyModel());
-            easyModel.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e) {
-                    difficultyChoice.dispose();
-                }
-            });
+            easyModel.addActionListener(e -> difficultyChoice.dispose());
 
             hellModel.addActionListener(new hardModel());
-            hellModel.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e) {
-                    difficultyChoice.dispose();
-                }
-            });
+            hellModel.addActionListener(e -> difficultyChoice.dispose());
         }
     }
 
@@ -176,14 +151,14 @@ class SplashScreen {
     // When player chooses button startGame, the game start.
     public class startGameHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            DungeonView d = new DungeonView(stArea);
+            new DungeonView();
         }
     }
 
     //When player chooses button View Historical Scores, the game shows a new window.
     public class viewScoreHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            HighScores highScores = new HighScores();
+            new HighScores();
         }
     }
 
@@ -233,18 +208,12 @@ class SplashScreen {
         winChoice.add(goToSplashScreen);
         winChoice.add(stopPlay);
 
-        goToSplashScreen.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                SplashScreen splashScreen = new SplashScreen();
-                winChoice.dispose();
-            }
+        goToSplashScreen.addActionListener(e -> {
+            SplashScreen splashScreen = new SplashScreen();
+            winChoice.dispose();
         });
 
-        stopPlay.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+        stopPlay.addActionListener(e -> System.exit(0));
     }
 
     public static void loseScreen() {
@@ -274,26 +243,18 @@ class SplashScreen {
         loseChoice.add(goToSplashScreen);
         loseChoice.add(stopPlay);
 
-        goToSplashScreen.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                loseChoice.dispose();
-                Player.lives += 3;
-                SplashScreen splashScreen = new SplashScreen();
-            }
+        goToSplashScreen.addActionListener(e -> {
+            loseChoice.dispose();
+            Player.lives += 3;
+            new SplashScreen();
         });
 
-        stopPlay.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+        stopPlay.addActionListener(e -> System.exit(0));
 
-        tryAgain.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                loseChoice.dispose();
-                Player.lives += 3;
-                DungeonView d = new DungeonView(stArea);
-            }
+        tryAgain.addActionListener(e -> {
+            loseChoice.dispose();
+            Player.lives += 3;
+            new DungeonView();
         });
     }
     public static void loseOneLifeScreen() {
@@ -307,6 +268,6 @@ class SplashScreen {
         youLose.dispose();
         JOptionPane.showMessageDialog(youLose,"You have lost one life !");
 
-        DungeonController.player.setPlayerName(stArea);
+        //DungeonController.player.setPlayerName(stArea);
     }
 }
