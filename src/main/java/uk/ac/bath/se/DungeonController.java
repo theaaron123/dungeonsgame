@@ -7,17 +7,17 @@ import java.util.Random;
 
 class DungeonController implements DungeonGamePlayInterface {
 
-    public static Player player;
-    private BotPlayer botPlayer;
+    Player player;
     public int[][] gridBounds;
+    public int gameWinAmount;
+    public boolean nearChest;
+    private BotPlayer botPlayer;
     private Dungeon dungeon;
     private Gold[] golds;
     private Speed speed;
     private boolean hasMoved;
     private int moves;
-    public int gameWinAmount;
     private Chest chest;
-    public boolean nearChest;
 
     public void initialiseDungeonGame() {
         player = new Player();
@@ -42,6 +42,15 @@ class DungeonController implements DungeonGamePlayInterface {
         addRoomBounds(dungeon, Dungeon.roomNumber);
 
         //Set up player, bot and chest location randomly
+        addGameItems();
+
+        //Create winAmount
+        for (Gold g : golds) {
+            gameWinAmount += g.getQuantity();
+        }
+    }
+
+    private void addGameItems() {
         player.setxCoord(randomSpace()[0]);
         player.setyCoord(randomSpace()[1]);
         gridBounds[player.getyCoord()][player.getxCoord()] = Dungeon.BOUNDARY;
@@ -58,23 +67,18 @@ class DungeonController implements DungeonGamePlayInterface {
         dungeon.dungeonMatrix[player.getyCoord()][player.getxCoord()] = player.getPlayerSymbol();
         dungeon.dungeonMatrix[botPlayer.getyCoord()][botPlayer.getxCoord()] = botPlayer.getPLAYER_SYMBOL();
         dungeon.dungeonMatrix[chest.getyCoord()][chest.getxCoord()] = chest.getCHEST_SYMBOL();
-
-        //Create winAmount
-        for (Gold g : golds) {
-            gameWinAmount += g.getQuantity();
-        }
     }
 
     private int[] randomSpace() {
         Random rand = new Random();
-        int[] location = new int [2];
-        int x = rand.nextInt((dungeon.getWidth()-1)-1) + 1;
-        int y = rand.nextInt((dungeon.getHeight()-1)-1) + 1;
+        int[] location = new int[2];
+        int x = rand.nextInt((dungeon.getWidth() - 1) - 1) + 1;
+        int y = rand.nextInt((dungeon.getHeight() - 1) - 1) + 1;
         location[0] = x;
         location[1] = y;
         while (gridBounds[location[1]][location[0]] == Dungeon.BOUNDARY || gridBounds[location[1]][location[0]] == Gold.LOCATION) {
-            x = rand.nextInt(dungeon.getWidth()-1) + 1;
-            y = rand.nextInt(dungeon.getHeight()-1) + 1;
+            x = rand.nextInt(dungeon.getWidth() - 1) + 1;
+            y = rand.nextInt(dungeon.getHeight() - 1) + 1;
             location[0] = x;
             location[1] = y;
         }
@@ -85,9 +89,9 @@ class DungeonController implements DungeonGamePlayInterface {
         for (int i = 0; i < dungeon.getWidth(); i++) {
             for (int j = 0; j < dungeon.getHeight(); j++) {
                 if (j == dungeon.getWidth() - 1) {
-                    System.out.println(gridBounds[i][j]);
+                    System.out.println(getDungeonMatrix()[i][j]);
                 } else {
-                    System.out.print(+gridBounds[i][j]);
+                    System.out.print(getDungeonMatrix()[i][j]);
                 }
             }
         }
@@ -95,26 +99,27 @@ class DungeonController implements DungeonGamePlayInterface {
 
     private void addDungeonBounds(Dungeon dungeon) {
         for (int i = 0; i < dungeon.getWidth(); i++) {
-            for (int j = 0; j < dungeon.getHeight(); j++) {
-                dungeon.dungeonMatrix[0][i] = "-"; //draw top
-                gridBounds[0][i] = Dungeon.BOUNDARY; //store top
+            dungeon.dungeonMatrix[0][i] = "-"; //draw top
+            gridBounds[0][i] = Dungeon.BOUNDARY; //store top
 
-                dungeon.dungeonMatrix[dungeon.getHeight() - 1][i] = "-"; //draw bottom
-                gridBounds[dungeon.getHeight() - 1][i] = Dungeon.BOUNDARY; //store bottom
+            dungeon.dungeonMatrix[dungeon.getHeight() - 1][i] = "-"; //draw bottom
+            gridBounds[dungeon.getHeight() - 1][i] = Dungeon.BOUNDARY; //store bottom
 
-                dungeon.dungeonMatrix[j][0] = "|"; //draw left
-                gridBounds[j][0] = Dungeon.BOUNDARY; //store left
-
-                dungeon.dungeonMatrix[j][dungeon.getWidth() - 1] = "|";//draw right
-                gridBounds[j][dungeon.getWidth() - 1] = Dungeon.BOUNDARY;//store right
-
-            }
             dungeon.dungeonMatrix[dungeon.getHeight() / 2][i] = "-"; //draw middle horizontal
             gridBounds[dungeon.getHeight() / 2][i] = Dungeon.BOUNDARY; //store middle horizontal
 
             dungeon.dungeonMatrix[i][dungeon.getWidth() / 2] = "|"; //draw middle vertical
             gridBounds[i][dungeon.getWidth() / 2] = Dungeon.BOUNDARY; //store middle vertical
         }
+
+        for (int j = 0; j < dungeon.getHeight(); j++) {
+            dungeon.dungeonMatrix[j][0] = "|"; //draw left
+            gridBounds[j][0] = Dungeon.BOUNDARY; //store left
+
+            dungeon.dungeonMatrix[j][dungeon.getWidth() - 1] = "|";//draw right
+            gridBounds[j][dungeon.getWidth() - 1] = Dungeon.BOUNDARY;//store right
+        }
+
         addPassage(dungeon);
         addExit(dungeon);
     }
@@ -258,9 +263,9 @@ class DungeonController implements DungeonGamePlayInterface {
     }
 
     private void assignSpeed() {
-            speed.setSpeedX(-1);
-            speed.setSpeedY(-1);
-            speed.setSpeedBoostRemaining(20);
+        speed.setSpeedX(-1);
+        speed.setSpeedY(-1);
+        speed.setSpeedBoostRemaining(30);
     }
 
     private void addGold(int room, int sh, int sw) {
@@ -284,7 +289,7 @@ class DungeonController implements DungeonGamePlayInterface {
     }
 
     public boolean checkExit(int y, int x) {
-        if (gridBounds[y][x] == Dungeon.EXIT  && player.hasKey == false) {
+        if (gridBounds[y][x] == Dungeon.EXIT && player.hasKey == false) {
             return false;
         }
         return true;
@@ -297,7 +302,7 @@ class DungeonController implements DungeonGamePlayInterface {
 
     public void movePlayer(PlayerMovement move) {
         if (player.isPlayerTurn()) {
-            switch(move) {
+            switch (move) {
                 case UP:
                     dungeon.dungeonMatrix[player.getyCoord()][player.getxCoord()] = " ";
                     player.setyCoord(player.getyCoord() - 1);
@@ -326,16 +331,18 @@ class DungeonController implements DungeonGamePlayInterface {
                     dungeon.dungeonMatrix[player.getyCoord()][player.getxCoord()] = player.getPlayerSymbol();
                     break;
             }
+            assignGold();
+            assignChest();
 
             if (speed.getSpeedBoostRemaining() > 0) {
                 hasMoved = true;
                 speed.setSpeedBoostRemaining(speed.getSpeedBoostRemaining() - 1);
             }
-            moves ++;
+            moves++;
 
             if (moves >= 2 || !hasMoved) {
                 player.setPlayerTurn(false);
-                player.setScore(player.getScore()+1);
+                player.setScore(player.getScore() + 1);
                 moveBot();
                 moves = 0;
             }
@@ -350,8 +357,8 @@ class DungeonController implements DungeonGamePlayInterface {
 
     private void moveBot() {
         PlayerMovement botMove;
-        if (Math.abs(botPlayer.getxCoord()-player.getxCoord()) >= Math.abs(botPlayer.getyCoord()-player.getyCoord())) {
-            if(botPlayer.getxCoord() - player.getxCoord() < 0) {
+        if (Math.abs(botPlayer.getxCoord() - player.getxCoord()) >= Math.abs(botPlayer.getyCoord() - player.getyCoord())) {
+            if (botPlayer.getxCoord() - player.getxCoord() < 0) {
                 botMove = PlayerMovement.RIGHT;
             } else if (botPlayer.getxCoord() - player.getxCoord() > 0) {
                 botMove = PlayerMovement.LEFT;
@@ -359,9 +366,9 @@ class DungeonController implements DungeonGamePlayInterface {
                 botMove = PlayerMovement.NONE;
             }
         } else {
-            if(botPlayer.getyCoord() - player.getyCoord() < 0) {
+            if (botPlayer.getyCoord() - player.getyCoord() < 0) {
                 botMove = PlayerMovement.DOWN;
-            } else if(botPlayer.getyCoord() - player.getyCoord() > 0){
+            } else if (botPlayer.getyCoord() - player.getyCoord() > 0) {
                 botMove = PlayerMovement.UP;
             } else {
                 botMove = PlayerMovement.NONE;
@@ -370,7 +377,7 @@ class DungeonController implements DungeonGamePlayInterface {
         botMove = botCollision(botMove);
         //TODO add method here to prevent bot eating a corner
 
-        switch(botMove) {
+        switch (botMove) {
             case UP:
                 dungeon.dungeonMatrix[botPlayer.getyCoord()][botPlayer.getxCoord()] = " ";
                 botPlayer.setyCoord(botPlayer.getyCoord() - 1);
@@ -509,11 +516,11 @@ class DungeonController implements DungeonGamePlayInterface {
     }
 
     public double distance(int x, int x2, int y, int y2) {
-        return Math.hypot(x-x2, y-y2);
+        return Math.hypot(x - x2, y - y2);
     }
 
     public void assignChest() {
-        if (distance(player.getxCoord(),chest.getxCoord(), player.getyCoord(), chest.getyCoord())
+        if (distance(player.getxCoord(), chest.getxCoord(), player.getyCoord(), chest.getyCoord())
                 <= 2) {
             nearChest = true;
         } else {
@@ -540,6 +547,21 @@ class DungeonController implements DungeonGamePlayInterface {
     private void giveKey() {
         player.hasKey = true;
         System.out.println("You find the key. \n You may now exit.");
+    }
+
+    public boolean checkWin() {
+        if (checkExit(player.getyCoord(), player.getxCoord()) &&
+                gridBounds[player.getyCoord()][player.getxCoord()] == Dungeon.EXIT) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean checkCollision(int y, int x) {
+        if (gridBounds[y][x] == Dungeon.BOUNDARY || !checkExit(y, x) || gridBounds[y][x] == Dungeon.CHEST) {
+            return true;
+        }
+        return false;
     }
 }
 
