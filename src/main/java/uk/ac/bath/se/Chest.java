@@ -2,8 +2,8 @@ package uk.ac.bath.se;
 
 class Chest {
 
-private int xCoord;
-private int yCoord;
+    private int xCoord;
+    private int yCoord;
     private static int chestQuantity = 1;
     public static final String CHEST_SYMBOL = "C";
 

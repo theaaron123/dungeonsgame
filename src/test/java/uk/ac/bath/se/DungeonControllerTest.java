@@ -18,7 +18,7 @@ public class DungeonControllerTest {
         dungeonController.gridBounds[1][1] = Dungeon.CHEST;
         assertTrue(dungeonController.checkCollision(1, 1));
 
-        dungeonController.gridBounds[1][1] = 0;
+        dungeonController.gridBounds[1][1] = Dungeon.SPACE;
         assertTrue(!dungeonController.checkCollision(1, 1));
     }
 
@@ -26,9 +26,10 @@ public class DungeonControllerTest {
     public void testBotCollisionShouldCollide() throws Exception {
         DungeonController dungeonController = new DungeonController();
         dungeonController.initialiseDungeonGame();
-        dungeonController.botPlayer.setxCoord(1);
+
+        dungeonController.botPlayer.setxCoord(3);
         dungeonController.botPlayer.setyCoord(1);
-        dungeonController.gridBounds[1][0] = Dungeon.BOUNDARY;
+        dungeonController.gridBounds[2][3] = Dungeon.BOUNDARY; // y,x for gridBounds
         PlayerMovement movement = dungeonController.botCollision(PlayerMovement.UP);
         assertTrue(movement != PlayerMovement.UP);
     }
@@ -38,9 +39,9 @@ public class DungeonControllerTest {
         DungeonController dungeonController = new DungeonController();
         dungeonController.initialiseDungeonGame();
 
-        dungeonController.botPlayer.setxCoord(5);
-        dungeonController.botPlayer.setyCoord(5);
-        dungeonController.gridBounds[5][4] = Dungeon.SPACE;
+        dungeonController.botPlayer.setxCoord(1);
+        dungeonController.botPlayer.setyCoord(1);
+        dungeonController.gridBounds[0][1] = Dungeon.SPACE; // y, x for gridBounds
         PlayerMovement movement = dungeonController.botCollision(PlayerMovement.UP);
         assertTrue(movement == PlayerMovement.UP);
     }
