@@ -18,30 +18,69 @@ class SplashScreen {
         menu.setSize(400, 200);
         menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        JButton userName = new JButton("Create User Name");
         JButton chooseDifficulty = new JButton("Choose Difficulty Level");
         JButton startGame = new JButton("Start Game");
         JButton viewScore = new JButton("View Historical Scores");
 
-        menu.getContentPane().setLayout(new GridLayout(3,1));
+        menu.getContentPane().setLayout(new GridLayout(4,1));
+        menu.add(userName);
         menu.add(chooseDifficulty);
         menu.add(startGame);
         menu.add(viewScore);
 
+        userName.addActionListener(new userNameHandler());
         chooseDifficulty.addActionListener(new choiceDifficulty());
         startGame.addActionListener(new startGameHandler());
-        startGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                menu.dispose();
-            }
-        });
+        startGame.addActionListener(e -> menu.dispose());
         viewScore.addActionListener(new viewScoreHandler());
+    }
+
+    // When player choice button createUserName, the game shows a new window for inputting User Name .
+    public class userNameHandler implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+
+            JFrame userNameFrame = new JFrame("Dungeon Game");
+            userNameFrame.setSize(300, 100);
+            userNameFrame.setLocationRelativeTo(null);
+            userNameFrame.setVisible(true);
+            userNameFrame.setResizable(false);
+
+            JTextField name = new JTextField(20);
+
+            JLabel nameLabel = new JLabel(" Create User Name");
+            JButton confirmButton = new JButton("Confirm");
+
+            userNameFrame.setLayout(new GridLayout( 3, 1));
+            userNameFrame.add(nameLabel);
+            userNameFrame.add(name);
+            userNameFrame.add(confirmButton);
+
+            confirmButton.addActionListener(e12 -> {
+
+                //Get User Name
+                if (e12.getSource() == confirmButton || e12.getSource() == name) {
+
+                    Player.playerName = name.getText();
+
+                    // Show Welcome Message
+                    JFrame welcomeFrame;
+                    welcomeFrame = new JFrame("Create User Name");
+                    welcomeFrame.setLocationRelativeTo(null);
+                    welcomeFrame.setVisible(true);
+                    JOptionPane.showMessageDialog(welcomeFrame, "Welcome !  " + name.getText());
+                    welcomeFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                }
+            });
+
+            confirmButton.addActionListener(e1 -> userNameFrame.dispose());
+        }
     }
 
     // When player chooses button chooseDifficulty, the game shows a new window.
     public class choiceDifficulty implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            DifficultyChooser chooser = new DifficultyChooser();
+            new DifficultyChooser();
         }
     }
 
@@ -65,18 +104,10 @@ class SplashScreen {
             difficultyChoice.add(hellModel);
 
             easyModel.addActionListener(new easyModel());
-            easyModel.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e) {
-                    difficultyChoice.dispose();
-                }
-            });
+            easyModel.addActionListener(e -> difficultyChoice.dispose());
 
             hellModel.addActionListener(new hardModel());
-            hellModel.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e) {
-                    difficultyChoice.dispose();
-                }
-            });
+            hellModel.addActionListener(e -> difficultyChoice.dispose());
         }
     }
 
@@ -107,14 +138,14 @@ class SplashScreen {
     // When player chooses button startGame, the game start.
     public class startGameHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            DungeonView d = new DungeonView();
+            new DungeonView();
         }
     }
 
     //When player chooses button View Historical Scores, the game shows a new window.
     public class viewScoreHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            HighScores highScores = new HighScores();
+            new HighScores();
         }
     }
 
@@ -131,11 +162,8 @@ class SplashScreen {
             scores.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
             JTextArea scoreArea = new JTextArea();
-
             scores.getContentPane().add(BorderLayout.CENTER, scoreArea);
-
             scoreArea.append("Player Name:" + "Gold:\t" + "Score:\n" + Player.getTopPlayer());
-
         }
     }
 
@@ -164,18 +192,12 @@ class SplashScreen {
         winChoice.add(goToSplashScreen);
         winChoice.add(stopPlay);
 
-        goToSplashScreen.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                SplashScreen splashScreen = new SplashScreen();
-                winChoice.dispose();
-            }
+        goToSplashScreen.addActionListener(e -> {
+            new SplashScreen();
+            winChoice.dispose();
         });
 
-        stopPlay.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+        stopPlay.addActionListener(e -> System.exit(0));
     }
 
     public static void loseScreen() {
@@ -205,27 +227,29 @@ class SplashScreen {
         loseChoice.add(goToSplashScreen);
         loseChoice.add(stopPlay);
 
-        goToSplashScreen.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                loseChoice.dispose();
-                Player.lives += 3;
-                SplashScreen splashScreen = new SplashScreen();
-            }
+        goToSplashScreen.addActionListener(e -> {
+            loseChoice.dispose();
+            Player.lives += 3;
+            new SplashScreen();
         });
 
-        stopPlay.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+        stopPlay.addActionListener(e -> System.exit(0));
 
-        tryAgain.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                loseChoice.dispose();
-                Player.lives += 3;
-                DungeonView d = new DungeonView();
-            }
+        tryAgain.addActionListener(e -> {
+            loseChoice.dispose();
+            Player.lives += 3;
+            new DungeonView();
         });
     }
+    public static void loseOneLifeScreen() {
 
+        //Make a "You Died !" message.
+        JFrame youLose = new JFrame("Dungeon Game");
+        youLose.setLocationRelativeTo(null);
+        youLose.setVisible(false);
+        youLose.setResizable(false);
+        youLose.setSize(400, 200);
+        youLose.dispose();
+        JOptionPane.showMessageDialog(youLose,"You have lost one life !");
+    }
 }

@@ -14,7 +14,7 @@ class Player {
     private int gold;
     private String symbol;
     private boolean playerTurn;
-    private String playerName;
+    static String playerName;
     public static int lives = 3;
     public boolean hasKey = false;
 
@@ -25,6 +25,14 @@ class Player {
         score = 0;
         symbol = "^";
         playerTurn = true;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
 
     public Player(int score, int gold, String playerName) {
