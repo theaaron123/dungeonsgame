@@ -5,6 +5,22 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 public class DungeonControllerTest {
+    @Test
+    public void testCheckCollision() throws Exception {
+        DungeonController dungeonController = new DungeonController();
+        dungeonController.initialiseDungeonGame();
+        dungeonController.gridBounds[1][1] = Dungeon.BOUNDARY;
+        assertTrue(dungeonController.checkCollision(1, 1));
+
+        dungeonController.gridBounds[1][1] = Dungeon.EXIT;
+        assertTrue(dungeonController.checkCollision(1, 1));
+
+        dungeonController.gridBounds[1][1] = Dungeon.CHEST;
+        assertTrue(dungeonController.checkCollision(1, 1));
+
+        dungeonController.gridBounds[1][1] = 0;
+        assertTrue(!dungeonController.checkCollision(1, 1));
+    }
 
     @Test
     public void testMovePlayerRight() throws Exception {

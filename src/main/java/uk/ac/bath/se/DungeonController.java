@@ -485,13 +485,12 @@ class DungeonController implements DungeonGamePlayInterface {
     public String giveRandomItem() {
         Random rand = new Random();
         String message = "";
-        int a = rand.nextInt(2);
+        int nextInt = rand.nextInt(2);
         message += "You open the chest to find...";
         if (player.getGold() >= gameWinAmount && !player.hasKey) {
             giveKey();
             message += "a key! You may now exit.";
-        }
-        else if (a == 0) {
+        } else if (nextInt == 0) {
             message += "Nothing.";
         } else {
             message += "A ton of speed!";
