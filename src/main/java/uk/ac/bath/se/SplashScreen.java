@@ -88,6 +88,7 @@ class SplashScreen {
             easyChoice.setLocationRelativeTo(null);
             easyChoice.setVisible(false);
             easyChoice.dispose();
+            Dungeon.difficulty = "Easy";
             JOptionPane.showMessageDialog(easyChoice,"You chose Easy Model !");
         }
     }
@@ -100,6 +101,7 @@ class SplashScreen {
             hardChoice.setLocationRelativeTo(null);
             hardChoice.setVisible(false);
             hardChoice.dispose();
+            Dungeon.difficulty = "Hard";
             JOptionPane.showMessageDialog(hardChoice,"You chose Hard Model !");
         }
     }

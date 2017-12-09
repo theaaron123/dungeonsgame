@@ -22,7 +22,11 @@ class DungeonView implements KeyListener {
 
         gameArea = new JTextArea();
         gameArea.setForeground(Color.white);
-        gameArea.setFont(new Font("monospaced", Font.PLAIN, 16)); //size depicts the size of the game view.
+        if (Dungeon.difficulty.equals("Easy")) {
+            gameArea.setFont(new Font("monospaced", Font.PLAIN, 16));
+        } else if (Dungeon.difficulty.equals("Hard")) {
+            gameArea.setFont(new Font("monospaced", Font.PLAIN, 13));
+        }
         gameArea.setVisible(true);
         gameArea.setEditable(false);
 
