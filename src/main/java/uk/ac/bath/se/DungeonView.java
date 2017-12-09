@@ -66,7 +66,7 @@ class DungeonView implements KeyListener {
         dungeonController.initialiseDungeonGame();
 
         scoreArea.setText("Player Name: "
-                +dungeonController.player.getPlayerName()+
+                + dungeonController.player.getPlayerName() +
                 "\n" +
                 "Lives: " +
                 Player.lives +
@@ -184,7 +184,7 @@ class DungeonView implements KeyListener {
             SplashScreen.winScreen();
         }
         scoreArea.setText("Player Name: "
-                +dungeonController.player.getPlayerName()+
+                + dungeonController.player.getPlayerName() +
                 "\n" +
                 "Lives: " +
                 Player.lives +
