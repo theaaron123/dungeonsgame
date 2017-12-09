@@ -42,7 +42,11 @@ class DungeonView implements KeyListener {
         dungeon = Dungeon.getInstance();
         dungeonController = new DungeonController();
         dungeonController.initialiseDungeonGame();
-        scoreArea.setText("Lives: " +
+
+        scoreArea.setText("Player Name: "
+                +dungeonController.player.getPlayerName()+
+                "\n" +
+                "Lives: " +
                 Player.lives +
                 "\n" +
                 "Score: " +
@@ -81,7 +85,7 @@ class DungeonView implements KeyListener {
             case KeyEvent.VK_W:
             case KeyEvent.VK_UP:
                 //if player hits boundary.
-                if (!dungeonController.checkCollision(dungeonController.player.getyCoord()-1,dungeonController.player.getxCoord())) {
+                if (!dungeonController.checkCollision(dungeonController.player.getyCoord() - 1, dungeonController.player.getxCoord())) {
                     dungeonController.movePlayer(PlayerMovement.UP);
                     drawDungeon();
                 }
@@ -90,7 +94,7 @@ class DungeonView implements KeyListener {
             case KeyEvent.VK_S:
             case KeyEvent.VK_DOWN:
                 //if player hits boundary
-                if (!dungeonController.checkCollision(dungeonController.player.getyCoord()+1,dungeonController.player.getxCoord())) {
+                if (!dungeonController.checkCollision(dungeonController.player.getyCoord() + 1, dungeonController.player.getxCoord())) {
                     dungeonController.movePlayer(PlayerMovement.DOWN);
                     drawDungeon();
                 }
@@ -99,7 +103,7 @@ class DungeonView implements KeyListener {
             case KeyEvent.VK_A:
             case KeyEvent.VK_LEFT:
                 //if player hits boundary
-                if (!dungeonController.checkCollision(dungeonController.player.getyCoord(),dungeonController.player.getxCoord()-1)) {
+                if (!dungeonController.checkCollision(dungeonController.player.getyCoord(), dungeonController.player.getxCoord() - 1)) {
                     dungeonController.movePlayer(PlayerMovement.LEFT);
                     drawDungeon();
                 }
@@ -108,7 +112,7 @@ class DungeonView implements KeyListener {
             case KeyEvent.VK_D:
             case KeyEvent.VK_RIGHT:
                 //if player hits boundary
-                if (!dungeonController.checkCollision(dungeonController.player.getyCoord(),dungeonController.player.getxCoord()+1)) {
+                if (!dungeonController.checkCollision(dungeonController.player.getyCoord(), dungeonController.player.getxCoord() + 1)) {
                     dungeonController.movePlayer(PlayerMovement.RIGHT);
                     drawDungeon();
                 }
@@ -127,20 +131,24 @@ class DungeonView implements KeyListener {
                 SplashScreen.loseScreen();
             } else {
                 dungeonController.initialiseDungeonGame();
+                SplashScreen.loseOneLifeScreen();
                 drawDungeon();
             }
         }
 
         if (dungeonController.checkWin()) {
             //TODO input username to use
-            dungeonController.saveGoldAmount("Aaron",
+            dungeonController.saveGoldAmount(dungeonController.player.getPlayerName(),
                     dungeonController.player.getGold(),
                     dungeonController.player.getScore()
             );
             gameWindow.dispose();
             SplashScreen.winScreen();
         }
-        scoreArea.setText("Lives: " +
+        scoreArea.setText("Player Name: "
+                +dungeonController.player.getPlayerName()+
+                "\n" +
+                "Lives: " +
                 Player.lives +
                 "\n" +
                 "Score: " +
