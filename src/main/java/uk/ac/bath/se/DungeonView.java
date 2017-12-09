@@ -141,9 +141,11 @@ class DungeonView implements KeyListener {
                 if (dungeonController.nearChest) {
                     String message = dungeonController.giveRandomItem();
                     actionBox.append(message + "\n");
+                    drawDungeon();
                 } else {
                     actionBox.append("No nearby items were found... \n");
                 }
+                break;
         }
         if (!moveMessage.equals("")) {
             actionBox.append(moveMessage);

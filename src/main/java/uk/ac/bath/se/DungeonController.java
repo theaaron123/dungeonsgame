@@ -51,14 +51,17 @@ class DungeonController implements DungeonGamePlayInterface {
     }
 
     private void addGameItems() {
-        player.setxCoord(randomSpace()[0]);
-        player.setyCoord(randomSpace()[1]);
+        int[] location = randomSpace();
+        player.setxCoord(location[0]);
+        player.setyCoord(location[1]);
         gridBounds[player.getyCoord()][player.getxCoord()] = Dungeon.BOUNDARY;
-        botPlayer.setxCoord(randomSpace()[0]);
-        botPlayer.setyCoord(randomSpace()[1]);
+        location = randomSpace();
+        botPlayer.setxCoord(location[0]);
+        botPlayer.setyCoord(location[1]);
         gridBounds[botPlayer.getyCoord()][botPlayer.getxCoord()] = Dungeon.BOUNDARY;
-        chest.setxCoord(randomSpace()[0]);
-        chest.setyCoord(randomSpace()[1]);
+        location = randomSpace();
+        chest.setxCoord(location[0]);
+        chest.setyCoord(location[1]);
         gridBounds[chest.getyCoord()][chest.getxCoord()] = Dungeon.CHEST;
         gridBounds[player.getyCoord()][player.getxCoord()] = Dungeon.SPACE;
         gridBounds[botPlayer.getyCoord()][botPlayer.getxCoord()] = Dungeon.SPACE;
@@ -77,8 +80,8 @@ class DungeonController implements DungeonGamePlayInterface {
         location[0] = x;
         location[1] = y;
         while (gridBounds[location[1]][location[0]] == Dungeon.BOUNDARY || gridBounds[location[1]][location[0]] == Gold.LOCATION) {
-            x = rand.nextInt(dungeon.getWidth() - 1) + 1;
-            y = rand.nextInt(dungeon.getHeight() - 1) + 1;
+            x = rand.nextInt((dungeon.getWidth() - 1) - 1) + 1;
+            y = rand.nextInt((dungeon.getHeight() - 1) - 1) + 1;
             location[0] = x;
             location[1] = y;
         }
@@ -481,17 +484,29 @@ class DungeonController implements DungeonGamePlayInterface {
     public String giveRandomItem() {
         Random rand = new Random();
         String message = "";
-        int a = rand.nextInt(2);
+        int chance = rand.nextInt(2);
         message += "You open the chest to find...";
         if (player.getGold() >= gameWinAmount && !player.hasKey) {
             giveKey();
             message += "a key! You may now exit.";
         }
-        else if (a == 0) {
-            message += "Nothing.";
+        else if (chance == 0) {
+            message += "nothing. Your search continues...";
         } else {
-            message += "A ton of speed!";
+            message += "a ton of speed!";
             assignSpeed();
+        }
+        chance = rand.nextInt(2);
+        if (chance == 0) {
+            message += "\nThe chest mysteriously vanishes...";
+            int[] newLocation = randomSpace();
+            gridBounds[chest.getyCoord()][chest.getxCoord()] = Dungeon.SPACE;
+            dungeon.dungeonMatrix[chest.getyCoord()][chest.getxCoord()] = " ";
+            chest.setxCoord(newLocation[0]);
+            chest.setyCoord(newLocation[1]);
+            gridBounds[chest.getyCoord()][chest.getxCoord()] = Dungeon.CHEST;
+            dungeon.dungeonMatrix[chest.getyCoord()][chest.getxCoord()] = chest.getCHEST_SYMBOL();
+            assignChest();
         }
         return message;
     }
