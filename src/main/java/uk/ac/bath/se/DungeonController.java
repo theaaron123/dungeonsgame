@@ -435,7 +435,7 @@ class DungeonController implements DungeonGamePlayInterface {
         return false;
     }
 
-    private PlayerMovement botCollision(PlayerMovement direction) {
+    PlayerMovement botCollision(PlayerMovement direction) {
         if (direction == PlayerMovement.UP) {
             if (!checkCollision(botPlayer.getyCoord() - 1, botPlayer.getxCoord())
                     && gridBounds[botPlayer.getyCoord() - 1][botPlayer.getxCoord()] != Gold.LOCATION) {

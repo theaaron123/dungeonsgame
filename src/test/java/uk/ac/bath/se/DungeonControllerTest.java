@@ -23,6 +23,29 @@ public class DungeonControllerTest {
     }
 
     @Test
+    public void testBotCollisionShouldCollide() throws Exception {
+        DungeonController dungeonController = new DungeonController();
+        dungeonController.initialiseDungeonGame();
+        dungeonController.botPlayer.setxCoord(1);
+        dungeonController.botPlayer.setyCoord(1);
+        dungeonController.gridBounds[1][0] = Dungeon.BOUNDARY;
+        PlayerMovement movement = dungeonController.botCollision(PlayerMovement.UP);
+        assertTrue(movement != PlayerMovement.UP);
+    }
+
+    @Test
+    public void testBotCollisionShouldNotCollide() throws Exception {
+        DungeonController dungeonController = new DungeonController();
+        dungeonController.initialiseDungeonGame();
+
+        dungeonController.botPlayer.setxCoord(5);
+        dungeonController.botPlayer.setyCoord(5);
+        dungeonController.gridBounds[5][4] = Dungeon.SPACE;
+        PlayerMovement movement = dungeonController.botCollision(PlayerMovement.UP);
+        assertTrue(movement == PlayerMovement.UP);
+    }
+
+    @Test
     public void testMovePlayerRight() throws Exception {
         DungeonController dungeonController = new DungeonController();
         dungeonController.initialiseDungeonGame();
