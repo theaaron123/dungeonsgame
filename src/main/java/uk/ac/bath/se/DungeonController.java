@@ -11,7 +11,7 @@ class DungeonController implements DungeonGamePlayInterface {
     public int[][] gridBounds;
     public int gameWinAmount;
     public boolean nearChest;
-    private BotPlayer botPlayer;
+    BotPlayer botPlayer;
     private Dungeon dungeon;
     private Gold[] golds;
     private Speed speed;
@@ -360,7 +360,7 @@ class DungeonController implements DungeonGamePlayInterface {
             if (moves >= 2 || !hasMoved) {
                 player.setPlayerTurn(false);
                 player.setScore(player.getScore() + 1);
-                moveBot();
+                moveBot(getBotDirection());
                 moves = 0;
             }
             hasMoved = false;
@@ -376,28 +376,8 @@ class DungeonController implements DungeonGamePlayInterface {
         return dungeon.dungeonMatrix;
     }
 
-    private void moveBot() {
-        PlayerMovement botMove;
-        if (Math.abs(botPlayer.getxCoord() - player.getxCoord()) >= Math.abs(botPlayer.getyCoord() - player.getyCoord())) {
-            if (botPlayer.getxCoord() - player.getxCoord() < 0) {
-                botMove = PlayerMovement.RIGHT;
-            } else if (botPlayer.getxCoord() - player.getxCoord() > 0) {
-                botMove = PlayerMovement.LEFT;
-            } else {
-                botMove = PlayerMovement.NONE;
-            }
-        } else {
-            if (botPlayer.getyCoord() - player.getyCoord() < 0) {
-                botMove = PlayerMovement.DOWN;
-            } else if (botPlayer.getyCoord() - player.getyCoord() > 0) {
-                botMove = PlayerMovement.UP;
-            } else {
-                botMove = PlayerMovement.NONE;
-            }
-        }
-        botMove = botCollision(botMove);
-
-        switch (botMove) {
+    void moveBot(PlayerMovement direction) {
+        switch (direction) {
             case UP:
                 dungeon.dungeonMatrix[botPlayer.getyCoord()][botPlayer.getxCoord()] = " ";
                 botPlayer.setyCoord(botPlayer.getyCoord() - 1);
@@ -423,6 +403,29 @@ class DungeonController implements DungeonGamePlayInterface {
                 break;
         }
         player.setPlayerTurn(true);
+    }
+
+    private PlayerMovement getBotDirection() {
+        PlayerMovement botMove;
+        if (Math.abs(botPlayer.getxCoord() - player.getxCoord()) >= Math.abs(botPlayer.getyCoord() - player.getyCoord())) {
+            if (botPlayer.getxCoord() - player.getxCoord() < 0) {
+                botMove = PlayerMovement.RIGHT;
+            } else if (botPlayer.getxCoord() - player.getxCoord() > 0) {
+                botMove = PlayerMovement.LEFT;
+            } else {
+                botMove = PlayerMovement.NONE;
+            }
+        } else {
+            if (botPlayer.getyCoord() - player.getyCoord() < 0) {
+                botMove = PlayerMovement.DOWN;
+            } else if (botPlayer.getyCoord() - player.getyCoord() > 0) {
+                botMove = PlayerMovement.UP;
+            } else {
+                botMove = PlayerMovement.NONE;
+            }
+        }
+        botMove = botCollision(botMove);
+        return botMove;
     }
 
     public boolean checkLoss() {

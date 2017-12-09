@@ -47,6 +47,46 @@ public class DungeonControllerTest {
     }
 
     @Test
+    public void testMoveBotRight() throws Exception {
+        DungeonController dungeonController = new DungeonController();
+        dungeonController.initialiseDungeonGame();
+        int xCoordInitial = dungeonController.botPlayer.getxCoord();
+        dungeonController.moveBot(PlayerMovement.RIGHT);
+        int xCoord = dungeonController.botPlayer.getxCoord();
+        assertTrue(xCoord == (xCoordInitial + 1));
+    }
+
+    @Test
+    public void testMoveBotLeft() throws Exception {
+        DungeonController dungeonController = new DungeonController();
+        dungeonController.initialiseDungeonGame();
+        int xCoordInitial = dungeonController.botPlayer.getxCoord();
+        dungeonController.moveBot(PlayerMovement.LEFT);
+        int xCoord = dungeonController.botPlayer.getxCoord();
+        assertTrue(xCoord == (xCoordInitial - 1));
+    }
+
+    @Test
+    public void testMoveBotUp() throws Exception {
+        DungeonController dungeonController = new DungeonController();
+        dungeonController.initialiseDungeonGame();
+        int yCoordInitial = dungeonController.botPlayer.getyCoord();
+        dungeonController.moveBot(PlayerMovement.UP);
+        int yCoord = dungeonController.botPlayer.getyCoord();
+        assertTrue(yCoord == (yCoordInitial - 1));
+    }
+
+    @Test
+    public void testMoveBotDown() throws Exception {
+        DungeonController dungeonController = new DungeonController();
+        dungeonController.initialiseDungeonGame();
+        int yCoordInitial = dungeonController.botPlayer.getyCoord();
+        dungeonController.moveBot(PlayerMovement.DOWN);
+        int yCoord = dungeonController.botPlayer.getyCoord();
+        assertTrue(yCoord == (yCoordInitial + 1));
+    }
+
+    @Test
     public void testAddDungeonBounds() throws Exception {
         DungeonController dungeonController = new DungeonController();
         dungeonController.initialiseDungeonGame();
