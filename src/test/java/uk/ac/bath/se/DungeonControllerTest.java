@@ -29,7 +29,7 @@ public class DungeonControllerTest {
 
         dungeonController.botPlayer.setxCoord(3);
         dungeonController.botPlayer.setyCoord(1);
-        dungeonController.gridBounds[2][3] = Dungeon.BOUNDARY; // y,x for gridBounds
+        dungeonController.gridBounds[0][3] = Dungeon.BOUNDARY; // y,x for gridBounds
         PlayerMovement movement = dungeonController.botCollision(PlayerMovement.UP);
         assertTrue(movement != PlayerMovement.UP);
     }

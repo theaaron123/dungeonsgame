@@ -544,8 +544,6 @@ class DungeonController implements DungeonGamePlayInterface {
             giveKey();
             message += "a key! You may now exit.";
         } else if (chance == 0) {
-            message += "Nothing.";
-        } else if (chance == 0) {
             message += "nothing. Your search continues...";
         } else {
             message += "a ton of speed!";
