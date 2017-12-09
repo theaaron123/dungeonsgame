@@ -23,7 +23,7 @@ class SplashScreen {
         JButton startGame = new JButton("Start Game");
         JButton viewScore = new JButton("View Historical Scores");
 
-        menu.getContentPane().setLayout(new GridLayout(4,1));
+        menu.getContentPane().setLayout(new GridLayout(4, 1));
         menu.add(userName);
         menu.add(chooseDifficulty);
         menu.add(startGame);
@@ -51,7 +51,7 @@ class SplashScreen {
             JLabel nameLabel = new JLabel(" Create User Name");
             JButton confirmButton = new JButton("Confirm");
 
-            userNameFrame.setLayout(new GridLayout( 3, 1));
+            userNameFrame.setLayout(new GridLayout(3, 1));
             userNameFrame.add(nameLabel);
             userNameFrame.add(name);
             userNameFrame.add(confirmButton);
@@ -84,9 +84,8 @@ class SplashScreen {
         }
     }
 
-    //TODO Those two button still only are button, need to add other function to actually change the difficulty level
-    //TODO For instance, maybe Hell Model have five bot for hunting human player.
-    // The player can choice the level of difficulty of game.
+    //TODO Add function to change difficulty level
+    // The player can choose the level of difficulty of game.
     public class DifficultyChooser extends JFrame
     {
         private DifficultyChooser() {
@@ -242,6 +241,7 @@ class SplashScreen {
             new DungeonView();
         });
     }
+
     public static void loseOneLifeScreen() {
 
         //Make a "You Died !" message.
@@ -251,6 +251,6 @@ class SplashScreen {
         youLose.setResizable(false);
         youLose.setSize(400, 200);
         youLose.dispose();
-        JOptionPane.showMessageDialog(youLose,"You have lost one life !");
+        JOptionPane.showMessageDialog(youLose, "You have lost one life !");
     }
 }

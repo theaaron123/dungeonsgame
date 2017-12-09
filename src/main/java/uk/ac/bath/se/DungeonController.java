@@ -61,8 +61,8 @@ class DungeonController implements DungeonGamePlayInterface {
         chest.setxCoord(randomSpace()[0]);
         chest.setyCoord(randomSpace()[1]);
         gridBounds[chest.getyCoord()][chest.getxCoord()] = Dungeon.CHEST;
-        gridBounds[player.getyCoord()][player.getxCoord()] = 0;
-        gridBounds[botPlayer.getyCoord()][botPlayer.getxCoord()] = 0;
+        gridBounds[player.getyCoord()][player.getxCoord()] = Dungeon.SPACE;
+        gridBounds[botPlayer.getyCoord()][botPlayer.getxCoord()] = Dungeon.SPACE;
 
         //Print player, bot and chest into dungeon
         dungeon.dungeonMatrix[player.getyCoord()][player.getxCoord()] = player.getPlayerSymbol();
@@ -278,15 +278,23 @@ class DungeonController implements DungeonGamePlayInterface {
         gridBounds[sh + 2][sw + 2] = Gold.LOCATION;
     }
 
-    public void assignGold() {
+    public String assignGold() {
+        String goldMessage = "";
         for (Gold gold : golds) {
             if (gold.getxCoord() == player.getxCoord() && gold.getyCoord() == player.getyCoord()) {
                 player.setGold(player.getGold() + gold.getQuantity());
                 gridBounds[gold.getyCoord()][gold.getxCoord()] = Dungeon.SPACE;
                 gold.setxCoord(-1);
                 gold.setyCoord(-1);
+                goldMessage = "You found " + gold.getQuantity() + " gold!";
+                if (gameWinAmount-player.getGold() == 0) {
+                    goldMessage += " Find the key to exit.";
+                } else {
+                    goldMessage += " You have " + Integer.toString(gameWinAmount-player.getGold()) + " left to collect.";
+                }
             }
         }
+        return goldMessage;
     }
 
     public boolean checkExit(int y, int x) {
@@ -301,7 +309,8 @@ class DungeonController implements DungeonGamePlayInterface {
         databaseHelper.insertValues(playerName, goldAmount, score);
     }
 
-    public void movePlayer(PlayerMovement move) {
+    public String movePlayer(PlayerMovement move) {
+        String message = "";
         if (player.isPlayerTurn()) {
             switch (move) {
                 case UP:
@@ -332,12 +341,19 @@ class DungeonController implements DungeonGamePlayInterface {
                     dungeon.dungeonMatrix[player.getyCoord()][player.getxCoord()] = player.getPlayerSymbol();
                     break;
             }
-            assignGold();
+            message = assignGold();
             assignChest();
+
+            if (!message.equals("")) {
+                message += "\n";
+            }
 
             if (speed.getSpeedBoostRemaining() > 0) {
                 hasMoved = true;
                 speed.setSpeedBoostRemaining(speed.getSpeedBoostRemaining() - 1);
+                if(speed.getSpeedBoostRemaining() == 0) {
+                    message += "You are out of speed boosts.\n";
+                }
             }
             moves++;
 
@@ -348,7 +364,11 @@ class DungeonController implements DungeonGamePlayInterface {
                 moves = 0;
             }
             hasMoved = false;
+            if (speed.getSpeedBoostRemaining() % 5 == 0 && speed.getSpeedBoostRemaining() > 0) {
+                message += "You have " + speed.getSpeedBoostRemaining() + " speed boosts remaining.\n";
+            }
         }
+        return message;
     }
 
     @Override
@@ -376,7 +396,6 @@ class DungeonController implements DungeonGamePlayInterface {
             }
         }
         botMove = botCollision(botMove);
-        //TODO add method here to prevent bot eating a corner
 
         switch (botMove) {
             case UP:
@@ -414,102 +433,33 @@ class DungeonController implements DungeonGamePlayInterface {
     }
 
     private PlayerMovement botCollision(PlayerMovement direction) {
-        //TODO Refactor to minimise code reuse
         if (direction == PlayerMovement.UP) {
-            if (gridBounds[botPlayer.getyCoord() - 1][botPlayer.getxCoord()] == 0) {
+            if (!checkCollision(botPlayer.getyCoord() - 1, botPlayer.getxCoord())
+                    && gridBounds[botPlayer.getyCoord() - 1][botPlayer.getxCoord()] != Gold.LOCATION) {
                 return direction;
             } else {
-                int leftSpace = 100;
-                int rightSpace = 100;
-                for (int i = botPlayer.getxCoord(); i >= 0; i--) {
-                    if (gridBounds[botPlayer.getyCoord() - 1][i] == 0) {
-                        leftSpace = botPlayer.getxCoord() - i;
-                        break;
-                    }
-                }
-                for (int i = botPlayer.getxCoord(); i < dungeon.getWidth(); i++) {
-                    if (gridBounds[botPlayer.getyCoord() - 1][i] == 0) {
-                        rightSpace = i - botPlayer.getxCoord();
-                        break;
-                    }
-                }
-                if (leftSpace < rightSpace) {
-                    return PlayerMovement.LEFT;
-                } else {
-                    return PlayerMovement.RIGHT;
-                }
+                return findSpace(-1, 0);
             }
         } else if (direction == PlayerMovement.DOWN) {
-            if (gridBounds[botPlayer.getyCoord() + 1][botPlayer.getxCoord()] == 0) {
+            if (!checkCollision(botPlayer.getyCoord() + 1, botPlayer.getxCoord())
+                    && gridBounds[botPlayer.getyCoord() + 1][botPlayer.getxCoord()] != Gold.LOCATION) {
                 return direction;
             } else {
-                int leftSpace = 100;
-                int rightSpace = 100;
-                for (int i = botPlayer.getxCoord(); i >= 0; i--) {
-                    if (gridBounds[botPlayer.getyCoord() + 1][i] == 0) {
-                        leftSpace = botPlayer.getxCoord() - i;
-                        break;
-                    }
-                }
-                for (int i = botPlayer.getxCoord(); i < dungeon.getWidth(); i++) {
-                    if (gridBounds[botPlayer.getyCoord() + 1][i] == 0) {
-                        rightSpace = i - botPlayer.getxCoord();
-                        break;
-                    }
-                }
-                if (leftSpace < rightSpace) {
-                    return PlayerMovement.LEFT;
-                } else {
-                    return PlayerMovement.RIGHT;
-                }
+                return findSpace(1,0);
             }
         } else if (direction == PlayerMovement.LEFT) {
-            if (gridBounds[botPlayer.getyCoord()][botPlayer.getxCoord() - 1] == 0) {
+            if (!checkCollision(botPlayer.getyCoord(), botPlayer.getxCoord()-1)
+                    && gridBounds[botPlayer.getyCoord()][botPlayer.getxCoord()-1] != Gold.LOCATION) {
                 return direction;
             } else {
-                int topSpace = 100;
-                int bottomSpace = 100;
-                for (int i = botPlayer.getyCoord(); i >= 0; i--) {
-                    if (gridBounds[i][botPlayer.getxCoord() - 1] == 0) {
-                        topSpace = botPlayer.getyCoord() - i;
-                        break;
-                    }
-                }
-                for (int i = botPlayer.getyCoord(); i < dungeon.getHeight(); i++) {
-                    if (gridBounds[i][botPlayer.getxCoord() - 1] == 0) {
-                        bottomSpace = i - botPlayer.getyCoord();
-                        break;
-                    }
-                }
-                if (topSpace < bottomSpace) {
-                    return PlayerMovement.UP;
-                } else {
-                    return PlayerMovement.DOWN;
-                }
+                return findSpace(0, -1);
             }
         } else if (direction == PlayerMovement.RIGHT) {
-            if (gridBounds[botPlayer.getyCoord()][botPlayer.getxCoord() + 1] == 0) {
+            if (!checkCollision(botPlayer.getyCoord(), botPlayer.getxCoord()+1)
+                    && gridBounds[botPlayer.getyCoord()][botPlayer.getxCoord()+1] != Gold.LOCATION) {
                 return direction;
             } else {
-                int topSpace = 100;
-                int bottomSpace = 100;
-                for (int i = botPlayer.getyCoord(); i >= 0; i--) {
-                    if (gridBounds[i][botPlayer.getxCoord() + 1] == 0) {
-                        topSpace = botPlayer.getyCoord() - i;
-                        break;
-                    }
-                }
-                for (int i = botPlayer.getyCoord(); i < dungeon.getHeight(); i++) {
-                    if (gridBounds[i][botPlayer.getxCoord() + 1] == 0) {
-                        bottomSpace = i - botPlayer.getyCoord();
-                        break;
-                    }
-                }
-                if (topSpace < bottomSpace) {
-                    return PlayerMovement.UP;
-                } else {
-                    return PlayerMovement.DOWN;
-                }
+                return findSpace(0, 1);
             }
         } else {
             return direction;
@@ -529,25 +479,26 @@ class DungeonController implements DungeonGamePlayInterface {
         }
     }
 
-    public void giveRandomItem() {
+    public String giveRandomItem() {
         Random rand = new Random();
+        String message = "";
         int a = rand.nextInt(2);
-        System.out.println("You open the chest.. to find...");
-        if (a == 0) {
-            System.out.println("Nothing.");
+        message += "You open the chest to find...";
+        if (player.getGold() >= gameWinAmount && !player.hasKey) {
+            giveKey();
+            message += "a key! You may now exit.";
+        }
+        else if (a == 0) {
+            message += "Nothing.";
         } else {
-            System.out.println("A ton of speed!");
+            message += "A ton of speed!";
             assignSpeed();
         }
-
-        if (player.getGold() >= gameWinAmount) {
-            giveKey();
-        }
+        return message;
     }
 
     private void giveKey() {
         player.hasKey = true;
-        System.out.println("You find the key. \n You may now exit.");
     }
 
     public boolean checkWin() {
@@ -563,6 +514,69 @@ class DungeonController implements DungeonGamePlayInterface {
             return true;
         }
         return false;
+    }
+
+    private PlayerMovement findSpace(int yDifference, int xDifference) {
+        int leftSpace = 1000;
+        int rightSpace = 1000;
+
+        if (Math.abs(yDifference) > 0) {
+            for (int i = botPlayer.getxCoord(); i >= 0; i--) {
+                if (checkCollision(botPlayer.getyCoord(),i)) {
+                    leftSpace = 1000;
+                    break;
+                }
+                else if (!checkCollision(botPlayer.getyCoord() + yDifference,i)) {
+                    leftSpace = botPlayer.getxCoord() - i;
+                    break;
+                }
+            }
+            for (int i = botPlayer.getxCoord(); i < dungeon.getWidth(); i++) {
+                if (checkCollision(botPlayer.getyCoord(),i)) {
+                    rightSpace = 1000;
+                    break;
+                }
+                else if (!checkCollision(botPlayer.getyCoord() + yDifference,i)) {
+                    rightSpace = i - botPlayer.getxCoord();
+                    break;
+                }
+            }
+            if (leftSpace < rightSpace) {
+                return PlayerMovement.LEFT;
+            } else if (leftSpace >= rightSpace && rightSpace != 1000) {
+                return PlayerMovement.RIGHT;
+            } else {
+                return PlayerMovement.NONE;
+            }
+        } else {
+            for (int i = botPlayer.getyCoord(); i >= 0; i--) {
+                if (checkCollision(i,botPlayer.getxCoord())) {
+                    leftSpace = 1000;
+                    break;
+                }
+                else if (!checkCollision(i, botPlayer.getxCoord() + xDifference)) {
+                    leftSpace = botPlayer.getyCoord() - i;
+                    break;
+                }
+            }
+            for (int i = botPlayer.getyCoord(); i < dungeon.getHeight(); i++) {
+                if (checkCollision(i,botPlayer.getxCoord())) {
+                    rightSpace = 1000;
+                    break;
+                }
+                else if (!checkCollision(i, botPlayer.getxCoord() + xDifference)) {
+                    rightSpace = i - botPlayer.getyCoord();
+                    break;
+                }
+            }
+            if (leftSpace < rightSpace) {
+                return PlayerMovement.UP;
+            } else if (leftSpace >= rightSpace && rightSpace != 1000){
+                return PlayerMovement.DOWN;
+            } else {
+                return PlayerMovement.NONE;
+            }
+        }
     }
 }
 
