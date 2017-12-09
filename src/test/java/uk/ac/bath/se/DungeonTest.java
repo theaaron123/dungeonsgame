@@ -1,17 +1,25 @@
 package uk.ac.bath.se;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class DungeonTest {
+    @Test
+    public void testInitialiseDungeon() throws Exception {
+        Dungeon dungeon = Dungeon.getInstance();
+        dungeon.initialiseDungeon();
+        String[][] dungeonMatrix = dungeon.getDungeonMatrix();
+        assertTrue(dungeonMatrix != null);
+        assertTrue(dungeon.getHeight() == dungeonMatrix.length);
+        assertTrue(dungeon.getWidth() == dungeonMatrix[0].length);
+    }
+
     @Test
     public void testSingleton() {
         Dungeon instanceOne = Dungeon.getInstance();
         Dungeon instanceTwo = Dungeon.getInstance();
-        Assert.assertEquals(true, instanceOne == instanceTwo);
+        assertEquals(true, instanceOne == instanceTwo);
     }
 }

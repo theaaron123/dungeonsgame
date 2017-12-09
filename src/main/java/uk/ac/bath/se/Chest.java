@@ -2,10 +2,10 @@ package uk.ac.bath.se;
 
 class Chest {
 
-private int xCoord;
-private int yCoord;
-private static int chestQuantity = 1;
-public static final String CHEST_SYMBOL = "C";
+    private int xCoord;
+    private int yCoord;
+    private static int chestQuantity = 1;
+    public static final String CHEST_SYMBOL = "C";
 
     public Chest() {
         xCoord = 6;
