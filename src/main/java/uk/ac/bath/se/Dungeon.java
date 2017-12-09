@@ -2,13 +2,14 @@ package uk.ac.bath.se;
 
 class Dungeon {
 
-    public static int roomNumber = 4;
+    private int roomNumber;
     private static Dungeon instance = null;
     private final char exit = 'E';
     public String[][] dungeonMatrix;
     private int height = 40; //setting default height
     private int width = 40; //setting default width
     private int[][] gridBounds;
+    public static String difficulty = "Easy";
 
     public static final int BOUNDARY = 1;
     public static final int EXIT = 5;
@@ -16,6 +17,14 @@ class Dungeon {
     public static final int CHEST = 3;
 
     protected Dungeon() {
+    }
+
+    public int getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(int roomNumber) {
+        this.roomNumber = roomNumber;
     }
 
     public static Dungeon getInstance() {
