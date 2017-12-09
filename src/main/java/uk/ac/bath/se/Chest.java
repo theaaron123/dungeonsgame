@@ -4,15 +4,13 @@ class Chest {
 
 private int xCoord;
 private int yCoord;
-private int chestQuantity;
-private final String CHEST_SYMBOL;
+private static int chestQuantity = 1;
+public static final String CHEST_SYMBOL = "C";
 
-public Chest () {
-    xCoord = 6;
-    yCoord = 6;
-    chestQuantity = 0;
-    CHEST_SYMBOL = "C";
-}
+    public Chest() {
+        xCoord = 6;
+        yCoord = 6;
+    }
 
     public int getxCoord() {
         return xCoord;
@@ -30,15 +28,12 @@ public Chest () {
         this.yCoord = yCoord;
     }
 
-    public int getChestQuantity() {
+    public static int getChestQuantity() {
         return chestQuantity;
     }
 
-    public void setChestQuantity(int chestQuantity) {
-        this.chestQuantity = chestQuantity;
+    public static void setChestQuantity(int chestNumber) {
+        chestQuantity = chestNumber;
     }
 
-    public String getCHEST_SYMBOL() {
-        return CHEST_SYMBOL;
-    }
 }

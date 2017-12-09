@@ -17,7 +17,7 @@ class DungeonController implements DungeonGamePlayInterface {
     private Speed speed;
     private boolean hasMoved;
     private int moves;
-    private Chest chest;
+    private Chest[] chests;
 
 
     public void initialiseDungeonGame() {
@@ -25,22 +25,34 @@ class DungeonController implements DungeonGamePlayInterface {
         botPlayer = new BotPlayer();
         dungeon = new Dungeon();
         speed = new Speed();
-        chest = new Chest();
-        golds = new Gold[Dungeon.roomNumber];
-        gridBounds = new int[dungeon.getHeight()][dungeon.getWidth()];
         hasMoved = false;
         nearChest = false;
         moves = 0;
         gameWinAmount = 0;
-
         this.dungeon = Dungeon.getInstance();
+
+        if (Dungeon.difficulty.equals("Hard")) {
+            dungeon.setRoomNumber(12);
+            dungeon.setHeight(50);
+            dungeon.setWidth(50);
+            Chest.setChestQuantity(3);
+        } else if (Dungeon.difficulty.equals("Easy")) {
+            Chest.setChestQuantity(1);
+            dungeon.setRoomNumber(4);
+            dungeon.setHeight(40);
+            dungeon.setWidth(40);
+        }
+
         dungeon.initialiseDungeon();
+        chests = new Chest[Chest.getChestQuantity()];
+        golds = new Gold[dungeon.getRoomNumber()];
+        gridBounds = new int[dungeon.getHeight()][dungeon.getWidth()];
 
         //Set dungeon bounds
         addDungeonBounds(dungeon);
 
         //Set up rooms
-        addRoomBounds(dungeon, Dungeon.roomNumber);
+        addRoomBounds(dungeon, dungeon.getRoomNumber());
 
         //Set up player, bot and chest location randomly
         addGameItems();
@@ -52,22 +64,28 @@ class DungeonController implements DungeonGamePlayInterface {
     }
 
     private void addGameItems() {
-        player.setxCoord(randomSpace()[0]);
-        player.setyCoord(randomSpace()[1]);
+        int[] location = randomSpace();
+        player.setxCoord(location[0]);
+        player.setyCoord(location[1]);
         gridBounds[player.getyCoord()][player.getxCoord()] = Dungeon.BOUNDARY;
-        botPlayer.setxCoord(randomSpace()[0]);
-        botPlayer.setyCoord(randomSpace()[1]);
+        location = randomSpace();
+        botPlayer.setxCoord(location[0]);
+        botPlayer.setyCoord(location[1]);
         gridBounds[botPlayer.getyCoord()][botPlayer.getxCoord()] = Dungeon.BOUNDARY;
-        chest.setxCoord(randomSpace()[0]);
-        chest.setyCoord(randomSpace()[1]);
-        gridBounds[chest.getyCoord()][chest.getxCoord()] = Dungeon.CHEST;
+        for(int i = 0; i < chests.length; i++) {
+            location = randomSpace();
+            chests[i] = new Chest();
+            chests[i].setxCoord(location[0]);
+            chests[i].setyCoord(location[1]);
+            gridBounds[chests[i].getyCoord()][chests[i].getxCoord()] = Dungeon.CHEST;
+            dungeon.dungeonMatrix[chests[i].getyCoord()][chests[i].getxCoord()] = Chest.CHEST_SYMBOL;
+        }
         gridBounds[player.getyCoord()][player.getxCoord()] = Dungeon.SPACE;
         gridBounds[botPlayer.getyCoord()][botPlayer.getxCoord()] = Dungeon.SPACE;
 
-        //Print player, bot and chest into dungeon
+        //Print player and bot into dungeon
         dungeon.dungeonMatrix[player.getyCoord()][player.getxCoord()] = player.getPlayerSymbol();
         dungeon.dungeonMatrix[botPlayer.getyCoord()][botPlayer.getxCoord()] = botPlayer.getPLAYER_SYMBOL();
-        dungeon.dungeonMatrix[chest.getyCoord()][chest.getxCoord()] = chest.getCHEST_SYMBOL();
     }
 
     private int[] randomSpace() {
@@ -78,8 +96,8 @@ class DungeonController implements DungeonGamePlayInterface {
         location[0] = x;
         location[1] = y;
         while (gridBounds[location[1]][location[0]] == Dungeon.BOUNDARY || gridBounds[location[1]][location[0]] == Gold.LOCATION) {
-            x = rand.nextInt(dungeon.getWidth() - 1) + 1;
-            y = rand.nextInt(dungeon.getHeight() - 1) + 1;
+            x = rand.nextInt((dungeon.getWidth() - 1) - 1) + 1;
+            y = rand.nextInt((dungeon.getHeight() - 1) - 1) + 1;
             location[0] = x;
             location[1] = y;
         }
@@ -188,32 +206,52 @@ class DungeonController implements DungeonGamePlayInterface {
         final int LOWER_DISTANCE = 2;
         final int UPPER_DISTANCE = 6;
 
-        for (int room = 1; room <= roomQuantity; room++) { //1 - top left, 2 - top right, 3 - bottom left, 4 - bottom right
+        for (int room = 1; room <= roomQuantity; room++) {
 
             switch (room) {
+                case 9:
+                case 5:
                 case 1:
-                    startHeight = rand.nextInt((dungeon.getHeight() / 2 - UPPER_DISTANCE) - LOWER_DISTANCE) + LOWER_DISTANCE;
-                    startWidth = rand.nextInt((dungeon.getWidth() / 2 - UPPER_DISTANCE) - LOWER_DISTANCE) + LOWER_DISTANCE;
+                    do {
+                        startHeight = rand.nextInt((dungeon.getHeight() / 2 - UPPER_DISTANCE) - LOWER_DISTANCE) + LOWER_DISTANCE;
+                        startWidth = rand.nextInt((dungeon.getWidth() / 2 - UPPER_DISTANCE) - LOWER_DISTANCE) + LOWER_DISTANCE;
+                    } while (roomCollision(startHeight,startWidth));
                     addGold(room, startHeight, startWidth);
                     break;
+                    // intentional fall through - up to three rooms in top left
 
+                case 10:
+                case 6:
                 case 2:
-                    startHeight = rand.nextInt((dungeon.getHeight() / 2 - UPPER_DISTANCE) - LOWER_DISTANCE) + LOWER_DISTANCE;
-                    startWidth = rand.nextInt((dungeon.getWidth() - UPPER_DISTANCE) - (dungeon.getWidth() / 2 + LOWER_DISTANCE)) + (dungeon.getWidth() / 2 + LOWER_DISTANCE);
+                    do {
+                        startHeight = rand.nextInt((dungeon.getHeight() / 2 - UPPER_DISTANCE) - LOWER_DISTANCE) + LOWER_DISTANCE;
+                        startWidth = rand.nextInt((dungeon.getWidth() - UPPER_DISTANCE) - (dungeon.getWidth() / 2 + LOWER_DISTANCE)) + (dungeon.getWidth() / 2 + LOWER_DISTANCE);
+                    } while (roomCollision(startHeight,startWidth));
                     addGold(room, startHeight, startWidth);
                     break;
+                    // intentional fall through - up to three rooms in top right
 
+                case 11:
+                case 7:
                 case 3:
-                    startHeight = rand.nextInt((dungeon.getHeight() - UPPER_DISTANCE) - (dungeon.getHeight() / 2 + LOWER_DISTANCE)) + (dungeon.getHeight() / 2 + LOWER_DISTANCE);
-                    startWidth = rand.nextInt((dungeon.getWidth() / 2 - UPPER_DISTANCE) - LOWER_DISTANCE) + LOWER_DISTANCE;
+                    do {
+                        startHeight = rand.nextInt((dungeon.getHeight() - UPPER_DISTANCE) - (dungeon.getHeight() / 2 + LOWER_DISTANCE)) + (dungeon.getHeight() / 2 + LOWER_DISTANCE);
+                        startWidth = rand.nextInt((dungeon.getWidth() / 2 - UPPER_DISTANCE) - LOWER_DISTANCE) + LOWER_DISTANCE;
+                    } while (roomCollision(startHeight,startWidth));
                     addGold(room, startHeight, startWidth);
                     break;
+                    // intentional fall through - up to three rooms in bottom left
 
+                case 12:
+                case 8:
                 case 4:
-                    startHeight = rand.nextInt((dungeon.getHeight() - UPPER_DISTANCE) - (dungeon.getHeight() / 2 + LOWER_DISTANCE)) + (dungeon.getHeight() / 2 + LOWER_DISTANCE);
-                    startWidth = rand.nextInt((dungeon.getWidth() - UPPER_DISTANCE) - (dungeon.getWidth() / 2 + LOWER_DISTANCE)) + (dungeon.getWidth() / 2 + LOWER_DISTANCE);
+                    do {
+                        startHeight = rand.nextInt((dungeon.getHeight() - UPPER_DISTANCE) - (dungeon.getHeight() / 2 + LOWER_DISTANCE)) + (dungeon.getHeight() / 2 + LOWER_DISTANCE);
+                        startWidth = rand.nextInt((dungeon.getWidth() - UPPER_DISTANCE) - (dungeon.getWidth() / 2 + LOWER_DISTANCE)) + (dungeon.getWidth() / 2 + LOWER_DISTANCE);
+                    } while (roomCollision(startHeight,startWidth));
                     addGold(room, startHeight, startWidth);
                     break;
+                    // intentional fall through - up to three rooms in bottom right
 
                 default:
                     startHeight = rand.nextInt(1);
@@ -237,6 +275,18 @@ class DungeonController implements DungeonGamePlayInterface {
             removeDoor(startHeight, startWidth);
             removeDoor(startHeight, startWidth);
         }
+    }
+
+    private boolean roomCollision(int startHeight, int startWidth) {
+        int roomSize = 5;
+        for (int i = startHeight-1; i <= startHeight+roomSize; i ++) {
+            for (int j = startWidth-1; j <= startWidth+roomSize; j++) {
+                if (gridBounds[i][j] == Dungeon.BOUNDARY) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void removeDoor(int roomStartY, int roomStartX) {
@@ -474,11 +524,14 @@ class DungeonController implements DungeonGamePlayInterface {
     }
 
     public void assignChest() {
-        if (distance(player.getxCoord(), chest.getxCoord(), player.getyCoord(), chest.getyCoord())
-                <= 2) {
-            nearChest = true;
-        } else {
-            nearChest = false;
+        for (Chest c : chests) {
+            if (distance(player.getxCoord(), c.getxCoord(), player.getyCoord(), c.getyCoord())
+                    <= 2) {
+                nearChest = true;
+                break;
+            } else {
+                nearChest = false;
+            }
         }
     }
 
@@ -487,14 +540,36 @@ class DungeonController implements DungeonGamePlayInterface {
         String message = "";
         int nextInt = rand.nextInt(2);
         message += "You open the chest to find...";
+        int chance = rand.nextInt(2);
+        message += "You open the chest to find ";
         if (player.getGold() >= gameWinAmount && !player.hasKey) {
             giveKey();
             message += "a key! You may now exit.";
         } else if (nextInt == 0) {
             message += "Nothing.";
+        }
+        else if (chance == 0) {
+            message += "nothing. Your search continues...";
         } else {
-            message += "A ton of speed!";
+            message += "a ton of speed!";
             assignSpeed();
+        }
+        chance = rand.nextInt(2);
+        if (chance == 0) {
+            for (Chest c : chests) {
+                if (distance(player.getxCoord(), c.getxCoord(), player.getyCoord(), c.getyCoord())
+                        <= 2) {
+                    message += "\nThe chest mysteriously vanishes...";
+                    int[] newLocation = randomSpace();
+                    gridBounds[c.getyCoord()][c.getxCoord()] = Dungeon.SPACE;
+                    dungeon.dungeonMatrix[c.getyCoord()][c.getxCoord()] = " ";
+                    c.setxCoord(newLocation[0]);
+                    c.setyCoord(newLocation[1]);
+                    gridBounds[c.getyCoord()][c.getxCoord()] = Dungeon.CHEST;
+                    dungeon.dungeonMatrix[c.getyCoord()][c.getxCoord()] = Chest.CHEST_SYMBOL;
+                    assignChest();
+                }
+            }
         }
         return message;
     }

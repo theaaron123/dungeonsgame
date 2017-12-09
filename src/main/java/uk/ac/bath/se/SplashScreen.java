@@ -68,8 +68,9 @@ class SplashScreen {
                     welcomeFrame = new JFrame("Create User Name");
                     welcomeFrame.setLocationRelativeTo(null);
                     welcomeFrame.setVisible(true);
-                    JOptionPane.showMessageDialog(welcomeFrame, "Welcome !  " + name.getText());
-                    welcomeFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                    welcomeFrame.dispose();
+                    JOptionPane.showMessageDialog(welcomeFrame, "Welcome " + name.getText() + " !");
+                    welcomeFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
                 }
             });
 
@@ -84,7 +85,6 @@ class SplashScreen {
         }
     }
 
-    //TODO Add function to change difficulty level
     // The player can choose the level of difficulty of game.
     public class DifficultyChooser extends JFrame
     {
@@ -119,6 +119,7 @@ class SplashScreen {
             easyChoice.setLocationRelativeTo(null);
             easyChoice.setVisible(false);
             easyChoice.dispose();
+            Dungeon.difficulty = "Easy";
             JOptionPane.showMessageDialog(easyChoice,"You chose Easy Model !");
         }
     }
@@ -131,6 +132,7 @@ class SplashScreen {
             hardChoice.setLocationRelativeTo(null);
             hardChoice.setVisible(false);
             hardChoice.dispose();
+            Dungeon.difficulty = "Hard";
             JOptionPane.showMessageDialog(hardChoice,"You chose Hard Model !");
         }
     }
@@ -138,6 +140,9 @@ class SplashScreen {
     // When player chooses button startGame, the game start.
     public class startGameHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            if (Player.playerName == null) {
+                Player.playerName = "Anonymous";
+            }
             new DungeonView();
         }
     }
