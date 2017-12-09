@@ -72,7 +72,7 @@ class DungeonController implements DungeonGamePlayInterface {
         botPlayer.setxCoord(location[0]);
         botPlayer.setyCoord(location[1]);
         gridBounds[botPlayer.getyCoord()][botPlayer.getxCoord()] = Dungeon.BOUNDARY;
-        for(int i = 0; i < chests.length; i++) {
+        for (int i = 0; i < chests.length; i++) {
             location = randomSpace();
             chests[i] = new Chest();
             chests[i].setxCoord(location[0]);
@@ -215,10 +215,10 @@ class DungeonController implements DungeonGamePlayInterface {
                     do {
                         startHeight = rand.nextInt((dungeon.getHeight() / 2 - UPPER_DISTANCE) - LOWER_DISTANCE) + LOWER_DISTANCE;
                         startWidth = rand.nextInt((dungeon.getWidth() / 2 - UPPER_DISTANCE) - LOWER_DISTANCE) + LOWER_DISTANCE;
-                    } while (roomCollision(startHeight,startWidth));
+                    } while (roomCollision(startHeight, startWidth));
                     addGold(room, startHeight, startWidth);
                     break;
-                    // intentional fall through - up to three rooms in top left
+                // intentional fall through - up to three rooms in top left
 
                 case 10:
                 case 6:
@@ -226,10 +226,10 @@ class DungeonController implements DungeonGamePlayInterface {
                     do {
                         startHeight = rand.nextInt((dungeon.getHeight() / 2 - UPPER_DISTANCE) - LOWER_DISTANCE) + LOWER_DISTANCE;
                         startWidth = rand.nextInt((dungeon.getWidth() - UPPER_DISTANCE) - (dungeon.getWidth() / 2 + LOWER_DISTANCE)) + (dungeon.getWidth() / 2 + LOWER_DISTANCE);
-                    } while (roomCollision(startHeight,startWidth));
+                    } while (roomCollision(startHeight, startWidth));
                     addGold(room, startHeight, startWidth);
                     break;
-                    // intentional fall through - up to three rooms in top right
+                // intentional fall through - up to three rooms in top right
 
                 case 11:
                 case 7:
@@ -237,10 +237,10 @@ class DungeonController implements DungeonGamePlayInterface {
                     do {
                         startHeight = rand.nextInt((dungeon.getHeight() - UPPER_DISTANCE) - (dungeon.getHeight() / 2 + LOWER_DISTANCE)) + (dungeon.getHeight() / 2 + LOWER_DISTANCE);
                         startWidth = rand.nextInt((dungeon.getWidth() / 2 - UPPER_DISTANCE) - LOWER_DISTANCE) + LOWER_DISTANCE;
-                    } while (roomCollision(startHeight,startWidth));
+                    } while (roomCollision(startHeight, startWidth));
                     addGold(room, startHeight, startWidth);
                     break;
-                    // intentional fall through - up to three rooms in bottom left
+                // intentional fall through - up to three rooms in bottom left
 
                 case 12:
                 case 8:
@@ -248,10 +248,10 @@ class DungeonController implements DungeonGamePlayInterface {
                     do {
                         startHeight = rand.nextInt((dungeon.getHeight() - UPPER_DISTANCE) - (dungeon.getHeight() / 2 + LOWER_DISTANCE)) + (dungeon.getHeight() / 2 + LOWER_DISTANCE);
                         startWidth = rand.nextInt((dungeon.getWidth() - UPPER_DISTANCE) - (dungeon.getWidth() / 2 + LOWER_DISTANCE)) + (dungeon.getWidth() / 2 + LOWER_DISTANCE);
-                    } while (roomCollision(startHeight,startWidth));
+                    } while (roomCollision(startHeight, startWidth));
                     addGold(room, startHeight, startWidth);
                     break;
-                    // intentional fall through - up to three rooms in bottom right
+                // intentional fall through - up to three rooms in bottom right
 
                 default:
                     startHeight = rand.nextInt(1);
@@ -279,8 +279,8 @@ class DungeonController implements DungeonGamePlayInterface {
 
     private boolean roomCollision(int startHeight, int startWidth) {
         int roomSize = 5;
-        for (int i = startHeight-1; i <= startHeight+roomSize; i ++) {
-            for (int j = startWidth-1; j <= startWidth+roomSize; j++) {
+        for (int i = startHeight - 1; i <= startHeight + roomSize; i++) {
+            for (int j = startWidth - 1; j <= startWidth + roomSize; j++) {
                 if (gridBounds[i][j] == Dungeon.BOUNDARY) {
                     return true;
                 }
@@ -547,8 +547,7 @@ class DungeonController implements DungeonGamePlayInterface {
             message += "a key! You may now exit.";
         } else if (nextInt == 0) {
             message += "Nothing.";
-        }
-        else if (chance == 0) {
+        } else if (chance == 0) {
             message += "nothing. Your search continues...";
         } else {
             message += "a ton of speed!";
