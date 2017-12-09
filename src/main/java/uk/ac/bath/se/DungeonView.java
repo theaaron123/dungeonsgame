@@ -8,14 +8,17 @@ import java.awt.event.KeyListener;
 class DungeonView implements KeyListener {
     private final JFrame gameWindow;
     private JPanel gamePanel;
+    private JPanel dialoguePanel;
     private JTextArea gameArea;
     private JTextArea scoreArea;
+    private JTextArea actionBox;
     private DungeonController dungeonController;
     Dungeon dungeon;
 
     public DungeonView() {
         gameWindow = new JFrame();
         gamePanel = new JPanel();
+        dialoguePanel = new JPanel();
 
         gameArea = new JTextArea();
         gameArea.setForeground(Color.white);
@@ -24,15 +27,34 @@ class DungeonView implements KeyListener {
         gameArea.setEditable(false);
 
         scoreArea = new JTextArea();
+        scoreArea.setBackground(Color.BLACK);
+        scoreArea.setForeground(Color.white);
+        scoreArea.setFont(new Font("monospaced", Font.PLAIN, 16));
+        scoreArea.setVisible(true);
+        scoreArea.setEnabled(false);
 
+        actionBox = new JTextArea();
+        actionBox.setBackground(Color.BLACK);
+        actionBox.setForeground(Color.white);
+        actionBox.setFont(new Font("monospaced", Font.PLAIN, 16));
+        actionBox.setVisible(true);
+        actionBox.setEnabled(false);
+        actionBox.setText("The game has started.... Good Luck!\n");
+
+        gameWindow.setLayout(new GridLayout(1,2));
         gameWindow.add(gamePanel);
+        gameWindow.add(dialoguePanel);
         gameWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         gameWindow.setExtendedState(Frame.MAXIMIZED_BOTH);
 
         gamePanel.add(gameArea);
         gamePanel.setBackground(Color.BLACK);
 
-        gamePanel.add(scoreArea);
+        dialoguePanel.setLayout(new BorderLayout());
+        dialoguePanel.add(scoreArea, BorderLayout.PAGE_START);
+        dialoguePanel.add(actionBox, BorderLayout.PAGE_END);
+        dialoguePanel.setBackground(Color.BLACK);
+        dialoguePanel.add(new JScrollPane(actionBox, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
 
         gameArea.addKeyListener(this);
         gameArea.setBackground(Color.BLACK);
@@ -76,13 +98,14 @@ class DungeonView implements KeyListener {
     public void keyPressed(KeyEvent e) {
 
         int key = e.getKeyCode();
+        String moveMessage = "";
 
         switch (key) {
             case KeyEvent.VK_W:
             case KeyEvent.VK_UP:
                 //if player hits boundary.
                 if (!dungeonController.checkCollision(dungeonController.player.getyCoord()-1,dungeonController.player.getxCoord())) {
-                    dungeonController.movePlayer(PlayerMovement.UP);
+                    moveMessage = dungeonController.movePlayer(PlayerMovement.UP);
                     drawDungeon();
                 }
                 break;
@@ -91,7 +114,7 @@ class DungeonView implements KeyListener {
             case KeyEvent.VK_DOWN:
                 //if player hits boundary
                 if (!dungeonController.checkCollision(dungeonController.player.getyCoord()+1,dungeonController.player.getxCoord())) {
-                    dungeonController.movePlayer(PlayerMovement.DOWN);
+                    moveMessage = dungeonController.movePlayer(PlayerMovement.DOWN);
                     drawDungeon();
                 }
                 break;
@@ -100,7 +123,7 @@ class DungeonView implements KeyListener {
             case KeyEvent.VK_LEFT:
                 //if player hits boundary
                 if (!dungeonController.checkCollision(dungeonController.player.getyCoord(),dungeonController.player.getxCoord()-1)) {
-                    dungeonController.movePlayer(PlayerMovement.LEFT);
+                    moveMessage = dungeonController.movePlayer(PlayerMovement.LEFT);
                     drawDungeon();
                 }
                 break;
@@ -109,15 +132,21 @@ class DungeonView implements KeyListener {
             case KeyEvent.VK_RIGHT:
                 //if player hits boundary
                 if (!dungeonController.checkCollision(dungeonController.player.getyCoord(),dungeonController.player.getxCoord()+1)) {
-                    dungeonController.movePlayer(PlayerMovement.RIGHT);
+                    moveMessage = dungeonController.movePlayer(PlayerMovement.RIGHT);
                     drawDungeon();
                 }
                 break;
 
             case KeyEvent.VK_SPACE:
                 if (dungeonController.nearChest) {
-                    dungeonController.giveRandomItem();
+                    String message = dungeonController.giveRandomItem();
+                    actionBox.append(message + "\n");
+                } else {
+                    actionBox.append("No nearby items were found... \n");
                 }
+        }
+        if (!moveMessage.equals("")) {
+            actionBox.append(moveMessage);
         }
 
         if (dungeonController.checkLoss()) {
@@ -126,7 +155,16 @@ class DungeonView implements KeyListener {
                 gameWindow.dispose();
                 SplashScreen.loseScreen();
             } else {
+                int playerScore = dungeonController.player.getScore();
+                actionBox.setText("You were caught by the bot. Try again.\n");
+                actionBox.append("You have " + Player.lives);
+                if(Player.lives > 1) {
+                    actionBox.append(" lives remaining...\n");
+                } else {
+                    actionBox.append(" life remaining...\n");
+                }
                 dungeonController.initialiseDungeonGame();
+                dungeonController.player.setScore(playerScore);
                 drawDungeon();
             }
         }
