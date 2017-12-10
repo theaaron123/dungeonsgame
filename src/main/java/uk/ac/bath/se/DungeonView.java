@@ -185,6 +185,7 @@ class DungeonView implements KeyListener {
                     dungeonController.player.getGold(),
                     dungeonController.player.getScore()
             );
+            Player.lives = 3;
             gameWindow.dispose();
             SplashScreen.winScreen();
         }
