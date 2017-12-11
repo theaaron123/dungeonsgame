@@ -36,6 +36,40 @@ public class DungeonControllerTest {
         }
         assertTrue(botCount == 1);
     }
+
+    @Test
+    public void testPlayerUniquePostMove() throws Exception {
+        DungeonController dungeonController = new DungeonController();
+        dungeonController.initialiseDungeonGame();
+        Dungeon dungeon = Dungeon.getInstance();
+        dungeonController.movePlayer(PlayerMovement.UP);
+        int playerCount = 0;
+        for (int i = 0; i < dungeon.getWidth(); i++) {
+            for (int j = 0; j < dungeon.getHeight(); j++) {
+                if (dungeon.dungeonMatrix[i][j] == dungeonController.player.getPlayerSymbol()) {
+                    playerCount++;
+                }
+            }
+        }
+        assertTrue(playerCount == 1);
+    }
+
+    @Test
+    public void testBotUniquePostMove() throws Exception {
+        DungeonController dungeonController = new DungeonController();
+        dungeonController.initialiseDungeonGame();
+        Dungeon dungeon = Dungeon.getInstance();
+        dungeonController.moveBot(PlayerMovement.UP);
+        int botCount = 0;
+        for (int i = 0; i < dungeon.getWidth(); i++) {
+            for (int j = 0; j < dungeon.getHeight(); j++) {
+                if (dungeon.dungeonMatrix[i][j] == dungeonController.botPlayer.getPLAYER_SYMBOL()) {
+                    botCount++;
+                }
+            }
+        }
+        assertTrue(botCount == 1);
+    }
     
     @Test
     public void testCheckCollision() throws Exception {
