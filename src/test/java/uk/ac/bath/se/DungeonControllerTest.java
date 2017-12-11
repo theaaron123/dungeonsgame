@@ -70,7 +70,7 @@ public class DungeonControllerTest {
         }
         assertTrue(botCount == 1);
     }
-    
+
     @Test
     public void testCheckCollision() throws Exception {
         DungeonController dungeonController = new DungeonController();

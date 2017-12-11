@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 
 class SplashScreen {
 
+    private String playerName;
+
     public SplashScreen() {
 
         //Make a splash screen have three buttons.
@@ -61,7 +63,7 @@ class SplashScreen {
                 //Get User Name
                 if (e12.getSource() == confirmButton || e12.getSource() == name) {
 
-                    Player.playerName = name.getText();
+                    playerName = name.getText();
 
                     // Show Welcome Message
                     JFrame welcomeFrame;
@@ -73,7 +75,6 @@ class SplashScreen {
                     welcomeFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
                 }
             });
-
             confirmButton.addActionListener(e1 -> userNameFrame.dispose());
         }
     }
@@ -86,8 +87,7 @@ class SplashScreen {
     }
 
     // The player can choose the level of difficulty of game.
-    public class DifficultyChooser extends JFrame
-    {
+    public class DifficultyChooser extends JFrame {
         private DifficultyChooser() {
 
             JFrame difficultyChoice = new JFrame("Choose Difficulty Level");
@@ -99,7 +99,7 @@ class SplashScreen {
             JButton easyModel = new JButton("Easy Model");
             JButton hellModel = new JButton("Hard Model");
 
-            difficultyChoice.getContentPane().setLayout(new GridLayout(2,1));
+            difficultyChoice.getContentPane().setLayout(new GridLayout(2, 1));
             difficultyChoice.add(easyModel);
             difficultyChoice.add(hellModel);
 
@@ -120,7 +120,7 @@ class SplashScreen {
             easyChoice.setVisible(false);
             easyChoice.dispose();
             Dungeon.difficulty = "Easy";
-            JOptionPane.showMessageDialog(easyChoice,"You chose Easy Model !");
+            JOptionPane.showMessageDialog(easyChoice, "You chose Easy Model !");
         }
     }
 
@@ -133,17 +133,17 @@ class SplashScreen {
             hardChoice.setVisible(false);
             hardChoice.dispose();
             Dungeon.difficulty = "Hard";
-            JOptionPane.showMessageDialog(hardChoice,"You chose Hard Model !");
+            JOptionPane.showMessageDialog(hardChoice, "You chose Hard Model !");
         }
     }
 
     // When player chooses button startGame, the game start.
     public class startGameHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            if (Player.playerName == null) {
-                Player.playerName = "Anonymous";
+            if (playerName == null) {
+                playerName = "Anonymous";
             }
-            new DungeonView();
+            new DungeonView(playerName);
         }
     }
 
@@ -155,8 +155,7 @@ class SplashScreen {
     }
 
     // Show Historical Scores in a new window.
-    public class HighScores extends JFrame
-    {
+    public class HighScores extends JFrame {
         public HighScores() {
 
             JFrame scores = new JFrame("Historical Scores");
@@ -170,92 +169,5 @@ class SplashScreen {
             scores.getContentPane().add(BorderLayout.CENTER, scoreArea);
             scoreArea.append("Player Name:" + "Gold:\t" + "Score:\n" + Player.getTopPlayer());
         }
-    }
-
-    public static void winScreen() {
-
-        //Make a "You Win !" message.
-        JFrame youWin = new JFrame("Dungeon Game");
-        youWin.setLocationRelativeTo(null);
-        youWin.setVisible(false);
-        youWin.setResizable(false);
-        youWin.setSize(400, 200);
-        youWin.dispose();
-        JOptionPane.showMessageDialog(youWin,"You Win !");
-
-        // Player can choose go back to Splash Screen or Exit the game
-        JFrame winChoice = new JFrame("Dungeon Game");
-        winChoice.setLocationRelativeTo(null);
-        winChoice.setVisible(true);
-        winChoice.setResizable(false);
-        winChoice.setSize(400, 200);
-
-        JButton goToSplashScreen = new JButton("Go to Splash Screen");
-        JButton stopPlay = new JButton("Exit");
-
-        winChoice.getContentPane().setLayout(new GridLayout(2,1));
-        winChoice.add(goToSplashScreen);
-        winChoice.add(stopPlay);
-
-        goToSplashScreen.addActionListener(e -> {
-            new SplashScreen();
-            winChoice.dispose();
-        });
-
-        stopPlay.addActionListener(e -> System.exit(0));
-    }
-
-    public static void loseScreen() {
-
-        //Make a "You Died !" message.
-        JFrame youLose = new JFrame("Dungeon Game");
-        youLose.setLocationRelativeTo(null);
-        youLose.setVisible(false);
-        youLose.setResizable(false);
-        youLose.setSize(400, 200);
-        youLose.dispose();
-        JOptionPane.showMessageDialog(youLose,"You have died !");
-
-        // Player can choose Try Again, go back to Splash Screen or Exit the game
-        JFrame loseChoice = new JFrame("Dungeon Game");
-        loseChoice.setLocationRelativeTo(null);
-        loseChoice.setVisible(true);
-        loseChoice.setResizable(false);
-        loseChoice.setSize(400, 200);
-
-        JButton tryAgain = new JButton("Try Again");
-        JButton goToSplashScreen = new JButton("Go to Splash Screen");
-        JButton stopPlay = new JButton("Exit");
-
-        loseChoice.getContentPane().setLayout(new GridLayout(3,1));
-        loseChoice.add(tryAgain);
-        loseChoice.add(goToSplashScreen);
-        loseChoice.add(stopPlay);
-
-        goToSplashScreen.addActionListener(e -> {
-            loseChoice.dispose();
-            Player.lives += 3;
-            new SplashScreen();
-        });
-
-        stopPlay.addActionListener(e -> System.exit(0));
-
-        tryAgain.addActionListener(e -> {
-            loseChoice.dispose();
-            Player.lives += 3;
-            new DungeonView();
-        });
-    }
-
-    public static void loseOneLifeScreen() {
-
-        //Make a "You Died !" message.
-        JFrame youLose = new JFrame("Dungeon Game");
-        youLose.setLocationRelativeTo(null);
-        youLose.setVisible(false);
-        youLose.setResizable(false);
-        youLose.setSize(400, 200);
-        youLose.dispose();
-        JOptionPane.showMessageDialog(youLose, "You have lost one life !");
     }
 }

@@ -14,7 +14,7 @@ class Player {
     private int gold;
     private String symbol;
     private boolean playerTurn;
-    static String playerName;
+    private String playerName;
     public static int lives = 3;
     public boolean hasKey = false;
 
