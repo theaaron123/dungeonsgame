@@ -13,9 +13,11 @@ class DungeonView implements KeyListener {
     private JTextArea scoreArea;
     private JTextArea actionBox;
     private DungeonController dungeonController;
+    private String playerName;
     Dungeon dungeon;
 
-    public DungeonView() {
+    public DungeonView(String playerName) {
+        this.playerName = playerName;
         gameWindow = new JFrame();
         gamePanel = new JPanel();
         dialoguePanel = new JPanel();
@@ -68,6 +70,7 @@ class DungeonView implements KeyListener {
         dungeon = Dungeon.getInstance();
         dungeonController = new DungeonController();
         dungeonController.initialiseDungeonGame();
+        dungeonController.player.setPlayerName(this.playerName);
 
         scoreArea.setText("Player Name: "
                 + dungeonController.player.getPlayerName() +
@@ -163,7 +166,7 @@ class DungeonView implements KeyListener {
             Player.lives -= 1;
             if (Player.lives == 0) {
                 gameWindow.dispose();
-                SplashScreen.loseScreen();
+                new LoseScreen(playerName);
             } else {
                 int playerScore = dungeonController.player.getScore();
                 actionBox.setText("You were caught by the bot. Try again.\n");
@@ -174,7 +177,8 @@ class DungeonView implements KeyListener {
                     actionBox.append(" life remaining...\n");
                 }
                 dungeonController.initialiseDungeonGame();
-                SplashScreen.loseOneLifeScreen();
+                dungeonController.player.setPlayerName(playerName);
+                new LoseOneLifeScreen();
                 dungeonController.player.setScore(playerScore);
                 drawDungeon();
             }
@@ -187,7 +191,7 @@ class DungeonView implements KeyListener {
             );
             Player.lives = 3;
             gameWindow.dispose();
-            SplashScreen.winScreen();
+            new WinScreen();
         }
         scoreArea.setText("Player Name: "
                 + dungeonController.player.getPlayerName() +
