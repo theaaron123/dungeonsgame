@@ -6,6 +6,38 @@ import static org.junit.Assert.assertTrue;
 
 public class DungeonControllerTest {
     @Test
+    public void testPlayerUnique() throws Exception {
+        DungeonController dungeonController = new DungeonController();
+        dungeonController.initialiseDungeonGame();
+        Dungeon dungeon = Dungeon.getInstance();
+        int playerCount = 0;
+        for (int i = 0; i < dungeon.getWidth(); i++) {
+            for (int j = 0; j < dungeon.getHeight(); j++) {
+                if (dungeon.dungeonMatrix[i][j] == dungeonController.player.getPlayerSymbol()) {
+                    playerCount++;
+                }
+            }
+        }
+        assertTrue(playerCount == 1);
+    }
+
+    @Test
+    public void testBotUnique() throws Exception {
+        DungeonController dungeonController = new DungeonController();
+        dungeonController.initialiseDungeonGame();
+        Dungeon dungeon = Dungeon.getInstance();
+        int botCount = 0;
+        for (int i = 0; i < dungeon.getWidth(); i++) {
+            for (int j = 0; j < dungeon.getHeight(); j++) {
+                if (dungeon.dungeonMatrix[i][j] == dungeonController.botPlayer.getPLAYER_SYMBOL()) {
+                    botCount++;
+                }
+            }
+        }
+        assertTrue(botCount == 1);
+    }
+    
+    @Test
     public void testCheckCollision() throws Exception {
         DungeonController dungeonController = new DungeonController();
         dungeonController.initialiseDungeonGame();
